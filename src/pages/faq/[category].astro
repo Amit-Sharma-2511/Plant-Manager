@@ -1,0 +1,190 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const faqCollections = await getCollection('faqs');
+  return faqCollections.map(entry => ({
+    params: { category: entry.id }
+  }));
+}
+
+const { category } = Astro.params;
+const entry = await getEntry('faqs', category);
+const faqs = entry.data;
+
+const categoryDetails: Record<string, { name: string; description: string; icon: string; tips: string }> = {
+  'general-gardening': { name: 'General Gardening', description: 'Basic guidelines for seed starting, tools, and garden layout.', icon: '🌱', tips: 'Always select species matched to your hardiness zones and keep standard gardening tools cleaned to avoid cross-infection.' },
+  'indoor-plants': { name: 'Indoor Plants', description: 'Caring for house plants, light requirements, and humidity adjustments.', icon: '🏠', tips: 'Provide bright indirect light and maintain higher room humidity for tropical varieties.' },
+  'outdoor-plants': { name: 'Outdoor Plants', description: 'Tips for flower beds, shrubs, sun exposure, and yard layouts.', icon: '☀️', tips: 'Irrigate deeply at the base early in the morning and apply organic mulch.' },
+  'watering': { name: 'Watering Guides', description: 'Avoiding root rot, checking moisture levels, and water cycles.', icon: '💧', tips: 'Check the soil moisture level with your fingers rather than watering on a fixed calendar.' },
+  'fertilizers': { name: 'Fertilizers & Nutrients', description: 'When and how to feed indoor and outdoor plants safely.', icon: '🧪', tips: 'Dilute chemical fertilizers to half-strength and feed only during active growth seasons.' },
+  'soil': { name: 'Soil & Compost', description: 'Potting mix, drainage, soil pH, organic kitchen composting.', icon: '🪱', tips: 'Use lightweight aerated loam mixed with perlite or peat for container drainage.' },
+  'plant-diseases': { name: 'Plant Diseases', description: 'Troubleshooting root rot, yellow leaves, and powdery mildew.', icon: '🍂', tips: 'Prune away infected foliage with clean tools immediately to prevent spreading.' },
+  'plant-pests': { name: 'Pest Control', description: 'Dealing with spider mites, aphids, mealybugs, and scale.', icon: '🐛', tips: 'Isolate plants immediately upon detecting pests and apply organic neem oil spray.' },
+  'organic-gardening': { name: 'Organic Gardening', description: 'Natural remedies, composting, companion planting, non-chemical care.', icon: '🌻', tips: 'Employ companion planting to naturally deter pests and enrich soil with kitchen compost.' },
+  'vegetable-gardening': { name: 'Vegetable Gardening', description: 'How to plant, grow, and harvest tomatoes, potatoes, onions, and garlic.', icon: '🍅', tips: 'Ensure crops receive 6-8 hours of direct daily sunlight and adequate watering during fruit-set.' },
+  'flower-gardening': { name: 'Flower Gardening', description: 'Optimizing blooms for roses, hibiscus, petunias, and sunflowers.', icon: '🌸', tips: 'Deadhead spent flowers consistently to direct plant energy into secondary blooming cycles.' },
+  'fruit-gardening': { name: 'Fruit Gardening', description: 'Growing lemon, mango, banana, strawberry, and orchard trees.', icon: '🍓', tips: 'Prune deadwood during dormancy and apply organic compost to support heavy feeding crops.' },
+  'herb-gardening': { name: 'Herb Gardening', description: 'Cultivating basil, mint, lavender, rosemary, thyme, and sage.', icon: '🌿', tips: 'Pinch growing tips regularly to promote bushy habits and avoid root saturation.' },
+  'houseplants': { name: 'Houseplants Care', description: 'Managing indoor foliage, repotting cycles, and dark spaces.', icon: '🪴', tips: 'Wipe dust off leaves monthly to ensure optimal photosynthesis and check for root-spirals.' },
+  'balcony-gardening': { name: 'Balcony & Pots', description: 'Wind-tolerant plants, lightweight soil, and balcony containers.', icon: '🏢', tips: 'Use sturdy, secure containers with lightweight potting mixes rather than heavy outdoor clay.' }
+};
+
+const details = categoryDetails[category] || {
+  name: category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+  description: `Expert FAQ questions and answers regarding ${category.replace('-', ' ')}.`,
+  icon: '🌱',
+  tips: 'Monitor plant response regularly and adjust water and light parameters.'
+};
+
+const breadcrumbs = [
+  { label: 'FAQ Base', url: '/faq' },
+  { label: details.name, url: `/faq/${category}` }
+];
+
+// Generate JSON-LD FAQPage Schema for the current category list
+const faqPageLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.slice(0, 30).map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.answer
+    }
+  }))
+};
+---
+
+<Layout
+  title={`${details.name} FAQ & Growing Tips - GrowMyPlant`}
+  description={details.description}
+  jsonLd={[faqPageLd]}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Category Header Card -->
+    <div class="bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs mb-10 flex flex-col md:flex-row gap-6 items-center md:items-start text-center md:text-left">
+      <div class="text-5xl p-4 bg-brand-mint rounded-organic border border-border-nature flex items-center justify-center">
+        {details.icon}
+      </div>
+      <div>
+        <h1 class="font-serif font-bold text-3xl text-text-charcoal leading-tight">{details.name} FAQs</h1>
+        <p class="text-sm text-text-muted mt-2 leading-relaxed max-w-3xl">
+          {details.description}
+        </p>
+        <div class="mt-4 inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-brand-forest bg-brand-mint px-3 py-1.5 rounded-sm border border-border-nature">
+          <span>❓ {faqs.length} Questions & Answers answered</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- Care Tips Box -->
+      <div class="lg:col-span-1 bg-white border border-border-nature p-6 rounded-organic shadow-xs h-fit sticky top-20">
+        <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4 border-b border-border-nature pb-3">Expert Care Tip</h2>
+        <div class="text-xs leading-relaxed text-text-muted space-y-3">
+          <div class="text-xl">💡</div>
+          <p class="font-medium text-text-charcoal">Quick tip for {details.name}:</p>
+          <p>{details.tips}</p>
+        </div>
+      </div>
+
+      <!-- Q&As Catalog List -->
+      <div class="lg:col-span-3">
+        
+        <!-- Category Specific FAQ Search Bar -->
+        <div class="mb-6 relative">
+          <label for="category-faq-search" class="sr-only">Search within category</label>
+          <input
+            type="search"
+            id="category-faq-search"
+            placeholder={`Search within ${details.name} FAQs...`}
+            class="w-full bg-white border border-border-nature px-4 py-3 pl-10 rounded-organic shadow-2xs focus:outline-none focus:ring-2 focus:ring-brand-emerald focus:border-transparent text-sm text-text-charcoal"
+          />
+          <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted select-none pointer-events-none">
+            🔍
+          </div>
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="no-results" class="hidden text-center py-12 bg-white border border-border-nature rounded-organic p-8 mb-6">
+          <div class="text-4xl mb-3">🌱</div>
+          <h3 class="font-serif font-bold text-lg text-text-charcoal">No questions match</h3>
+          <p class="text-sm text-text-muted mt-1">Try adjusting your search terms or view other entries.</p>
+        </div>
+
+        <div class="space-y-4" id="faq-list">
+          {faqs.map(faq => (
+            <details class="faq-card group bg-white border border-border-nature rounded-organic p-4 cursor-pointer focus-within:ring-2 focus-within:ring-brand-forest" data-question={faq.question.toLowerCase()} data-answer={faq.answer.toLowerCase()}>
+              <summary class="font-bold text-sm text-text-charcoal list-none flex justify-between items-center">
+                <span>{faq.question}</span>
+                <svg class="h-4 w-4 text-text-light transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </summary>
+              <p class="text-xs text-text-muted mt-3 leading-relaxed border-t border-brand-mint pt-3 cursor-text">
+                {faq.answer}
+                <span class="block mt-4 pt-3 border-t border-brand-mint text-[11px] text-text-light">
+                  Need plant-specific details? Browse our <a href="/plants" class="text-brand-forest font-semibold hover:underline">Plant Encyclopedia</a> or read related guides on the <a href="/blog" class="text-brand-forest font-semibold hover:underline">Gardening Blog</a>.
+                </span>
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Client-side Category Search Filtering -->
+  <script is:inline>
+    (function() {
+      const searchInput = document.getElementById('category-faq-search');
+      const cards = document.querySelectorAll('.faq-card');
+      const noResults = document.getElementById('no-results');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const query = searchInput.value.toLowerCase().trim();
+          const queryWords = query.split(/\s+/).filter(Boolean);
+          let visibleCount = 0;
+
+          cards.forEach(card => {
+            if (!query) {
+              card.classList.remove('hidden');
+              visibleCount++;
+              return;
+            }
+
+            const question = card.getAttribute('data-question') || '';
+            const answer = card.getAttribute('data-answer') || '';
+            const text = `${question} ${answer}`;
+
+            const matches = queryWords.every(word => text.includes(word));
+
+            if (matches) {
+              card.classList.remove('hidden');
+              visibleCount++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          if (noResults) {
+            if (visibleCount === 0) {
+              noResults.classList.remove('hidden');
+            } else {
+              noResults.classList.add('hidden');
+            }
+          }
+        });
+      }
+    })();
+  </script>
+</Layout>

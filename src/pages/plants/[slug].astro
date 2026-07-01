@@ -1,0 +1,506 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// Statically generate routes for all plant profiles
+export async function getStaticPaths() {
+  const allPlants = await getCollection('plants');
+  return allPlants.map(plant => ({
+    params: { slug: plant.id },
+    props: { plant }
+  }));
+}
+
+const { plant } = Astro.props;
+const data = plant.data;
+
+// Fetch companion plants from collection
+const allPlants = await getCollection('plants');
+const companions = allPlants.filter(p => data.care.companionPlants.includes(p.id));
+
+// Fetch optional regional caution records for this plant
+const allLegality = await getCollection('legality');
+const legalityEntry = allLegality.find(entry => entry.id === plant.id);
+const legalityData = legalityEntry ? legalityEntry.data : null;
+
+// Setup breadcrumb path
+const breadcrumbs = [
+  { label: 'Encyclopedia', url: '/plants' },
+  { label: data.commonName, url: `/plants/${data.slug}` }
+];
+
+// JSON-LD Plant Botanical Schema
+const plantLd = {
+  "@context": "https://schema.org",
+  "@type": "Thing",
+  "name": data.commonName,
+  "description": data.overview,
+  "image": data.image,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://growmyplant.online/plants/${data.slug}`
+  },
+  "additionalType": "BotanicalEntity",
+  "scientificName": data.scientificName,
+  "family": data.family,
+  "taxon": {
+    "@type": "Taxon",
+    "name": data.scientificName,
+    "familyName": data.family
+  }
+};
+
+// JSON-LD FAQ Schema
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": data.faqs.map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.answer
+    }
+  }))
+};
+---
+
+<Layout
+  title={`${data.commonName} Care Guide & Growing Timeline - GrowMyPlant`}
+  description={`Learn how to grow and care for your ${data.commonName} (${data.scientificName}). Irrigation frequency: ${data.care.waterFrequency.slice(0, 80)}...`}
+  image={data.image}
+  jsonLd={[plantLd, faqLd]}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Plant Header Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      
+      <!-- Plant Photo & Left details -->
+      <div class="lg:col-span-2 space-y-6">
+        <div class="flex gap-2 flex-wrap mb-6">
+          <span class="text-xs font-mono font-bold bg-white dark:bg-brand-moss px-3 py-1 rounded-full border border-border-nature dark:border-brand-forest shadow-2xs text-brand-forest dark:text-brand-emerald">
+            {data.difficulty} Care
+          </span>
+          <span class="text-xs font-mono font-bold bg-white dark:bg-brand-moss px-3 py-1 rounded-full border border-border-nature dark:border-brand-forest shadow-2xs text-brand-forest dark:text-brand-emerald">
+            {data.indoorOutdoor} Environment
+          </span>
+        </div>
+
+        <div>
+          <figure class="mb-6 overflow-hidden rounded-organic-lg border border-border-nature bg-white shadow-2xs">
+            <img
+              src={data.image}
+              alt={`${data.commonName} plant`}
+              class="aspect-[16/10] w-full object-cover"
+            />
+            {data.imageSource && (
+              <figcaption class="border-t border-border-nature px-4 py-2 text-[10px] text-text-light">
+                Image source: <a href={data.imageSource} class="text-brand-forest hover:underline">Wikimedia Commons</a>
+              </figcaption>
+            )}
+          </figure>
+
+          <h1 class="font-serif font-bold text-3xl sm:text-4xl text-text-charcoal leading-tight">{data.commonName}</h1>
+          <p class="text-sm text-text-muted italic mt-1">{data.scientificName} • Family: {data.family}</p>
+          
+          {data.nicknames && data.nicknames.length > 0 && (
+            <p class="text-xs text-text-light mt-2">
+              Also known as: <span class="font-medium text-text-muted">{data.nicknames.join(', ')}</span>
+            </p>
+          )}
+
+          <p class="text-sm text-text-muted mt-6 leading-relaxed bg-white p-6 rounded-organic border border-border-nature shadow-2xs">
+            {data.overview}
+          </p>
+        </div>
+
+        <!-- Location-Based Warning System UI -->
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs space-y-4">
+          <h2 class="font-serif font-bold text-lg text-text-charcoal border-b border-border-nature pb-2 flex items-center gap-1.5">
+            🌍 Regional Caution Check
+          </h2>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Some plants can be invasive or regulated outside their ideal context. Select a country for any notes currently included in this guide:
+          </p>
+          
+          <div class="max-w-xs">
+            <label for="country-selector" class="sr-only">Choose Country</label>
+            <select id="country-selector" class="w-full text-xs px-3 py-2 border border-border-nature rounded-organic bg-brand-mint-light focus:outline-none focus:ring-2 focus:ring-brand-forest">
+              <option value="">-- Select Country --</option>
+              <option value="United States">United States</option>
+              <option value="Australia">Australia</option>
+              <option value="Canada">Canada</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Germany">Germany</option>
+              <option value="India">India</option>
+              <option value="Singapore">Singapore</option>
+            </select>
+          </div>
+
+          <!-- Alert Display Panel -->
+          <div id="legality-warning-box" class="hidden p-4 rounded-organic border text-xs leading-relaxed space-y-2">
+            <!-- Rendered by client script -->
+          </div>
+
+          <!-- Legal Disclaimer -->
+          <p class="text-[10px] text-text-light leading-relaxed italic border-t border-brand-mint pt-3">
+            This guide is informational only. Invasive-plant rules and import restrictions can vary by state, county, or municipality, so verify locally before planting, importing, or selling regulated species.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Facts Box -->
+      <div class="lg:col-span-1 space-y-6">
+        <div class="bg-white border border-border-nature rounded-organic-lg p-6 shadow-xs">
+          <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4 border-b border-border-nature pb-3">Quick Facts</h2>
+          
+          <dl class="space-y-4 text-xs font-mono">
+            <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+              <dt class="text-text-light">Origin</dt>
+              <dd class="text-text-charcoal font-semibold text-right max-w-[150px] line-clamp-2">{data.origin}</dd>
+            </div>
+            <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+              <dt class="text-text-light">Native Region</dt>
+              <dd class="text-text-charcoal font-semibold text-right max-w-[150px] line-clamp-2">{data.nativeRegion}</dd>
+            </div>
+            <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+              <dt class="text-text-light">USDA Hardiness Zones</dt>
+              <dd class="text-text-charcoal font-semibold">{data.usdaZones.join(', ')}</dd>
+            </div>
+            <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+              <dt class="text-text-light">Average Lifespan</dt>
+              <dd class="text-text-charcoal font-semibold">{data.lifespan}</dd>
+            </div>
+            <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+              <dt class="text-text-light">Indoor Air Note</dt>
+              <dd class="text-text-charcoal font-semibold text-right max-w-[150px]">Helpful greenery, not a ventilation replacement</dd>
+            </div>
+            <div class="flex justify-between items-center pb-1">
+              <dt class="text-text-light">Toxic to Pets</dt>
+              <dd class={`font-bold px-2 py-0.5 rounded-sm border ${data.safety.petSafe ? 'bg-green-50 text-green-700 border-green-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
+                {data.safety.petSafe ? 'No (Pet Safe)' : 'Yes (Toxic)'}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Complete Care Guide -->
+    <section class="mt-16">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-8 border-b border-border-nature pb-3">Complete Care Guide</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {[
+          { title: 'Water Requirement', text: data.care.waterRequirement, icon: '💧' },
+          { title: 'Watering Frequency', text: data.care.waterFrequency, icon: '📅' },
+          { title: 'Sunlight Exposure', text: data.care.sunlightRequirement, icon: '☀️' },
+          { title: 'Temperature Range', text: data.care.temperature, icon: '🌡️' },
+          { title: 'Humidity Preferences', text: data.care.humidity, icon: '🌫️' },
+          { title: 'Soil Selection', text: data.care.soilType, icon: '🌱' },
+          { title: 'Soil pH Range', text: data.care.soilPh, icon: '🧪' },
+          { title: 'Fertilizer Type', text: data.care.fertilizer.type, icon: '💊' },
+          { title: 'Fertilizer Schedule', text: data.care.fertilizer.schedule, icon: '⏰' },
+          { title: 'Potting Size', text: data.care.potSize, icon: '🪴' },
+          { title: 'Repotting Method', text: data.care.repotting, icon: '🔄' },
+          { title: 'Pruning & Shaping', text: data.care.pruning, icon: '✂️' },
+          { title: 'Propagation Method', text: data.care.propagationMethod, icon: '✂️' },
+        ].map(item => (
+          <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs hover:shadow-xs transition-shadow">
+            <div class="text-2xl mb-3">{item.icon}</div>
+            <h3 class="font-bold text-sm text-text-charcoal mb-2">{item.title}</h3>
+            <p class="text-xs text-text-muted leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+
+      </div>
+    </section>
+
+    <!-- Growth Timeline -->
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6">Growth Timeline & Sizing</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-6 border-b border-brand-mint text-xs font-mono">
+        <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+          <span class="text-text-light">Growth Rate</span>
+          <span class="text-text-charcoal font-semibold">{data.timeline.growthRate}</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+          <span class="text-text-light">Time to Mature</span>
+          <span class="text-text-charcoal font-semibold">{data.timeline.timeToMature}</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+          <span class="text-text-light">Average Height</span>
+          <span class="text-text-charcoal font-semibold">{data.timeline.averageHeight}</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-brand-mint pb-2">
+          <span class="text-text-light">Average Width</span>
+          <span class="text-text-charcoal font-semibold">{data.timeline.averageWidth}</span>
+        </div>
+      </div>
+
+      <div class="relative pl-6 border-l-2 border-brand-mint-dark space-y-6">
+        {data.timeline.germination && (
+          <div class="relative">
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <h3 class="text-sm font-bold text-text-charcoal">Germination Stage</h3>
+            <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.germination}</p>
+          </div>
+        )}
+        <div class="relative">
+          <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+          <h3 class="text-sm font-bold text-text-charcoal">Vegetative Growth Stage</h3>
+          <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.growthStage}</p>
+        </div>
+        {data.timeline.floweringTime && (
+          <div class="relative">
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <h3 class="text-sm font-bold text-text-charcoal">Flowering Stage</h3>
+            <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.floweringTime}</p>
+          </div>
+        )}
+        {data.timeline.fruitingTime && (
+          <div class="relative">
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <h3 class="text-sm font-bold text-text-charcoal">Fruiting Stage</h3>
+            <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.fruitingTime}</p>
+          </div>
+        )}
+        {data.timeline.harvestTime && (
+          <div class="relative">
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <h3 class="text-sm font-bold text-text-charcoal">Harvest Stage</h3>
+            <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.harvestTime}</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Safety & Toxicity details -->
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs space-y-6">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal border-b border-border-nature pb-3">Safety & Toxicity Index</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs leading-relaxed">
+        <div class="p-4 rounded-organic border border-border-nature">
+          <h3 class="font-bold text-sm text-text-charcoal mb-2">🐾 Pet Safety</h3>
+          <p class="text-text-muted"><strong>Dog Safe:</strong> {data.safety.dogSafe ? 'Yes' : 'No'}</p>
+          <p class="text-text-muted"><strong>Cat Safe:</strong> {data.safety.catSafe ? 'Yes' : 'No'}</p>
+        </div>
+        <div class="p-4 rounded-organic border border-border-nature">
+          <h3 class="font-bold text-sm text-text-charcoal mb-2">👶 Human Toxicity</h3>
+          <p class="text-text-muted">{data.safety.humanToxicity}</p>
+        </div>
+        <div class="p-4 rounded-organic border border-border-nature">
+          <h3 class="font-bold text-sm text-text-charcoal mb-2">🩹 Safe Handling</h3>
+          <p class="text-text-muted">{data.safety.safeHandlingInstructions}</p>
+        </div>
+      </div>
+
+      {data.safety.poisonousParts.length > 0 && (
+        <div class="text-xs text-text-muted bg-red-50 p-4 border border-red-100 rounded-organic">
+          ⚠️ <strong>Poisonous Parts:</strong> {data.safety.poisonousParts.join(', ')}
+        </div>
+      )}
+    </section>
+
+    <!-- Environmental Benefits -->
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs space-y-6">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal border-b border-border-nature pb-3">Environmental Benefits</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs leading-relaxed">
+        <div>
+          <h3 class="font-bold text-sm text-text-charcoal mb-3">🌿 Ecological Roles</h3>
+          <ul class="space-y-2 text-text-muted">
+            <li><strong>Air Purifying:</strong> {data.environmentalBenefits.airPurifying ? 'Yes' : 'No'}</li>
+            <li><strong>Pollinator Friendly:</strong> {data.environmentalBenefits.pollinatorFriendly ? 'Yes' : 'No'}</li>
+            <li><strong>Bee Friendly:</strong> {data.environmentalBenefits.beeFriendly ? 'Yes' : 'No'}</li>
+            <li><strong>Butterfly Friendly:</strong> {data.environmentalBenefits.butterflyFriendly ? 'Yes' : 'No'}</li>
+            <li><strong>Bird Friendly:</strong> {data.environmentalBenefits.birdFriendly ? 'Yes' : 'No'}</li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <h4 class="font-semibold text-text-charcoal">Carbon Absorption</h4>
+            <p class="text-text-muted mt-1">{data.environmentalBenefits.carbonAbsorption}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-text-charcoal">Oxygen Production</h4>
+            <p class="text-text-muted mt-1">{data.environmentalBenefits.oxygenProduction}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Info (Mistakes, Facts, Benefits) -->
+    <section class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Mistakes -->
+      <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs">
+        <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4 border-b border-border-nature pb-2">Common Mistakes</h2>
+        <ul class="space-y-3 text-xs text-text-muted leading-relaxed list-disc pl-4">
+          {data.additionalInfo.commonMistakes.map(m => (
+            <li>{m}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Facts -->
+      <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs">
+        <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4 border-b border-border-nature pb-2">Interesting Facts</h2>
+        <ul class="space-y-3 text-xs text-text-muted leading-relaxed list-disc pl-4">
+          {data.additionalInfo.interestingFacts.map(f => (
+            <li>{f}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Uses -->
+      <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs space-y-4 text-xs leading-relaxed text-text-muted">
+        <h2 class="font-serif font-bold text-lg text-text-charcoal border-b border-border-nature pb-2">Traditional & Culinary Uses</h2>
+        {data.additionalInfo.uses.cooking && (
+          <div>
+            <strong class="text-text-charcoal">Culinary:</strong>
+            <p class="mt-1">{data.additionalInfo.uses.cooking.join(', ')}</p>
+          </div>
+        )}
+        {data.additionalInfo.uses.medicinal && (
+          <div>
+            <strong class="text-text-charcoal">Medicinal:</strong>
+            <p class="mt-1">{data.additionalInfo.uses.medicinal.join(', ')}</p>
+          </div>
+        )}
+        {data.additionalInfo.uses.traditional && (
+          <div>
+            <strong class="text-text-charcoal">Traditional:</strong>
+            <p class="mt-1">{data.additionalInfo.uses.traditional.join(', ')}</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Common Problems & Solutions -->
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6 border-b border-border-nature pb-3">Common Health Problems</h2>
+      <div class="space-y-6">
+        {data.problems.map(prob => (
+          <div class="space-y-2 text-xs">
+            <h3 class="text-sm font-bold text-red-dark flex items-center gap-1.5">
+              <span class="inline-block h-2 w-2 rounded-full bg-red-dark"></span>
+              {prob.name}
+            </h3>
+            <p class="text-text-muted"><strong class="text-text-charcoal font-semibold">Symptoms:</strong> {prob.symptoms}</p>
+            <p class="text-text-muted"><strong class="text-text-charcoal font-semibold">Treatment:</strong> {prob.treatment}</p>
+            <p class="text-text-muted"><strong class="text-text-charcoal font-semibold">Prevention:</strong> {prob.prevention}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="mt-16 max-w-4xl mx-auto">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6 text-center">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {data.faqs.map(faq => (
+          <details class="group bg-white border border-border-nature rounded-organic p-4 cursor-pointer focus-within:ring-2 focus-within:ring-brand-forest">
+            <summary class="font-bold text-sm text-text-charcoal list-none flex justify-between items-center">
+              <span>{faq.question}</span>
+              <svg class="h-4 w-4 text-text-light transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p class="text-xs text-text-muted mt-3 leading-relaxed border-t border-brand-mint pt-3 cursor-text">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related / Companion Plants -->
+    {companions.length > 0 && (
+      <section class="mt-20 border-t border-border-nature pt-12">
+        <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-8">Companion Plants</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {companions.map(comp => (
+            <a href={`/plants/${comp.data.slug}`} class="group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col">
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{comp.data.commonName}</h3>
+                  <p class="text-[11px] text-text-muted italic">{comp.data.scientificName}</p>
+                </div>
+                <span class="text-xs font-semibold text-brand-forest mt-3 block text-right">View Guide →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+  </div>
+
+  <!-- Legality JSON Payload -->
+  <script is:inline id="legality-payload" type="application/json" set:html={JSON.stringify(legalityData)} />
+
+  <!-- Client-side Logic for regional warning checks -->
+  <script is:inline>
+    (function() {
+      const select = document.getElementById('country-selector');
+      const warningBox = document.getElementById('legality-warning-box');
+      
+      let legality = null;
+      try {
+        legality = JSON.parse(document.getElementById('legality-payload').textContent || 'null');
+      } catch (e) {}
+
+      if (select && warningBox) {
+        select.addEventListener('change', (e) => {
+          const country = e.target.value;
+          
+          if (!country) {
+            warningBox.classList.add('hidden');
+            return;
+          }
+
+          if (!legality || !legality.countries) {
+            warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-brand-mint-light text-text-muted border-border-nature";
+            warningBox.innerHTML = `
+              <strong>Country note unavailable</strong><br/>
+              No region-specific caution note has been added for ${country}. Check local extension or agriculture guidance before planting outdoors.
+            `;
+            warningBox.classList.remove('hidden');
+            return;
+          }
+
+          const record = legality.countries.find(c => c.country.toLowerCase() === country.toLowerCase());
+          
+          if (record) {
+            if (record.status === 'Allowed') {
+              warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-green-50 text-green-800 border-green-100";
+              warningBox.innerHTML = `
+                <strong>Country Status: Allowed in this guide</strong><br/>
+                ${record.reason}
+              `;
+            } else {
+              // Invasive, Restricted, Requires Permit, etc.
+              warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-red-50 text-red-800 border-red-100";
+              warningBox.innerHTML = `
+                <strong class="text-sm font-bold text-red-900">⚠️ Warning: Status is ${record.status}</strong><br/>
+                ${record.reason}
+              `;
+            }
+            warningBox.classList.remove('hidden');
+          } else {
+            // Default allowed fallback
+            warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-green-50 text-green-800 border-green-100";
+            warningBox.innerHTML = `
+              <strong>No caution note cataloged</strong><br/>
+              This guide does not include a region-specific warning for ${country}. Please verify with local agricultural or environmental guidance before outdoor planting.
+            `;
+            warningBox.classList.remove('hidden');
+          }
+        });
+      }
+    })();
+  </script>
+</Layout>

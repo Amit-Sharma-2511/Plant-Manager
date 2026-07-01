@@ -1,0 +1,412 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// Fetch all plants from JSON collection
+const allPlants = await getCollection('plants');
+
+// Breadcrumbs data
+const breadcrumbs = [
+  { label: 'Plants Catalog', url: '/plants' }
+];
+
+// JSON-LD Catalog Page Schema
+const catalogSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "GrowMyPlant Species Encyclopedia",
+  "description": "Browse and search our structured catalog of houseplants, succulents, herbs, and vegetables with expert care sheets.",
+  "url": "https://growmyplant.online/plants"
+};
+---
+
+<Layout title="Plants Encyclopedia Catalog - GrowMyPlant" description="Browse and search structured plant care profiles. Filter by category, difficulty, indoor/outdoor preferences, and toxicity." jsonLd={[catalogSchema]} breadcrumbs={breadcrumbs}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Title Area -->
+    <div class="mb-8 rounded-organic-lg border border-border-nature bg-white p-6 shadow-2xs sm:p-8">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-emerald">Informational plant database</p>
+      <div class="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h1 class="font-serif font-bold text-3xl sm:text-4xl text-text-charcoal">Plant Encyclopedia</h1>
+          <p class="text-sm text-text-muted mt-2 max-w-3xl leading-relaxed">Browse {allPlants.length} plant care profiles with species-level facts, safety notes, growing timelines, and progressive image loading for faster browsing.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+          <div class="rounded-organic border border-border-nature bg-brand-mint px-3 py-2">
+            <strong class="block text-base text-brand-forest">{allPlants.length}</strong>
+            <span class="text-text-muted">Guides</span>
+          </div>
+          <div class="rounded-organic border border-border-nature bg-brand-mint px-3 py-2">
+            <strong class="block text-base text-brand-forest">60</strong>
+            <span class="text-text-muted">First load</span>
+          </div>
+          <div class="rounded-organic border border-border-nature bg-brand-mint px-3 py-2">
+            <strong class="block text-base text-brand-forest">+10</strong>
+            <span class="text-text-muted">On scroll</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catalog Interface -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- Filters Sidebar (Desktop) -->
+      <aside class="lg:col-span-1 space-y-7 bg-white border border-border-nature p-5 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Filters">
+        <div>
+          <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4">Filters</h2>
+          <button id="clear-filters-btn" class="hidden text-xs text-brand-emerald font-semibold hover:underline mb-4">Clear All Filters</button>
+        </div>
+
+        <!-- Text Search -->
+        <div class="space-y-2">
+          <label for="catalog-search" class="text-xs font-bold uppercase tracking-wider text-text-muted">Search Plants</label>
+          <input
+            type="search"
+            id="catalog-search"
+            placeholder="Type common, scientific or nickname..."
+            class="w-full text-sm px-3 py-2 border border-border-nature rounded-organic bg-brand-mint focus:outline-none focus:ring-2 focus:ring-brand-forest"
+          />
+        </div>
+
+        <!-- Difficulty -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-text-muted">Difficulty</h3>
+          <div class="space-y-2 text-sm">
+            {['Easy', 'Medium', 'Hard'].map(diff => (
+              <label class="flex items-center gap-2 cursor-pointer text-text-muted hover:text-brand-forest">
+                <input type="checkbox" name="difficulty" value={diff} class="rounded border-border-nature text-brand-forest focus:ring-brand-forest" />
+                <span>{diff}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Indoor / Outdoor -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-text-muted">Location</h3>
+          <div class="space-y-2 text-sm">
+            {['Indoor', 'Outdoor', 'Both'].map(loc => (
+              <label class="flex items-center gap-2 cursor-pointer text-text-muted hover:text-brand-forest">
+                <input type="checkbox" name="indoorOutdoor" value={loc} class="rounded border-border-nature text-brand-forest focus:ring-brand-forest" />
+                <span>{loc}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Botanical Category -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-text-muted">Categories</h3>
+          <div class="space-y-2 text-sm max-h-48 overflow-y-auto pr-2">
+            {[
+              { label: 'Indoor Plants', value: 'indoor-plants' },
+              { label: 'Outdoor Plants', value: 'outdoor-plants' },
+              { label: 'Flowers', value: 'flowers' },
+              { label: 'Vegetables', value: 'vegetables' },
+              { label: 'Fruit Plants', value: 'fruit-plants' },
+              { label: 'Medicinal Plants', value: 'medicinal-plants' },
+              { label: 'Succulents', value: 'succulents' },
+              { label: 'Low Maintenance Plants', value: 'low-maintenance-plants' },
+            ].map(cat => (
+              <label class="flex items-center gap-2 cursor-pointer text-text-muted hover:text-brand-forest">
+                <input type="checkbox" name="categories" value={cat.value} class="rounded border-border-nature text-brand-forest focus:ring-brand-forest" />
+                <span>{cat.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Special attributes -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-text-muted">Special Traits</h3>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center gap-2 cursor-pointer text-text-muted hover:text-brand-forest">
+              <input type="checkbox" name="petFriendly" value="true" class="rounded border-border-nature text-brand-forest focus:ring-brand-forest" />
+              <span>🐶 Pet Friendly (Non-toxic)</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Grid Catalog Area -->
+      <div class="lg:col-span-3 space-y-6">
+        
+        <!-- Results Counter & Info -->
+        <div class="flex justify-between items-center rounded-organic border border-border-nature bg-white px-4 py-3 text-xs text-text-light font-mono">
+          <span id="results-counter">Showing {allPlants.length} plants</span>
+        </div>
+
+        <!-- Plants Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="plants-grid">
+          {allPlants.map((plant, index) => (
+            <a
+              href={`/plants/${plant.data.slug}`}
+              class={`plant-card group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col cursor-pointer ${index >= 60 ? 'hidden' : ''}`}
+              data-index={index}
+              data-common={plant.data.commonName.toLowerCase()}
+              data-scientific={plant.data.scientificName.toLowerCase()}
+              data-nicknames={JSON.stringify(plant.data.nicknames || []).toLowerCase()}
+              data-difficulty={plant.data.difficulty}
+              data-location={plant.data.indoorOutdoor}
+              data-categories={JSON.stringify(plant.data.categories)}
+              data-toxic={plant.data.safety.petSafe ? 'false' : 'true'}
+            >
+              <img
+                src={index < 60 ? plant.data.image : undefined}
+                data-src={plant.data.image}
+                alt={`${plant.data.commonName} plant`}
+                loading="lazy"
+                class="aspect-[4/3] w-full object-cover bg-brand-mint"
+              />
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex gap-2">
+                    <span class="text-[10px] font-mono font-bold text-brand-emerald uppercase bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">
+                      {plant.data.indoorOutdoor}
+                    </span>
+                    <span class="text-[10px] font-mono font-bold text-brand-forest uppercase bg-brand-mint px-2 py-0.5 rounded-sm border border-border-nature">
+                      {plant.data.difficulty}
+                    </span>
+                  </div>
+                  <h3 class="font-serif font-bold text-base text-text-charcoal mt-3 group-hover:text-brand-forest">
+                    {plant.data.commonName}
+                  </h3>
+                  <p class="text-xs text-text-muted italic mt-0.5">{plant.data.scientificName}</p>
+                  <p class="text-xs text-text-muted mt-3 line-clamp-3 leading-relaxed">
+                    {plant.data.overview}
+                  </p>
+                </div>
+                 <div class="text-[11px] text-text-light mt-4 pt-3 border-t border-border-nature flex justify-between items-center gap-2">
+                  <span>Zones: {plant.data.usdaZones.join(', ')}</span>
+                  <span class="text-brand-forest font-bold">Care →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <!-- Empty State Message -->
+        <div id="catalog-empty-state" class="hidden text-center py-16 px-6 bg-white border border-border-nature rounded-organic max-w-md mx-auto">
+          <div class="text-4xl mb-4">🔍</div>
+          <h3 class="font-serif font-bold text-lg text-text-charcoal">Plant Not Found</h3>
+          <p class="text-xs text-text-muted mt-2 leading-relaxed">
+            We couldn't find this plant yet. Request this plant and we'll add it soon.
+          </p>
+        </div>
+
+        <div id="catalog-load-sentinel" class="h-8" aria-hidden="true"></div>
+        <div id="catalog-loading-note" class="hidden text-center text-xs font-mono text-text-light">
+          Loading more plant guides...
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Client-side catalog search and filtration engine -->
+  <script is:inline>
+    (function() {
+      const searchInput = document.getElementById('catalog-search');
+      const difficultyCheckboxes = document.querySelectorAll('input[name="difficulty"]');
+      const locationCheckboxes = document.querySelectorAll('input[name="indoorOutdoor"]');
+      const categoryCheckboxes = document.querySelectorAll('input[name="categories"]');
+      const petFriendlyCheckbox = document.querySelector('input[name="petFriendly"]');
+      const clearBtn = document.getElementById('clear-filters-btn');
+      
+      const cards = document.querySelectorAll('.plant-card');
+      const grid = document.getElementById('plants-grid');
+      const emptyState = document.getElementById('catalog-empty-state');
+      const counter = document.getElementById('results-counter');
+      const sentinel = document.getElementById('catalog-load-sentinel');
+      const loadingNote = document.getElementById('catalog-loading-note');
+      const INITIAL_LIMIT = 60;
+      const LOAD_STEP = 10;
+      let visibleLimit = INITIAL_LIMIT;
+      let matchingCards = [];
+
+      // Hydrate search query parameter from URL (homepage redirection support)
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialSearch = urlParams.get('search');
+      if (initialSearch && searchInput) {
+        searchInput.value = initialSearch;
+      }
+
+      function updateFilters() {
+        const query = searchInput.value.toLowerCase().trim();
+        
+        // Active Filter Collectors
+        const selectedDifficulties = Array.from(difficultyCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+        const selectedLocations = Array.from(locationCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+        const selectedCategories = Array.from(categoryCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+        const petFriendlyOnly = petFriendlyCheckbox ? petFriendlyCheckbox.checked : false;
+
+        // Toggle clear filters link
+        const hasActiveFilters = query || selectedDifficulties.length || selectedLocations.length || selectedCategories.length || petFriendlyOnly;
+        if (clearBtn) {
+          if (hasActiveFilters) {
+            clearBtn.classList.remove('hidden');
+          } else {
+            clearBtn.classList.add('hidden');
+          }
+        }
+
+        matchingCards = [];
+
+        cards.forEach(card => {
+          const name = card.getAttribute('data-common') || '';
+          const scientific = card.getAttribute('data-scientific') || '';
+          const nicknames = card.getAttribute('data-nicknames') || '[]';
+          const difficulty = card.getAttribute('data-difficulty') || '';
+          const location = card.getAttribute('data-location') || '';
+          const toxic = card.getAttribute('data-toxic') === 'true';
+          
+          let categories = [];
+          try {
+            categories = JSON.parse(card.getAttribute('data-categories') || '[]');
+          } catch(e) {}
+
+          // 1. Text Search Filter
+          let matchesText = true;
+          if (query) {
+            const queryWords = query.split(/\s+/).filter(Boolean);
+            let parsedNicknames = [];
+            try {
+              parsedNicknames = JSON.parse(nicknames);
+            } catch (e) {}
+
+            const plantText = [
+              name,
+              scientific,
+              ...parsedNicknames,
+              ...categories
+            ].join(' ').toLowerCase();
+
+            const plantWords = plantText.split(/[\s\-_,.]+/).filter(Boolean);
+
+            matchesText = queryWords.every(qWord => {
+              return plantWords.some(pWord => pWord.startsWith(qWord));
+            });
+          }
+
+          // 2. Difficulty Filter
+          let matchesDifficulty = true;
+          if (selectedDifficulties.length > 0) {
+            matchesDifficulty = selectedDifficulties.includes(difficulty);
+          }
+
+          // 3. Location Filter
+          let matchesLocation = true;
+          if (selectedLocations.length > 0) {
+            matchesLocation = selectedLocations.includes(location) || location === 'Both';
+          }
+
+          // 4. Category Filter
+          let matchesCategory = true;
+          if (selectedCategories.length > 0) {
+            matchesCategory = selectedCategories.some(cat => categories.includes(cat));
+          }
+
+          // 5. Pet Friendly Filter (non-toxic)
+          let matchesPet = true;
+          if (petFriendlyOnly) {
+            matchesPet = !toxic; // If pet friendly is checked, must be NOT toxic (toxic is false)
+          }
+
+          if (matchesText && matchesDifficulty && matchesLocation && matchesCategory && matchesPet) {
+            matchingCards.push(card);
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        renderVisibleCards();
+      }
+
+      function hydrateCardImage(card) {
+        const img = card.querySelector('img[data-src]');
+        if (img && !img.getAttribute('src')) {
+          img.setAttribute('src', img.getAttribute('data-src'));
+        }
+      }
+
+      function renderVisibleCards() {
+        let visibleCount = 0;
+
+        matchingCards.forEach((card, index) => {
+          if (index < visibleLimit) {
+            card.classList.remove('hidden');
+            hydrateCardImage(card);
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        // Toggle Empty State Alert
+        if (matchingCards.length === 0) {
+          grid.classList.add('hidden');
+          emptyState.classList.remove('hidden');
+          counter.textContent = 'Showing 0 plants';
+          if (sentinel) sentinel.classList.add('hidden');
+        } else {
+          grid.classList.remove('hidden');
+          emptyState.classList.add('hidden');
+          counter.textContent = `Showing ${visibleCount} of ${matchingCards.length} ${matchingCards.length === 1 ? 'plant' : 'plants'}`;
+          if (sentinel) {
+            sentinel.classList.toggle('hidden', visibleCount >= matchingCards.length);
+          }
+        }
+      }
+
+      function resetLimitAndUpdate() {
+        visibleLimit = INITIAL_LIMIT;
+        updateFilters();
+      }
+
+      // Hook up event listeners
+      searchInput.addEventListener('input', resetLimitAndUpdate);
+      difficultyCheckboxes.forEach(cb => cb.addEventListener('change', resetLimitAndUpdate));
+      locationCheckboxes.forEach(cb => cb.addEventListener('change', resetLimitAndUpdate));
+      categoryCheckboxes.forEach(cb => cb.addEventListener('change', resetLimitAndUpdate));
+      if (petFriendlyCheckbox) petFriendlyCheckbox.addEventListener('change', resetLimitAndUpdate);
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          difficultyCheckboxes.forEach(cb => cb.checked = false);
+          locationCheckboxes.forEach(cb => cb.checked = false);
+          categoryCheckboxes.forEach(cb => cb.checked = false);
+          if (petFriendlyCheckbox) petFriendlyCheckbox.checked = false;
+          resetLimitAndUpdate();
+        });
+      }
+
+      if ('IntersectionObserver' in window && sentinel) {
+        const observer = new IntersectionObserver(entries => {
+          const entry = entries[0];
+          if (!entry || !entry.isIntersecting || visibleLimit >= matchingCards.length) return;
+
+          if (loadingNote) loadingNote.classList.remove('hidden');
+          visibleLimit += LOAD_STEP;
+          renderVisibleCards();
+          if (loadingNote) loadingNote.classList.add('hidden');
+        }, { rootMargin: '500px 0px' });
+        observer.observe(sentinel);
+      } else {
+        window.addEventListener('scroll', () => {
+          if (!sentinel || visibleLimit >= matchingCards.length) return;
+          const rect = sentinel.getBoundingClientRect();
+          if (rect.top < window.innerHeight + 500) {
+            visibleLimit += LOAD_STEP;
+            renderVisibleCards();
+          }
+        }, { passive: true });
+      }
+
+      // Initial filter cycle
+      resetLimitAndUpdate();
+    })();
+  </script>
+</Layout>

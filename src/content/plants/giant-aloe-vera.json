@@ -1,0 +1,264 @@
+{
+  "id": "giant-aloe-vera",
+  "slug": "giant-aloe-vera",
+  "commonName": "Giant Aloe Vera",
+  "scientificName": "Aloe barbadensis",
+  "overview": "Aloe vera is a succulent plant species of the genus Aloe. It is widely distributed, and is considered an invasive species in many world regions. Giant is used here as a catalog label only. The care guide below describes the real species Aloe Vera (Aloe barbadensis) and does not claim a verified botanical variety unless one is separately documented.",
+  "nicknames": [
+    "Aloe Vera"
+  ],
+  "family": "Asphodelaceae",
+  "origin": "Arabian Peninsula",
+  "nativeRegion": "Arabian Peninsula",
+  "usdaZones": [
+    "8",
+    "9",
+    "10",
+    "11"
+  ],
+  "indoorOutdoor": "Both",
+  "difficulty": "Easy",
+  "lifespan": "12+ years",
+  "care": {
+    "waterRequirement": "Low. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only.",
+    "waterFrequency": "Every 2-3 weeks",
+    "sunlightRequirement": "Direct sunlight",
+    "temperature": "13°C - 27°C",
+    "humidity": "Low",
+    "soilType": "Gritty, fast-draining cactus and succulent mix.",
+    "soilPh": "6.0 - 7.0 (Slightly acidic to neutral)",
+    "fertilizer": {
+      "type": "Balanced water-soluble organic fertilizer.",
+      "schedule": "Apply once a month during spring and summer months."
+    },
+    "potSize": "6-10 inches, matching root volume.",
+    "repotting": "Repot every 2 years in spring for root health.",
+    "pruning": "Trim faded lower leaves and dry stems to maintain health.",
+    "propagationMethod": "Dividing root clumps or stem cuttings rooted in water.",
+    "companionPlants": [
+      "money-plant",
+      "snake-plant",
+      "spider-plant"
+    ]
+  },
+  "timeline": {
+    "germination": "7-14 days to sprout foliage.",
+    "growthRate": "Fast",
+    "timeToMature": "1-2 years to reach full size.",
+    "averageHeight": "1-3 feet",
+    "averageWidth": "1-2 feet",
+    "growthStage": "Establish roots first, then support leaf growth, flowering, fruiting, or dormancy according to the species and season."
+  },
+  "problems": [
+    {
+      "name": "Water stress or root problems",
+      "symptoms": "Yellowing, wilting, leaf drop, mushy roots, or stalled growth.",
+      "treatment": "Check drainage and root health, remove damaged material, and adjust watering to the actual soil moisture.",
+      "prevention": "Use suitable soil, drainage holes for containers, and water according to plant need rather than habit."
+    },
+    {
+      "name": "Common pests",
+      "symptoms": "Sticky residue, distorted growth, webbing, spots, or visible insects on stems and leaf undersides.",
+      "treatment": "Isolate affected plants, rinse foliage, prune severe damage, and use an appropriate labeled treatment.",
+      "prevention": "Inspect plants regularly, avoid overcrowding, and maintain airflow."
+    }
+  ],
+  "safety": {
+    "petSafe": false,
+    "dogSafe": false,
+    "catSafe": false,
+    "humanToxicity": "Low to moderate toxicity if ingested. Oxalates or saponins cause drooling and irritation.",
+    "poisonousParts": [
+      "Leaves",
+      "Stems",
+      "Roots"
+    ],
+    "safeHandlingInstructions": "Safe to handle normally. Wash hands after clipping stems."
+  },
+  "environmentalBenefits": {
+    "airPurifying": false,
+    "pollinatorFriendly": false,
+    "beeFriendly": false,
+    "butterflyFriendly": false,
+    "birdFriendly": false,
+    "carbonAbsorption": "Small plants store modest carbon in leaves, stems, and roots.",
+    "oxygenProduction": "Produces oxygen through normal photosynthesis; houseplants should not be treated as a replacement for ventilation."
+  },
+  "additionalInfo": {
+    "commonMistakes": [
+      "Following a fixed watering schedule without checking soil moisture.",
+      "Ignoring light requirements.",
+      "Using containers without drainage or unsuitable heavy soil."
+    ],
+    "interestingFacts": [
+      "Aloe Vera belongs to the Asphodelaceae family.",
+      "Giant is used here as a catalog label only. The care guide below describes the real species Aloe Vera (Aloe barbadensis) and does not claim a verified botanical variety unless one is separately documented."
+    ],
+    "benefits": [
+      "Adds ornamental greenery and habitat value where appropriate.",
+      "Helps gardeners learn species-specific care habits."
+    ],
+    "uses": {
+      "medicinal": [
+        "Traditional uses exist, but medicinal use should be checked with qualified guidance."
+      ],
+      "traditional": [
+        "Ornamental or practical garden use depending on species."
+      ]
+    }
+  },
+  "faqs": [
+    {
+      "question": "What is the botanical profile of Giant Aloe Vera?",
+      "answer": "Giant Aloe Vera (Aloe barbadensis) belongs to the family Asphodelaceae and is native to Arabian Peninsula. Growing it successfully requires mimicking these native parameters inside your home garden."
+    },
+    {
+      "question": "Is Giant Aloe Vera toxic to dogs or cats?",
+      "answer": "Regarding pet toxicity, Giant Aloe Vera is toxic to dogs and cats if ingested. Keep it out of reach of curious pets if you grow the toxic variety."
+    },
+    {
+      "question": "What are the medicinal or traditional uses of Giant Aloe Vera?",
+      "answer": "Traditional uses for Giant Aloe Vera include: therapeutic skin treatments or organic remedies under qualified guidance."
+    },
+    {
+      "question": "What is the USDA hardiness zone rating for Giant Aloe Vera?",
+      "answer": "Giant Aloe Vera is hardy across USDA hardiness zones: 8, 9, 10, 11. In colder climates, it must be overwintered indoors before freezing temperatures arrive."
+    },
+    {
+      "question": "Is Giant Aloe Vera a beginner friendly choice?",
+      "answer": "With a difficulty rating of Easy, this plant is excellent for beginners and handles minor watering mistakes."
+    },
+    {
+      "question": "Does Giant Aloe Vera help purify indoor air?",
+      "answer": "Giant Aloe Vera provides aesthetic green benefits and produces fresh oxygen during daylight hours. However, do not treat house plants as a complete replacement for proper home air ventilation."
+    },
+    {
+      "question": "Is Giant Aloe Vera a verified botanical variety or catalog label?",
+      "answer": "The prefix \"Giant\" is used here as a catalog label to distinguish varieties. The care guide applies directly to the parent species Aloe Vera (Aloe barbadensis)."
+    },
+    {
+      "question": "What is the average lifespan of Giant Aloe Vera?",
+      "answer": "The average lifespan of Giant Aloe Vera is 12+ years. With proper root maintenance, regular soil replacement, and pruning, it can live and thrive for many years."
+    },
+    {
+      "question": "How do I prevent overwatering Giant Aloe Vera?",
+      "answer": "Prevent overwatering by letting the soil dry out to the levels required by its Low. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only. water profile. Ensure your container has drainage holes and dump any standing saucer water."
+    },
+    {
+      "question": "Is it safe to place Giant Aloe Vera in a bedroom?",
+      "answer": "Yes, keeping Giant Aloe Vera in your bedroom is safe and adds calming green aesthetics. Ensure it receives enough indirect light matching its requirement of Direct sunlight."
+    },
+    {
+      "question": "Is Giant Aloe Vera suitable for growing indoors?",
+      "answer": "Yes, Giant Aloe Vera is highly suitable for growing indoors. As an indoor plant, it benefits from protection from direct wind and extreme temperature drops. Be sure to place it near a bright window to match its sunlight needs."
+    },
+    {
+      "question": "Can I grow Giant Aloe Vera outdoors in my garden?",
+      "answer": "Yes, you can grow Giant Aloe Vera outdoors in suitable USDA zones: 8, 9, 10, 11. Outdoor growth offers natural rain and better airflow, which promotes faster foliage development."
+    },
+    {
+      "question": "What plant category or collection does Giant Aloe Vera fit into?",
+      "answer": "Giant Aloe Vera belongs to the category of indoor-plants, succulents, medicinal-plants. Knowing this helps you group it with other plants of identical water, humidity, and fertilizer requirements, making home garden maintenance much easier."
+    },
+    {
+      "question": "What is the potting soil mix for Giant Aloe Vera?",
+      "answer": "The potting soil for Giant Aloe Vera is a mix described as Gritty, fast-draining cactus and succulent mix.. It should maintain a soil pH level around 6.0 - 7.0 (Slightly acidic to neutral) to support root respiration and nutrient uptake without moisture stagnation."
+    },
+    {
+      "question": "How often should I water Giant Aloe Vera?",
+      "answer": "The watering frequency for Giant Aloe Vera is: Every 2-3 weeks. Since its water need is classified as Low. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only., wait until the top potting soil dries before watering again."
+    },
+    {
+      "question": "What are the sunlight requirements for Giant Aloe Vera?",
+      "answer": "Giant Aloe Vera requires Direct sunlight to grow successfully. Indoors, position it close to a window facing east or south, or use grow lights to provide sufficient light spectrum without scorching the leaves."
+    },
+    {
+      "question": "What temperature range does Giant Aloe Vera prefer?",
+      "answer": "This species thrives in a temperature comfort range of 13°C - 27°C. Keep it away from cold drafty windows or heating vents, and maintain relative humidity levels near Low to prevent dry leaf edges."
+    },
+    {
+      "question": "How and when should I fertilize Giant Aloe Vera?",
+      "answer": "Feed your Giant Aloe Vera with Balanced water-soluble organic fertilizer. according to the schedule: Apply once a month during spring and summer months.. Always dilute the fertilizer to half-strength to avoid leaf tip burn."
+    },
+    {
+      "question": "How do I propagate Giant Aloe Vera?",
+      "answer": "You can successfully propagate Giant Aloe Vera via the Dividing root clumps or stem cuttings rooted in water. method. Use sterilized cutting tools, fresh damp potting mix, and optionally root hormone to stimulate root development."
+    },
+    {
+      "question": "How and when should I prune Giant Aloe Vera?",
+      "answer": "Pruning should be done according to this guideline: Trim faded lower leaves and dry stems to maintain health.. Prune during the active growth phase to shape the plant and stimulate new foliage."
+    },
+    {
+      "question": "How do I repot Giant Aloe Vera?",
+      "answer": "Repotting advice for this species is: Repot every 2 years in spring for root health.. Choose a pot that is 6-10 inches, matching root volume. with proper bottom drainage holes, and replenish the surrounding soil mix completely."
+    },
+    {
+      "question": "What pot size and type is best for Giant Aloe Vera?",
+      "answer": "Choose a pot size described as 6-10 inches, matching root volume.. Terracotta or porous clay pots are recommended for species requiring dry soil cycles, while plastic or glazed pots work well for moisture-loving plants."
+    },
+    {
+      "question": "How do I know what size pot to grow my plant in?",
+      "answer": "To know what size pot to grow your plant in, choose a container that is approximately 2 to 3 inches larger in diameter than the current root system. For Giant Aloe Vera, a pot size of 6-10 inches, matching root volume. is recommended to provide sufficient room for soil volume and growth without waterlogging."
+    },
+    {
+      "question": "What are the companion plants for Giant Aloe Vera?",
+      "answer": "Ideal companions that share identical soil, light, and water parameters include: money-plant, snake-plant, spider-plant."
+    },
+    {
+      "question": "Why are the leaves on my Giant Aloe Vera turning yellow?",
+      "answer": "Yellow leaves on Giant Aloe Vera are typically a sign of moisture stress (usually overwatering) or nutrient deficiencies. Ensure the pot has drainage holes, and let the soil dry to the required levels before watering again."
+    },
+    {
+      "question": "Why are the leaves on my Giant Aloe Vera turning brown?",
+      "answer": "Brown leaves or dry, crispy leaf margins on Giant Aloe Vera indicate low environmental humidity, underwatering, or too much direct solar radiation. Mist your plant regularly or place it near a humidifier to resolve this."
+    },
+    {
+      "question": "What are the common pests affecting Giant Aloe Vera?",
+      "answer": "Common pests that target this species include spider mites, aphids, mealybugs, thrips, and scale. Treat infestations immediately by isolating the plant and applying neem oil or insecticidal soap."
+    },
+    {
+      "question": "What are the symptoms and treatments for water stress or root issues in Giant Aloe Vera?",
+      "answer": "Root rot symptoms include wilting foliage, mushy dark stems, and a foul smell from the soil. Stop watering, prune away rotting roots, repot in fresh sterile soil, and adjust your watering to match its profile."
+    },
+    {
+      "question": "How do I prevent fungal diseases on Giant Aloe Vera?",
+      "answer": "Prevent fungus, powdery mildew, or leaf spots by ensuring excellent air circulation around the stems, watering only the soil instead of wetting the leaves, and using a well-draining soil mix."
+    },
+    {
+      "question": "How long does it take for Giant Aloe Vera to mature?",
+      "answer": "It takes approximately 1-2 years to reach full size. for Giant Aloe Vera to reach its mature size under standard cultivation. Regular feeding and optimal light will help it reach maturity faster."
+    },
+    {
+      "question": "What is the growth rate of Giant Aloe Vera?",
+      "answer": "The growth rate of Giant Aloe Vera is classified as Fast. It actively develops during its active growth stage before slowing down during winter dormancy."
+    },
+    {
+      "question": "What is the average mature size of Giant Aloe Vera?",
+      "answer": "At maturity, Giant Aloe Vera reaches an average height of 1-3 feet and an average spread width of 1-2 feet, depending on container size or outdoor spacing."
+    },
+    {
+      "question": "What is the flowering time for Giant Aloe Vera?",
+      "answer": "The flowering time for Giant Aloe Vera is typically during late spring or summer months. Adequate phosphorus and high light intensity are key triggers for bloom production."
+    },
+    {
+      "question": "Does Giant Aloe Vera produce edible fruit?",
+      "answer": "Giant Aloe Vera is primarily grown for its ornamental foliage or medicinal value and does not produce typical edible fruit."
+    },
+    {
+      "question": "When is the harvest time for Giant Aloe Vera?",
+      "answer": "The harvest time is not applicable for this ornamental. If harvesting edible or medicinal parts, make sure to collect material during early morning hours when oils are concentrated."
+    }
+  ],
+  "image": "/images/plants/aloe-vera.jpg",
+  "airPurifyingRating": 0,
+  "images": {
+    "cover": "/images/plants/aloe-vera.jpg",
+    "leaf": "/images/plants/aloe-vera.jpg"
+  },
+  "categories": [
+    "indoor-plants",
+    "succulents",
+    "medicinal-plants",
+    "desert-plants"
+  ]
+}

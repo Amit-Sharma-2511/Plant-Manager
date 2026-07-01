@@ -1,23 +1,477 @@
+---
+import { getCollection } from 'astro:content';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, any>[];
+  breadcrumbs?: { label: string; url: string }[];
+}
+
+const {
+  title = "GrowMyPlant - Plant Care Encyclopedia",
+  description = "Grow healthier plants with factual care guides, safety notes, growing timelines, and plant identification details.",
+  image = "/images/og-default.webp",
+  type = "website",
+  jsonLd = [],
+  breadcrumbs = [],
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://growmyplant.online");
+
+// Fetch search index for client-side fuzzy suggestions
+const allPlants = await getCollection('plants');
+const searchIndex = allPlants.map(p => ({
+  name: p.data.commonName,
+  scientific: p.data.scientificName,
+  slug: p.data.slug,
+  image: p.data.image,
+  categories: p.data.categories,
+  nicknames: p.data.nicknames || []
+}));
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline>
+      (function() {
+        const theme = localStorage.getItem('growmyplant_theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Meta SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- OpenGraph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={image} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="GrowMyPlant" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    
+    <!-- JSON-LD Structered Schemas -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "GrowMyPlant",
+      "url": "https://growmyplant.online",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://growmyplant.online/plants?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "GrowMyPlant",
+      "url": "https://growmyplant.online",
+      "logo": "https://growmyplant.online/favicon.svg"
+    })} />
+    {jsonLd.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+    
+    <!-- Default Breadcrumbs Schema -->
+    {breadcrumbs.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbs.map((crumb, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "name": crumb.label,
+          "item": new URL(crumb.url, Astro.site || "https://growmyplant.online").toString()
+        }))
+      })} />
+    )}
+  </head>
+  <body class="bg-brand-mint-light text-text-charcoal font-sans flex flex-col min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white border-b border-border-nature sticky top-0 z-50 shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-brand-forest">
+          <svg class="h-8 w-8 text-brand-forest transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C8 3 5 6 5 10C5 13.5 7.5 16.5 11 17.5V21H13V17.5C16.5 16.5 19 13.5 19 10C19 6 16 3 12 3ZM12 15C9.2 15 7 12.8 7 10C7 7.2 9.2 5 12 5C14.8 5 17 7.2 17 10C17 12.8 14.8 15 12 15Z" fill="currentColor"/>
+            <path d="M12 7C10.3 7 9 8.3 9 10H11C11 9.4 11.4 9 12 9V7Z" fill="currentColor"/>
+          </svg>
+          <span class="font-serif font-bold text-xl tracking-tight text-brand-forest">GrowMyPlant<span class="text-brand-emerald">.</span></span>
+        </a>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-6" aria-label="Main Navigation">
+          <a href="/plants" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">Encyclopedia</a>
+          <a href="/blog" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">Blog</a>
+          <a href="/faq" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">FAQs</a>
+          <a href="/about" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">About Us</a>
+          <a href="/contact" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">Contact</a>
+        </nav>
+
+        <!-- Search Bar with Autocomplete Suggestions -->
+        <div class="relative flex-grow max-w-xs md:max-w-sm flex items-center gap-2" id="search-container">
+          <div class="relative flex-grow">
+            <input
+              type="search"
+              id="header-search"
+              placeholder="Search plants..."
+              aria-label="Search plants"
+              class="w-full text-sm py-2 pl-9 pr-4 bg-brand-mint border border-border-nature rounded-organic focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-transparent text-text-charcoal"
+            />
+            <svg class="absolute left-3 top-2.5 h-4 w-4 text-text-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <!-- Auto-suggestions Dropdown -->
+          <ul
+            id="search-suggestions"
+            role="listbox"
+            class="hidden absolute left-0 right-0 mt-1 bg-white border border-border-nature-dark rounded-organic shadow-lg max-h-60 overflow-y-auto z-50 text-sm focus:outline-none"
+          >
+          </ul>
+          
+          <!-- Dark Mode Toggle Button -->
+          <button
+            id="dark-mode-toggle"
+            aria-label="Toggle dark mode"
+            class="p-2 text-text-muted hover:text-brand-forest hover:bg-brand-mint rounded-organic transition-all focus-visible:ring-2 focus-visible:ring-brand-forest cursor-pointer"
+          >
+            <!-- Sun Icon -->
+            <svg id="sun-icon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon Icon -->
+            <svg id="moon-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Breadcrumb Indicator -->
+    {breadcrumbs.length > 0 && (
+      <div class="bg-brand-mint border-b border-border-nature py-2">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs flex items-center gap-2 text-text-muted" aria-label="Breadcrumbs">
+          <a href="/" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Home</a>
+          {breadcrumbs.map((crumb, idx) => (
+            <>
+              <svg class="h-3 w-3 text-text-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z" fill="currentColor"/>
+              </svg>
+              {idx === breadcrumbs.length - 1 ? (
+                <span class="font-medium text-brand-forest" aria-current="page">{crumb.label}</span>
+              ) : (
+                <a href={crumb.url} class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">{crumb.label}</a>
+              )}
+            </>
+          ))}
+        </nav>
+      </div>
+    )}
+
+    <!-- Main Content -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-border-nature py-12 text-sm text-text-muted mt-auto">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <span class="font-serif font-bold text-lg text-brand-forest block mb-4">GrowMyPlant.</span>
+          <p class="text-xs text-text-light max-w-xs leading-relaxed">
+            Helping home gardeners care for their greenery with factual botanical guides, safety notes, and practical growing advice.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-charcoal mb-4">Plant Care Directories</h3>
+          <ul class="space-y-2 text-xs">
+            <li><a href="/category/indoor-plants" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Indoor Plants</a></li>
+            <li><a href="/category/vegetables" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Vegetables</a></li>
+            <li><a href="/category/succulents" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Succulents</a></li>
+            <li><a href="/plants" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Browse All Plants</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-charcoal mb-4">Guides & Resources</h3>
+          <ul class="space-y-2 text-xs">
+            <li><a href="/blog" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Gardening Blog</a></li>
+            <li><a href="/sitemap.xml" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">XML Sitemap</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-charcoal mb-4">Leaflet Newsletter</h3>
+          <p class="text-xs text-text-light mb-3 leading-relaxed">Subscribe to get monthly organic care sheets and harvesting checklists.</p>
+          <form class="flex gap-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing!'); this.reset();">
+            <input
+              type="email"
+              required
+              placeholder="Email address"
+              aria-label="Email for newsletter"
+              class="w-full text-xs px-3 py-2 border border-border-nature rounded-organic bg-brand-mint focus:outline-none focus:ring-2 focus:ring-brand-forest"
+            />
+            <button
+              type="submit"
+              class="px-3 py-2 bg-brand-forest text-white rounded-organic text-xs font-bold hover:bg-brand-emerald focus-visible:ring-2 focus-visible:ring-brand-emerald"
+            >
+              Join
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-border-nature mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-text-light">
+        <p>© {new Date().getFullYear()} GrowMyPlant. All rights reserved.</p>
+        <div class="flex gap-4 mt-4 md:mt-0">
+          <a href="/privacy" class="hover:text-brand-forest">Privacy Policy</a>
+          <a href="/terms" class="hover:text-brand-forest">Terms & Conditions</a>
+          <a href="/about" class="hover:text-brand-forest">About Us</a>
+          <a href="/contact" class="hover:text-brand-forest">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Search Index Payload for Client Autocomplete Script -->
+    <script is:inline id="search-index" type="application/json" set:html={JSON.stringify(searchIndex)} />
+
+    <!-- Client-side Autocomplete Logic -->
+    <script is:inline>
+      (function() {
+        const searchInput = document.getElementById('header-search');
+        const suggestionsBox = document.getElementById('search-suggestions');
+        const searchContainer = document.getElementById('search-container');
+        
+        if (!searchInput || !suggestionsBox || !searchContainer) return;
+        
+        let plantsData = [];
+        try {
+          const indexEl = document.getElementById('search-index');
+          if (indexEl) {
+            plantsData = JSON.parse(indexEl.textContent || '[]');
+          }
+        } catch (e) {
+          console.error("Failed to parse search index", e);
+        }
+
+        function renderSuggestions(query) {
+          if (!query.trim()) {
+            suggestionsBox.innerHTML = '';
+            suggestionsBox.classList.add('hidden');
+            return;
+          }
+
+          const queryWords = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+          if (queryWords.length === 0) return;
+
+          // Filter results using word boundary prefix match (Common Name, Scientific, Nicknames, Categories)
+          const matches = plantsData.filter(plant => {
+            const plantText = [
+              plant.name,
+              plant.scientific,
+              ...(plant.nicknames || []),
+              ...(plant.categories || [])
+            ].join(' ').toLowerCase();
+
+            const plantWords = plantText.split(/[\s\-_,.]+/).filter(Boolean);
+
+            return queryWords.every(qWord => {
+              return plantWords.some(pWord => pWord.startsWith(qWord));
+            });
+          }).slice(0, 5); // Max 5 results
+
+          if (matches.length === 0) {
+            suggestionsBox.innerHTML = `
+              <li class="px-4 py-3 text-text-light text-xs italic">
+                We couldn't find this plant yet. Request this plant and we'll add it soon.
+              </li>
+            `;
+            suggestionsBox.classList.remove('hidden');
+            return;
+          }
+
+          suggestionsBox.innerHTML = matches.map(plant => `
+            <li role="option" class="hover:bg-brand-mint cursor-pointer">
+              <a href="/plants/${plant.slug}" class="flex items-center gap-3 px-4 py-2.5 text-text-charcoal decoration-none">
+                <div>
+                  <div class="font-medium">${plant.name}</div>
+                  <div class="text-xs text-text-muted italic">${plant.scientific}</div>
+                </div>
+              </a>
+            </li>
+          `).join('');
+          suggestionsBox.classList.remove('hidden');
+        }
+
+        searchInput.addEventListener('input', (e) => {
+          renderSuggestions(e.target.value);
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!searchContainer.contains(e.target)) {
+            suggestionsBox.classList.add('hidden');
+          }
+        });
+
+        // Form submit redirect (if hitting enter in search)
+        searchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const val = searchInput.value.trim();
+            if (val) {
+              window.location.href = `/plants?search=${encodeURIComponent(val)}`;
+            }
+          }
+        });
+
+        // Dark Mode Click Event Hook
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        function updateToggleIcons() {
+          const isDark = document.documentElement.classList.contains('dark');
+          if (isDark) {
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+          } else {
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+          }
+        }
+
+        if (toggleBtn && sunIcon && moonIcon) {
+          updateToggleIcons();
+          toggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('growmyplant_theme', isDark ? 'dark' : 'light');
+            updateToggleIcons();
+          });
+        }
+
+      })();
+    </script>
+
+    <!-- Premium Custom Alert Dialog Modal -->
+    <div id="custom-alert-modal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-xs transition-opacity duration-300">
+      <div class="bg-white dark:bg-[#141b18] border border-border-nature dark:border-[#28372f] rounded-organic-lg p-6 max-w-sm w-full mx-4 shadow-xl transform scale-95 transition-transform duration-300 flex flex-col items-center text-center">
+        <div id="custom-alert-icon-container" class="w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] flex items-center justify-center text-brand-emerald mb-4">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 id="custom-alert-title" class="font-serif font-bold text-lg text-brand-forest mb-2">Message Sent</h3>
+        <p id="custom-alert-message" class="text-xs text-text-muted leading-relaxed mb-6">Your message was sent successfully.</p>
+        <button
+          id="custom-alert-btn"
+          class="w-full py-2.5 bg-brand-forest hover:bg-brand-emerald text-white rounded-organic text-xs font-bold transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-emerald focus:outline-none"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+
+    <!-- Client-side Custom Alert Global Override Script -->
+    <script is:inline>
+      (function() {
+        window.showCustomAlert = function(title, message, onConfirm) {
+          const modal = document.getElementById('custom-alert-modal');
+          const titleEl = document.getElementById('custom-alert-title');
+          const messageEl = document.getElementById('custom-alert-message');
+          const btn = document.getElementById('custom-alert-btn');
+          const iconContainer = document.getElementById('custom-alert-icon-container');
+          
+          if (!modal || !titleEl || !messageEl || !btn || !iconContainer) {
+            alert(message || title);
+            if (onConfirm) onConfirm();
+            return;
+          }
+          
+          titleEl.textContent = title;
+          messageEl.textContent = message;
+          
+          // Custom Icon Logic based on message content
+          const msgLower = (message || '').toLowerCase();
+          if (msgLower.includes('fail') || msgLower.includes('error') || msgLower.includes('incorrect') || msgLower.includes('invalid') || msgLower.includes('sorry')) {
+            // Error icon (Red Caution)
+            iconContainer.className = "w-12 h-12 rounded-full bg-red-soft text-red-dark mb-4 flex items-center justify-center";
+            iconContainer.innerHTML = `
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            `;
+          } else if (msgLower.includes('success') || msgLower.includes('thank') || msgLower.includes('send') || msgLower.includes('subscribed') || msgLower.includes('welcome') || msgLower.includes('sent')) {
+            // Success icon (Green Checkmark)
+            iconContainer.className = "w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] text-brand-emerald mb-4 flex items-center justify-center";
+            iconContainer.innerHTML = `
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            `;
+          } else {
+            // Info icon (Blue Info)
+            iconContainer.className = "w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] text-brand-forest mb-4 flex items-center justify-center";
+            iconContainer.innerHTML = `
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            `;
+          }
+          
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+          
+          const clickHandler = () => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            btn.removeEventListener('click', clickHandler);
+            if (onConfirm) onConfirm();
+          };
+          
+          btn.addEventListener('click', clickHandler);
+        };
+
+        // Override native window.alert
+        window.alert = function(message) {
+          window.showCustomAlert('Notice', message);
+        };
+      })();
+    </script>
+  </body>
+</html>

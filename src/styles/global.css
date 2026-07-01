@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg-base: #f8faf9;
+  --color-bg-card: #ffffff;
+  
+  --color-brand-forest-raw: #0f5132;
+  --color-brand-emerald-raw: #198754;
+  --color-brand-mint-raw: #f4f7f5;
+  --color-brand-mint-light-raw: #f8faf9;
+  --color-brand-mint-dark-raw: #e2e8e4;
+  
+  --color-text-charcoal-raw: #1b2a22;
+  --color-text-muted-raw: #526359;
+  --color-text-light-raw: #8a9c92;
+  
+  --color-border-nature-raw: #e0e7e2;
+  --color-border-nature-dark-raw: #c8d3cb;
+
+  --color-amber-soft-raw: #fcf6e5;
+  --color-amber-dark-raw: #856404;
+  --color-red-soft-raw: #fdf2f2;
+  --color-red-dark-raw: #9b1c1c;
+}
+
+html.dark {
+  --color-bg-base: #0c120f;
+  --color-bg-card: #141b18;
+  
+  --color-brand-forest-raw: #4ade80;
+  --color-brand-emerald-raw: #22c55e;
+  --color-brand-mint-raw: #19221e;
+  --color-brand-mint-light-raw: #111815;
+  --color-brand-mint-dark-raw: #222d28;
+  
+  --color-text-charcoal-raw: #e2e8f0;
+  --color-text-muted-raw: #94a3b8;
+  --color-text-light-raw: #64748b;
+  
+  --color-border-nature-raw: #1c2621;
+  --color-border-nature-dark-raw: #28372f;
+
+  --color-amber-soft-raw: #2d2005;
+  --color-amber-dark-raw: #fbbf24;
+  --color-red-soft-raw: #2d0e0e;
+  --color-red-dark-raw: #f87171;
+}
+
+@theme {
+  --color-white: var(--color-bg-card);
+  
+  --color-brand-forest: var(--color-brand-forest-raw);
+  --color-brand-emerald: var(--color-brand-emerald-raw);
+  --color-brand-mint: var(--color-brand-mint-raw);
+  --color-brand-mint-light: var(--color-brand-mint-light-raw);
+  --color-brand-mint-dark: var(--color-brand-mint-dark-raw);
+  
+  --color-text-charcoal: var(--color-text-charcoal-raw);
+  --color-text-muted: var(--color-text-muted-raw);
+  --color-text-light: var(--color-text-light-raw);
+  
+  --color-border-nature: var(--color-border-nature-raw);
+  --color-border-nature-dark: var(--color-border-nature-dark-raw);
+
+  --color-amber-soft: var(--color-amber-soft-raw);
+  --color-amber-dark: var(--color-amber-dark-raw);
+  --color-red-soft: var(--color-red-soft-raw);
+  --color-red-dark: var(--color-red-dark-raw);
+
+  /* Typography Scales */
+  --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  
+  /* Borders and Radii styling */
+  --radius-organic: 12px;
+  --radius-organic-lg: 20px;
+  --radius-organic-sm: 8px;
+}
+
+/* Base Styles & Accessible Defaults */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  color: var(--color-text-charcoal);
+  background-color: var(--color-bg-base);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accessible focus ring style across the app */
+:focus-visible {
+  outline: 2px solid var(--color-brand-forest);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Custom styled scrollbars for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-brand-mint-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-nature-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-light);
+}

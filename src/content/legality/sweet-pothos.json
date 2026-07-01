@@ -1,0 +1,15 @@
+{
+  "plantId": "sweet-pothos",
+  "countries": [
+    {
+      "country": "Australia",
+      "status": "Restricted",
+      "reason": "This species can be invasive in some warm regions. Check state and local weed guidance before outdoor planting."
+    },
+    {
+      "country": "United States",
+      "status": "Restricted",
+      "reason": "Some states or counties may list this species as invasive or problematic. Check local extension guidance."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { label: 'Privacy Policy', url: '/privacy' }
+];
+
+const title = "Privacy Policy - GrowMyPlant";
+const description = "Understand how GrowMyPlant collects, utilizes, and safeguards your local data, browser cookies, and device configuration parameters.";
+---
+
+<Layout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <section class="py-12 md:py-20 bg-brand-mint-light">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white border border-border-nature rounded-organic-lg p-6 md:p-12 shadow-xs">
+        <h1 class="font-serif font-bold text-3xl md:text-4xl text-brand-forest mb-6">Privacy Policy</h1>
+        <p class="text-xs text-text-light mb-8">Last updated: July 1, 2026</p>
+        
+        <div class="prose prose-slate max-w-none text-sm text-text-muted leading-relaxed space-y-6">
+          <p>
+            At GrowMyPlant, accessible from <a href="https://growmyplant.online" class="text-brand-forest hover:underline">growmyplant.online</a>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by GrowMyPlant and how we use it.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">1. Local Storage and Preferences</h2>
+          <p>
+            GrowMyPlant is designed as a localized educational application. We do not maintain server-side databases of your personal botanical collections or searches. The application utilizes your browser's local storage (such as theme preferences like dark mode or light mode) to improve your browsing experience. This data remains strictly local to your device and is never uploaded to our servers.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">2. Log Files & Analytics</h2>
+          <p>
+            Like most standard website hosting systems, GrowMyPlant follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">3. Third-Party Service Providers</h2>
+          <p>
+            We may use third-party APIs (such as the Wikipedia API or OpenStreetMap search tools) to provide descriptions, pictures, or local hardiness zone estimates. These third-party services operate under their respective privacy policies. We encourage you to review their policies for detail on how they handle network requests.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">4. Cookies</h2>
+          <p>
+            GrowMyPlant uses standard HTTP cookies to remember browser sessions, analyze traffic patterns, and optimize load speed. You can choose to disable cookies through your individual browser options.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">5. Children's Information</h2>
+          <p>
+            Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity. GrowMyPlant does not knowingly collect any Personal Identifiable Information from children under the age of 13.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">6. Consent</h2>
+          <p>
+            By using our website, you hereby consent to our Privacy Policy and agree to its terms. If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

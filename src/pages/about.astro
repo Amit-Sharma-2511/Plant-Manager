@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { label: 'About Us', url: '/about' }
+];
+
+const title = "About Us - GrowMyPlant";
+const description = "Learn about the mission, values, and community behind GrowMyPlant, a comprehensive source of botanical care instructions.";
+---
+
+<Layout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <!-- Hero Section -->
+  <section class="py-16 md:py-24 bg-white border-b border-border-nature text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-emerald bg-brand-mint px-3 py-1 rounded-full">Our Story</span>
+      <h1 class="font-serif font-bold text-4xl md:text-5xl text-brand-forest mt-4 mb-6 leading-tight">
+        Empowering home gardeners through factual plant science
+      </h1>
+      <p class="text-base md:text-lg text-text-muted leading-relaxed max-w-2xl mx-auto">
+        GrowMyPlant is one of the largest plant knowledge directories on the internet, built to help plant owners raise thriving, healthy greenery.
+      </p>
+    </div>
+  </section>
+
+  <!-- Metrics Grid -->
+  <section class="py-12 bg-brand-mint-light">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">1,000+</p>
+          <p class="text-xs text-text-muted mt-2">Plant Cultivars</p>
+        </div>
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">34,000+</p>
+          <p class="text-xs text-text-muted mt-2">Dynamic FAQs</p>
+        </div>
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">15+</p>
+          <p class="text-xs text-text-muted mt-2">General Directories</p>
+        </div>
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">100%</p>
+          <p class="text-xs text-text-muted mt-2">Organic Content</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Mission & Values -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="font-serif font-bold text-3xl text-brand-forest mb-6">Why We Created GrowMyPlant</h2>
+          <div class="text-sm text-text-muted space-y-4 leading-relaxed">
+            <p>
+              Gardening advice on the web is often fragmented, repetitive, or overly generic. Many plant databases rely on fixed, calendar-based watering suggestions that ignore localized factors like container size, USDA zones, and season.
+            </p>
+            <p>
+              Our programmatically generated encyclopedia provides dynamic care summaries based on species properties. Whether you are growing standard houseplants indoors, starting an organic kitchen garden, or establishing fruit trees, we offer customized parameters tailored to your exact cultivar.
+            </p>
+            <p>
+              We believe that understanding the scientific names, origin climates, and growth timelines is the best way to help gardeners prevent common mistakes, manage pests, and establish long-lasting botanical biophilic design spaces.
+            </p>
+          </div>
+        </div>
+        <div class="bg-brand-mint p-8 md:p-12 rounded-organic-lg border border-border-nature-dark">
+          <h3 class="font-serif font-bold text-xl text-brand-forest mb-6">Our Core Principles</h3>
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-bold text-sm text-text-charcoal flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                Factual Accuracy First
+              </h4>
+              <p class="text-xs text-text-muted mt-1 leading-relaxed pl-4">
+                We reference verified species databases and utilize Wikipedia APIs to maintain objective, scientifically aligned botanical profiles.
+              </p>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm text-text-charcoal flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                Eco-Sustainability & Safety
+              </h4>
+              <p class="text-xs text-text-muted mt-1 leading-relaxed pl-4">
+                We emphasize pet safety, pesticide-free organic practices, and water conservation guidelines across all cultivation advice.
+              </p>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm text-text-charcoal flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                Public Accessibility
+              </h4>
+              <p class="text-xs text-text-muted mt-1 leading-relaxed pl-4">
+                We provide all encyclopedic profiles, sitemaps, and search directory tools to the public for free with zero paywalls.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

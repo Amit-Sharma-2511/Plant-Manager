@@ -1,0 +1,258 @@
+{
+  "id": "golden-daisy",
+  "slug": "golden-daisy",
+  "commonName": "Golden Daisy",
+  "scientificName": "Bellis perennis",
+  "overview": "Bellis perennis, the daisy, is a European species of the family Asteraceae, often considered the archetypal species of the name daisy. To distinguish this species from other plants known as daisies, it is sometimes qualified or known as common daisy, lawn daisy or English daisy. Golden is used here as a catalog label only. The care guide below describes the real species Daisy (Bellis perennis) and does not claim a verified botanical variety unless one is separately documented.",
+  "nicknames": [
+    "Daisy"
+  ],
+  "family": "Asteraceae",
+  "origin": "Europe",
+  "nativeRegion": "Europe",
+  "usdaZones": [
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+  ],
+  "indoorOutdoor": "Outdoor",
+  "difficulty": "Easy",
+  "lifespan": "Perennial",
+  "care": {
+    "waterRequirement": "Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only.",
+    "waterFrequency": "Every 4-5 days",
+    "sunlightRequirement": "Full sun to partial shade",
+    "temperature": "12°C - 24°C",
+    "humidity": "Average",
+    "soilType": "Rich organic, well-draining loamy potting soil.",
+    "soilPh": "6.0 - 7.0 (Slightly acidic to neutral)",
+    "fertilizer": {
+      "type": "Balanced water-soluble organic fertilizer.",
+      "schedule": "Apply once a month during spring and summer months."
+    },
+    "potSize": "6-10 inches, matching root volume.",
+    "repotting": "Repot every 2 years in spring for root health.",
+    "pruning": "Trim faded lower leaves and dry stems to maintain health.",
+    "propagationMethod": "Dividing root clumps or stem cuttings rooted in water.",
+    "companionPlants": [
+      "money-plant",
+      "snake-plant",
+      "spider-plant"
+    ]
+  },
+  "timeline": {
+    "germination": "7-14 days to sprout foliage.",
+    "growthRate": "Fast",
+    "timeToMature": "1-2 years to reach full size.",
+    "floweringTime": "Spring and summer months.",
+    "averageHeight": "1-3 feet",
+    "averageWidth": "1-2 feet",
+    "growthStage": "Establish roots first, then support leaf growth, flowering, fruiting, or dormancy according to the species and season."
+  },
+  "problems": [
+    {
+      "name": "Water stress or root problems",
+      "symptoms": "Yellowing, wilting, leaf drop, mushy roots, or stalled growth.",
+      "treatment": "Check drainage and root health, remove damaged material, and adjust watering to the actual soil moisture.",
+      "prevention": "Use suitable soil, drainage holes for containers, and water according to plant need rather than habit."
+    },
+    {
+      "name": "Common pests",
+      "symptoms": "Sticky residue, distorted growth, webbing, spots, or visible insects on stems and leaf undersides.",
+      "treatment": "Isolate affected plants, rinse foliage, prune severe damage, and use an appropriate labeled treatment.",
+      "prevention": "Inspect plants regularly, avoid overcrowding, and maintain airflow."
+    }
+  ],
+  "safety": {
+    "petSafe": true,
+    "dogSafe": true,
+    "catSafe": true,
+    "humanToxicity": "Non-toxic and safe.",
+    "poisonousParts": [],
+    "safeHandlingInstructions": "Safe to handle normally. Wash hands after clipping stems."
+  },
+  "environmentalBenefits": {
+    "airPurifying": false,
+    "pollinatorFriendly": true,
+    "beeFriendly": true,
+    "butterflyFriendly": true,
+    "birdFriendly": false,
+    "carbonAbsorption": "Small plants store modest carbon in leaves, stems, and roots.",
+    "oxygenProduction": "Produces oxygen through normal photosynthesis; houseplants should not be treated as a replacement for ventilation."
+  },
+  "additionalInfo": {
+    "commonMistakes": [
+      "Following a fixed watering schedule without checking soil moisture.",
+      "Ignoring light requirements.",
+      "Using containers without drainage or unsuitable heavy soil."
+    ],
+    "interestingFacts": [
+      "Daisy belongs to the Asteraceae family.",
+      "Golden is used here as a catalog label only. The care guide below describes the real species Daisy (Bellis perennis) and does not claim a verified botanical variety unless one is separately documented."
+    ],
+    "benefits": [
+      "Adds ornamental greenery and habitat value where appropriate.",
+      "Helps gardeners learn species-specific care habits."
+    ],
+    "uses": {
+      "traditional": [
+        "Ornamental or practical garden use depending on species."
+      ]
+    }
+  },
+  "faqs": [
+    {
+      "question": "What is the botanical profile of Golden Daisy?",
+      "answer": "Golden Daisy (Bellis perennis) belongs to the family Asteraceae and is native to Europe. Growing it successfully requires mimicking these native parameters inside your home garden."
+    },
+    {
+      "question": "Is Golden Daisy toxic to dogs or cats?",
+      "answer": "Regarding pet toxicity, Golden Daisy is pet-safe, non-toxic, and friendly for both dogs and cats. Keep it out of reach of curious pets if you grow the toxic variety."
+    },
+    {
+      "question": "What are the medicinal or traditional uses of Golden Daisy?",
+      "answer": "Traditional uses for Golden Daisy include: ornamental landscape display, interior air enrichment, and biophilic design benefits."
+    },
+    {
+      "question": "What is the USDA hardiness zone rating for Golden Daisy?",
+      "answer": "Golden Daisy is hardy across USDA hardiness zones: 4, 5, 6, 7, 8. In colder climates, it must be overwintered indoors before freezing temperatures arrive."
+    },
+    {
+      "question": "Is Golden Daisy a beginner friendly choice?",
+      "answer": "With a difficulty rating of Easy, this plant is excellent for beginners and handles minor watering mistakes."
+    },
+    {
+      "question": "Does Golden Daisy help purify indoor air?",
+      "answer": "Golden Daisy provides aesthetic green benefits and produces fresh oxygen during daylight hours. However, do not treat house plants as a complete replacement for proper home air ventilation."
+    },
+    {
+      "question": "Is Golden Daisy a verified botanical variety or catalog label?",
+      "answer": "The prefix \"Golden\" is used here as a catalog label to distinguish varieties. The care guide applies directly to the parent species Daisy (Bellis perennis)."
+    },
+    {
+      "question": "What is the average lifespan of Golden Daisy?",
+      "answer": "The average lifespan of Golden Daisy is Perennial. With proper root maintenance, regular soil replacement, and pruning, it can live and thrive for many years."
+    },
+    {
+      "question": "How do I prevent overwatering Golden Daisy?",
+      "answer": "Prevent overwatering by letting the soil dry out to the levels required by its Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only. water profile. Ensure your container has drainage holes and dump any standing saucer water."
+    },
+    {
+      "question": "Is it safe to place Golden Daisy in a bedroom?",
+      "answer": "Yes, keeping Golden Daisy in your bedroom is safe and adds calming green aesthetics. Ensure it receives enough indirect light matching its requirement of Full sun to partial shade."
+    },
+    {
+      "question": "Is Golden Daisy suitable for growing indoors?",
+      "answer": "Yes, Golden Daisy is typically grown outdoors but can be kept indoors under high-light conditions. As an indoor plant, it benefits from protection from direct wind and extreme temperature drops. Be sure to place it near a bright window to match its sunlight needs."
+    },
+    {
+      "question": "Can I grow Golden Daisy outdoors in my garden?",
+      "answer": "Yes, you can grow Golden Daisy outdoors in suitable USDA zones: 4, 5, 6, 7, 8. Outdoor growth offers natural rain and better airflow, which promotes faster foliage development."
+    },
+    {
+      "question": "What plant category or collection does Golden Daisy fit into?",
+      "answer": "Golden Daisy belongs to the category of outdoor-plants, flowers, pet-friendly-plants. Knowing this helps you group it with other plants of identical water, humidity, and fertilizer requirements, making home garden maintenance much easier."
+    },
+    {
+      "question": "What is the potting soil mix for Golden Daisy?",
+      "answer": "The potting soil for Golden Daisy is a mix described as Rich organic, well-draining loamy potting soil.. It should maintain a soil pH level around 6.0 - 7.0 (Slightly acidic to neutral) to support root respiration and nutrient uptake without moisture stagnation."
+    },
+    {
+      "question": "How often should I water Golden Daisy?",
+      "answer": "The watering frequency for Golden Daisy is: Every 4-5 days. Since its water need is classified as Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only., wait until the top potting soil dries before watering again."
+    },
+    {
+      "question": "What are the sunlight requirements for Golden Daisy?",
+      "answer": "Golden Daisy requires Full sun to partial shade to grow successfully. Indoors, position it close to a window facing east or south, or use grow lights to provide sufficient light spectrum without scorching the leaves."
+    },
+    {
+      "question": "What temperature range does Golden Daisy prefer?",
+      "answer": "This species thrives in a temperature comfort range of 12°C - 24°C. Keep it away from cold drafty windows or heating vents, and maintain relative humidity levels near Average to prevent dry leaf edges."
+    },
+    {
+      "question": "How and when should I fertilize Golden Daisy?",
+      "answer": "Feed your Golden Daisy with Balanced water-soluble organic fertilizer. according to the schedule: Apply once a month during spring and summer months.. Always dilute the fertilizer to half-strength to avoid leaf tip burn."
+    },
+    {
+      "question": "How do I propagate Golden Daisy?",
+      "answer": "You can successfully propagate Golden Daisy via the Dividing root clumps or stem cuttings rooted in water. method. Use sterilized cutting tools, fresh damp potting mix, and optionally root hormone to stimulate root development."
+    },
+    {
+      "question": "How and when should I prune Golden Daisy?",
+      "answer": "Pruning should be done according to this guideline: Trim faded lower leaves and dry stems to maintain health.. Prune during the active growth phase to shape the plant and stimulate new foliage."
+    },
+    {
+      "question": "How do I repot Golden Daisy?",
+      "answer": "Repotting advice for this species is: Repot every 2 years in spring for root health.. Choose a pot that is 6-10 inches, matching root volume. with proper bottom drainage holes, and replenish the surrounding soil mix completely."
+    },
+    {
+      "question": "What pot size and type is best for Golden Daisy?",
+      "answer": "Choose a pot size described as 6-10 inches, matching root volume.. Terracotta or porous clay pots are recommended for species requiring dry soil cycles, while plastic or glazed pots work well for moisture-loving plants."
+    },
+    {
+      "question": "How do I know what size pot to grow my plant in?",
+      "answer": "To know what size pot to grow your plant in, choose a container that is approximately 2 to 3 inches larger in diameter than the current root system. For Golden Daisy, a pot size of 6-10 inches, matching root volume. is recommended to provide sufficient room for soil volume and growth without waterlogging."
+    },
+    {
+      "question": "What are the companion plants for Golden Daisy?",
+      "answer": "Ideal companions that share identical soil, light, and water parameters include: money-plant, snake-plant, spider-plant."
+    },
+    {
+      "question": "Why are the leaves on my Golden Daisy turning yellow?",
+      "answer": "Yellow leaves on Golden Daisy are typically a sign of moisture stress (usually overwatering) or nutrient deficiencies. Ensure the pot has drainage holes, and let the soil dry to the required levels before watering again."
+    },
+    {
+      "question": "Why are the leaves on my Golden Daisy turning brown?",
+      "answer": "Brown leaves or dry, crispy leaf margins on Golden Daisy indicate low environmental humidity, underwatering, or too much direct solar radiation. Mist your plant regularly or place it near a humidifier to resolve this."
+    },
+    {
+      "question": "What are the common pests affecting Golden Daisy?",
+      "answer": "Common pests that target this species include spider mites, aphids, mealybugs, thrips, and scale. Treat infestations immediately by isolating the plant and applying neem oil or insecticidal soap."
+    },
+    {
+      "question": "What are the symptoms and treatments for water stress or root issues in Golden Daisy?",
+      "answer": "Root rot symptoms include wilting foliage, mushy dark stems, and a foul smell from the soil. Stop watering, prune away rotting roots, repot in fresh sterile soil, and adjust your watering to match its profile."
+    },
+    {
+      "question": "How do I prevent fungal diseases on Golden Daisy?",
+      "answer": "Prevent fungus, powdery mildew, or leaf spots by ensuring excellent air circulation around the stems, watering only the soil instead of wetting the leaves, and using a well-draining soil mix."
+    },
+    {
+      "question": "How long does it take for Golden Daisy to mature?",
+      "answer": "It takes approximately 1-2 years to reach full size. for Golden Daisy to reach its mature size under standard cultivation. Regular feeding and optimal light will help it reach maturity faster."
+    },
+    {
+      "question": "What is the growth rate of Golden Daisy?",
+      "answer": "The growth rate of Golden Daisy is classified as Fast. It actively develops during its active growth stage before slowing down during winter dormancy."
+    },
+    {
+      "question": "What is the average mature size of Golden Daisy?",
+      "answer": "At maturity, Golden Daisy reaches an average height of 1-3 feet and an average spread width of 1-2 feet, depending on container size or outdoor spacing."
+    },
+    {
+      "question": "What is the flowering time for Golden Daisy?",
+      "answer": "The flowering time for Golden Daisy is typically Spring and summer months.. Adequate phosphorus and high light intensity are key triggers for bloom production."
+    },
+    {
+      "question": "Does Golden Daisy produce edible fruit?",
+      "answer": "Golden Daisy is primarily grown for its ornamental foliage or medicinal value and does not produce typical edible fruit."
+    },
+    {
+      "question": "When is the harvest time for Golden Daisy?",
+      "answer": "The harvest time is not applicable for this ornamental. If harvesting edible or medicinal parts, make sure to collect material during early morning hours when oils are concentrated."
+    }
+  ],
+  "image": "/images/plants/daisy.jpg",
+  "airPurifyingRating": 0,
+  "images": {
+    "cover": "/images/plants/daisy.jpg",
+    "leaf": "/images/plants/daisy.jpg"
+  },
+  "categories": [
+    "outdoor-plants",
+    "flowers",
+    "pet-friendly-plants"
+  ]
+}

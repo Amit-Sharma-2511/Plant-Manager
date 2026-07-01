@@ -1,0 +1,15 @@
+{
+  "plantId": "neon-boston-fern",
+  "countries": [
+    {
+      "country": "Australia",
+      "status": "Allowed",
+      "reason": "No special restriction is included in this local guide; verify import and outdoor planting rules locally."
+    },
+    {
+      "country": "United States",
+      "status": "Allowed",
+      "reason": "Commonly cultivated; check state invasive-plant and import rules before outdoor planting."
+    }
+  ]
+}

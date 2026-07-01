@@ -1,0 +1,153 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// Fetch and sort blog articles by publishDate desc
+const allBlogs = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+// Get unique tags from all articles
+const uniqueTags = new Set<string>();
+allBlogs.forEach(post => {
+  post.data.tags.forEach(tag => uniqueTags.add(tag));
+});
+
+// Breadcrumbs data
+const breadcrumbs = [
+  { label: 'Gardening Blog', url: '/blog' }
+];
+
+// JSON-LD CollectionPage Schema
+const blogListSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "GrowMyPlant Gardening Blog",
+  "description": "Learn expert techniques on houseplant propagation, organic vegetable care, pruning, and soil preparation.",
+  "url": "https://growmyplant.online/blog"
+};
+---
+
+<Layout
+  title="Gardening Blog & Growing Guides - GrowMyPlant"
+  description="Explore organic gardening tips, propagation guides, rose pruning tricks, and indoor air-purifying plant reviews written by experts."
+  jsonLd={[blogListSchema]}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Title Section -->
+    <div class="mb-10 text-center sm:text-left border-b border-border-nature pb-6">
+      <h1 class="font-serif font-bold text-3xl sm:text-4xl text-text-charcoal font-bold">Gardening Guides & Articles</h1>
+      <p class="text-sm text-text-muted mt-2">Expert guides on plant propagation, disease treatments, soil composition, and seasonal harvests.</p>
+    </div>
+
+    <!-- Interface Structure -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- Tag Filter Sidebar -->
+      <aside class="lg:col-span-1 bg-white border border-border-nature p-6 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Blog Tags">
+        <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4">Categories</h2>
+        <div class="flex flex-wrap lg:flex-col gap-2">
+          <button
+            class="tag-filter-btn px-3 py-1.5 rounded-organic border text-xs font-semibold bg-brand-forest text-white border-brand-forest hover:bg-brand-emerald text-left transition-all"
+            data-tag="all"
+          >
+            All Articles
+          </button>
+          {Array.from(uniqueTags).map(tag => (
+            <button
+              class="tag-filter-btn px-3 py-1.5 rounded-organic border text-xs font-semibold bg-white border-border-nature text-text-muted hover:border-brand-emerald text-left transition-all"
+              data-tag={tag.toLowerCase()}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </aside>
+
+      <!-- Blogs List -->
+      <div class="lg:col-span-3 space-y-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="blog-grid">
+          {allBlogs.map(post => (
+            <article
+              class="blog-card bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col"
+              data-tags={JSON.stringify(post.data.tags.map(t => t.toLowerCase()))}
+            >
+              <div class="aspect-video relative overflow-hidden border-b border-border-nature bg-brand-mint">
+                <img
+                  src={post.data.coverImage}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover"
+                  onerror="this.onerror=null; this.src='/images/blog/money-plant.webp'"
+                />
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex gap-2 mb-3">
+                    {post.data.tags.slice(0, 2).map(tag => (
+                      <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-emerald bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 class="font-serif font-bold text-lg text-text-charcoal hover:text-brand-forest leading-snug">
+                    <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                  </h3>
+                  <p class="text-xs text-text-muted mt-2 line-clamp-2 leading-relaxed">
+                    {post.data.description}
+                  </p>
+                </div>
+                <div class="text-[11px] text-text-light mt-4 pt-4 border-t border-border-nature flex justify-between items-center">
+                  <span>By {post.data.author}</span>
+                  <time datetime={post.data.publishDate}>
+                    {new Date(post.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </time>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Client-side Blog filtering by tag selection -->
+  <script is:inline>
+    (function() {
+      const filterButtons = document.querySelectorAll('.tag-filter-btn');
+      const cards = document.querySelectorAll('.blog-card');
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selectedTag = btn.getAttribute('data-tag');
+
+          // Highlight selected button
+          filterButtons.forEach(b => {
+            b.classList.remove('bg-brand-forest', 'text-white', 'border-brand-forest');
+            b.classList.add('bg-white', 'text-text-muted', 'border-border-nature');
+          });
+          btn.classList.remove('bg-white', 'text-text-muted', 'border-border-nature');
+          btn.classList.add('bg-brand-forest', 'text-white', 'border-brand-forest');
+
+          // Toggle visibility
+          cards.forEach(card => {
+            let tags = [];
+            try {
+              tags = JSON.parse(card.getAttribute('data-tags') || '[]');
+            } catch(e) {}
+
+            if (selectedTag === 'all' || tags.includes(selectedTag)) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</Layout>

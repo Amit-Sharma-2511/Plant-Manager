@@ -1,11 +1,307 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Fetch plants and sorted blog posts
+const allPlants = await getCollection('plants');
+const allBlogs = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+// Filter lists dynamically from our collections
+const plantOfTheWeek = allPlants.find(p => p.data.slug === 'standard-snake-plant') || allPlants[0];
+const trendingPlants = allPlants.filter(p => ['standard-pothos', 'standard-rose', 'standard-tomato'].includes(p.data.slug));
+const beginnerFriendly = allPlants.filter(p => p.data.difficulty === 'Easy').slice(0, 3);
+const recentlyAdded = [...allPlants].reverse().slice(0, 3);
+
+// Dynamic Category Counts
+const categories = [
+  { name: 'Indoor Plants', slug: 'indoor-plants', count: allPlants.filter(p => p.data.categories.includes('indoor-plants')).length, icon: '🏠', color: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
+  { name: 'Outdoor Plants', slug: 'outdoor-plants', count: allPlants.filter(p => p.data.categories.includes('outdoor-plants')).length, icon: '☀️', color: 'bg-amber-50 text-amber-700 border-amber-100' },
+  { name: 'Vegetables', slug: 'vegetables', count: allPlants.filter(p => p.data.categories.includes('vegetables')).length, icon: '🍅', color: 'bg-red-50 text-red-700 border-red-100' },
+  { name: 'Flowers', slug: 'flowers', count: allPlants.filter(p => p.data.categories.includes('flowers')).length, icon: '🌸', color: 'bg-pink-50 text-pink-700 border-pink-100' },
+  { name: 'Succulents', slug: 'succulents', count: allPlants.filter(p => p.data.categories.includes('succulents')).length, icon: '🌵', color: 'bg-teal-50 text-teal-700 border-teal-100' },
+  { name: 'Medicinal Plants', slug: 'medicinal-plants', count: allPlants.filter(p => p.data.categories.includes('medicinal-plants')).length, icon: '🌿', color: 'bg-green-50 text-green-700 border-green-100' },
+];
+
+// JSON-LD Homepage WebSite Schema
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "GrowMyPlant",
+  "url": "https://growmyplant.online",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://growmyplant.online/plants?search={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
 ---
 
-<Layout>
-	<Welcome />
+<Layout jsonLd={[websiteSchema]}>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-b from-brand-mint to-white py-20 px-4 overflow-hidden border-b border-border-nature">
+    <!-- Visual Leaf Graphic Ornaments -->
+    <div class="absolute -right-16 -top-16 text-brand-mint-dark/40 w-96 h-96 pointer-events-none select-none">
+      <svg viewBox="0 0 200 200" fill="currentColor">
+        <path d="M100 0 C45 0 0 45 0 100 C0 155 45 200 100 200 C155 200 200 155 200 100 C200 45 155 0 100 0 Z M120 140 C100 160 70 150 60 130 C50 110 60 80 80 60 C100 40 130 50 140 70 C150 90 140 120 120 140 Z"/>
+      </svg>
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <span class="text-brand-emerald text-xs font-bold uppercase tracking-widest font-mono bg-white px-3 py-1.5 rounded-full border border-border-nature shadow-2xs">🌿 The Home Gardener's Companion</span>
+      <h1 class="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-text-charcoal mt-6 leading-tight">
+        Grow Healthier Plants,<br/><span class="text-brand-forest">One Leaf at a Time.</span>
+      </h1>
+      <p class="text-text-muted mt-6 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        A factual plant care encyclopedia with real species profiles, practical growing advice, safety notes, and clear plant photos.
+      </p>
+
+      <!-- Centered Homepage Search Bar -->
+      <form action="/plants" method="GET" class="max-w-xl mx-auto mt-8 flex flex-col sm:flex-row gap-3 px-4">
+        <div class="relative flex-1">
+          <input
+            type="search"
+            name="search"
+            placeholder="Search e.g. Tomato, Money Plant, Succulents..."
+            required
+            aria-label="Search plant database"
+            class="w-full px-4 py-3.5 pl-11 text-sm bg-white border border-border-nature rounded-organic shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-forest"
+          />
+          <svg class="absolute left-4 top-4 h-4 w-4 text-text-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <button
+          type="submit"
+          class="px-6 py-3.5 bg-brand-forest hover:bg-brand-emerald text-white rounded-organic text-sm font-bold transition-all shadow-md focus-visible:ring-2 focus-visible:ring-brand-emerald"
+        >
+          Search Encyclopedia
+        </button>
+      </form>
+
+      <div class="flex flex-wrap justify-center gap-4 mt-8 text-xs font-medium text-text-muted">
+        <a href="/plants" class="flex items-center gap-1 hover:text-brand-forest">
+          <span>📚 {allPlants.length} Plants Listed</span>
+        </a>
+        <span class="text-border-nature-dark">•</span>
+        <a href="/blog" class="flex items-center gap-1 hover:text-brand-forest">
+          <span>📖 Gardening Guides</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Categories -->
+  <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center md:text-left mb-10">
+      <h2 class="font-serif font-bold text-2xl sm:text-3xl text-text-charcoal">Featured Categories</h2>
+      <p class="text-xs text-text-light uppercase tracking-widest font-mono mt-1">Classified Growth Environments</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {categories.map(cat => (
+        <a href={`/category/${cat.slug}`} class={`group p-6 rounded-organic border border-border-nature text-center transition-all hover:shadow-md hover:-translate-y-1 ${cat.color}`}>
+          <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">{cat.icon}</div>
+          <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{cat.name}</h3>
+          <p class="text-xs text-text-muted mt-1 font-mono">{cat.count} {cat.count === 1 ? 'Plant' : 'Plants'}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Plant of the Week & Trending Grid -->
+  <section class="py-16 bg-brand-mint border-y border-border-nature">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Plant of the Week (Featured Highlight Card) -->
+        <div class="lg:col-span-1 bg-white border border-border-nature rounded-organic p-6 flex flex-col justify-between shadow-xs">
+          <div>
+            <img
+              src={plantOfTheWeek.data.image}
+              alt={`${plantOfTheWeek.data.commonName} plant`}
+              loading="lazy"
+              class="mb-5 aspect-[4/3] w-full rounded-organic object-cover border border-border-nature"
+            />
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand-emerald bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-100">🌟 Plant of the Week</span>
+              <span class="text-xs text-text-light font-mono">{plantOfTheWeek.data.difficulty} Care</span>
+            </div>
+
+            <h3 class="font-serif font-bold text-xl text-text-charcoal">{plantOfTheWeek.data.commonName}</h3>
+            <p class="text-xs text-text-muted italic mt-0.5">{plantOfTheWeek.data.scientificName}</p>
+            <p class="text-xs text-text-muted mt-3 line-clamp-3 leading-relaxed">
+              {plantOfTheWeek.data.overview}
+            </p>
+          </div>
+          <div class="border-t border-border-nature mt-6 pt-4 flex items-center justify-between">
+            <span class="text-xs font-semibold text-brand-forest">Verified care profile</span>
+            <a href={`/plants/${plantOfTheWeek.data.slug}`} class="text-xs font-bold text-brand-forest hover:text-brand-emerald flex items-center gap-1">
+              Read Guide
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Trending Plants Section -->
+        <div class="lg:col-span-2 flex flex-col justify-between">
+          <div class="mb-6 flex justify-between items-end border-b border-border-nature-dark pb-3">
+            <div>
+              <h2 class="font-serif font-bold text-2xl text-text-charcoal">Trending Plants</h2>
+              <p class="text-xs text-text-light uppercase tracking-widest font-mono mt-0.5">Most Visited Garden Species</p>
+            </div>
+            <a href="/plants" class="text-xs font-bold text-brand-forest hover:underline">View All</a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {trendingPlants.map(plant => (
+              <a href={`/plants/${plant.data.slug}`} class="group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col">
+                <img
+                  src={plant.data.image}
+                  alt={`${plant.data.commonName} plant`}
+                  loading="lazy"
+                  class="aspect-[4/3] w-full object-cover"
+                />
+                <div class="p-4 flex flex-1 flex-col">
+                <div class="flex-1 flex flex-col justify-between">
+                  <div>
+                    <div class="flex gap-2 mb-2">
+                      <span class="text-[10px] font-mono font-bold bg-brand-mint text-brand-forest px-1.5 py-0.5 rounded-sm border border-border-nature">{plant.data.difficulty}</span>
+                    </div>
+                    <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{plant.data.commonName}</h3>
+                    <p class="text-[11px] text-text-muted italic mt-0.5 line-clamp-1">{plant.data.scientificName}</p>
+                  </div>
+                  <div class="text-[11px] text-text-light mt-3 border-t border-border-nature pt-2 flex justify-between items-center">
+                    <span>Zones: {plant.data.usdaZones.join(', ')}</span>
+                    <span class="text-brand-emerald">Read →</span>
+                  </div>
+                </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Beginner Friendly & Recently Added Dual Column Grid -->
+  <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      
+      <!-- Beginner Friendly -->
+      <div>
+        <div class="mb-6 border-b border-border-nature pb-3">
+          <h2 class="font-serif font-bold text-xl text-text-charcoal">Beginner Friendly</h2>
+          <p class="text-xs text-text-light uppercase tracking-widest font-mono mt-0.5">Forgiving plants for newer growers</p>
+        </div>
+        <div class="space-y-4">
+          {beginnerFriendly.map(plant => (
+            <a href={`/plants/${plant.data.slug}`} class="group bg-white border border-border-nature rounded-organic p-4 flex gap-4 hover:shadow-sm hover:border-brand-emerald transition-all">
+              <div class="flex-1 flex flex-col justify-center">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{plant.data.commonName}</h3>
+                  <span class="text-[10px] font-mono text-brand-emerald bg-emerald-50 px-1.5 py-0.5 rounded-sm border border-emerald-100">Zone {plant.data.usdaZones[0]}</span>
+                </div>
+                <p class="text-xs text-text-muted mt-1 line-clamp-1">{plant.data.overview}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Recently Added -->
+      <div>
+        <div class="mb-6 border-b border-border-nature pb-3">
+          <h2 class="font-serif font-bold text-xl text-text-charcoal">Recently Added</h2>
+          <p class="text-xs text-text-light uppercase tracking-widest font-mono mt-0.5">Curated factual profiles</p>
+        </div>
+        <div class="space-y-4">
+          {recentlyAdded.map(plant => (
+            <a href={`/plants/${plant.data.slug}`} class="group bg-white border border-border-nature rounded-organic p-4 flex gap-4 hover:shadow-sm hover:border-brand-emerald transition-all">
+              <div class="flex-1 flex flex-col justify-center">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{plant.data.commonName}</h3>
+                  <span class="text-[10px] font-mono text-text-muted bg-brand-mint px-1.5 py-0.5 rounded-sm border border-border-nature">{plant.data.difficulty}</span>
+                </div>
+                <p class="text-xs text-text-muted mt-1 line-clamp-1">{plant.data.overview}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Latest Articles Section -->
+  <section class="py-16 bg-brand-mint-light border-t border-border-nature">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-end mb-10 border-b border-border-nature pb-4">
+        <div>
+          <h2 class="font-serif font-bold text-2xl sm:text-3xl text-text-charcoal">Latest Gardening Articles</h2>
+          <p class="text-xs text-text-light uppercase tracking-widest font-mono mt-1">Cultivation Techniques & Guides</p>
+        </div>
+        <a href="/blog" class="text-xs font-bold text-brand-forest hover:underline">Read All Articles</a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {allBlogs.slice(0, 3).map(post => (
+          <article class="bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col p-6">
+            <div class="flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-emerald bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">{post.data.tags[0]}</span>
+                <h3 class="font-serif font-bold text-lg text-text-charcoal mt-3 hover:text-brand-forest">
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                </h3>
+                <p class="text-xs text-text-muted mt-2 line-clamp-2 leading-relaxed">
+                  {post.data.description}
+                </p>
+              </div>
+              <div class="text-[11px] text-text-light mt-4 pt-4 border-t border-border-nature flex justify-between items-center">
+                <span>By {post.data.author}</span>
+                <time datetime={post.data.publishDate}>
+                  {new Date(post.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </time>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why GrowMyPlant -->
+  <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-3xl mx-auto mb-16">
+      <h2 class="font-serif font-bold text-3xl text-text-charcoal">Why GrowMyPlant?</h2>
+      <p class="text-text-muted mt-4 leading-relaxed">
+        We focus on clear, conservative plant guidance: real species names, realistic care ranges, safety notes, and image-backed identification.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="p-6 rounded-organic border border-border-nature bg-white shadow-2xs">
+        <div class="text-3xl text-brand-forest mb-4">📖</div>
+        <h3 class="font-bold text-lg text-text-charcoal">Factual Profiles</h3>
+        <p class="text-xs text-text-muted mt-2 leading-relaxed">
+          Each listed plant is a real species or common garden group with plain-language care, safety, and growth information.
+        </p>
+      </div>
+      <div class="p-6 rounded-organic border border-border-nature bg-white shadow-2xs">
+        <div class="text-3xl text-brand-forest mb-4">🖼️</div>
+        <h3 class="font-bold text-lg text-text-charcoal">Real Plant Images</h3>
+        <p class="text-xs text-text-muted mt-2 leading-relaxed">
+          Profiles use direct image links from Wikimedia Commons file pages so users can inspect the actual plant.
+        </p>
+      </div>
+      <div class="p-6 rounded-organic border border-border-nature bg-white shadow-2xs">
+        <div class="text-3xl text-brand-forest mb-4">🔍</div>
+        <h3 class="font-bold text-lg text-text-charcoal">Fuzzy Quick Search</h3>
+        <p class="text-xs text-text-muted mt-2 leading-relaxed">
+          Immediate, instant typing suggestions matching nicknames, botanical categories, and scientific classifications without wait times.
+        </p>
+      </div>
+    </div>
+  </section>
 </Layout>

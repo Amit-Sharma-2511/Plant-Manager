@@ -1,0 +1,262 @@
+{
+  "id": "wild-avocado",
+  "slug": "wild-avocado",
+  "commonName": "Wild Avocado",
+  "scientificName": "Persea americana",
+  "overview": "Avocado (Persea americana) is a real plant in the Lauraceae family. It is commonly grown as a outdoor plant and generally needs full sun, moderate water, and temperatures around 18°C - 29°C. Wild is used here as a catalog label only. The care guide below describes the real species Avocado (Persea americana) and does not claim a verified botanical variety unless one is separately documented.",
+  "nicknames": [
+    "Avocado"
+  ],
+  "family": "Lauraceae",
+  "origin": "Central America",
+  "nativeRegion": "Central America",
+  "usdaZones": [
+    "9",
+    "10",
+    "11"
+  ],
+  "indoorOutdoor": "Outdoor",
+  "difficulty": "Hard",
+  "lifespan": "80+ years",
+  "care": {
+    "waterRequirement": "Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only.",
+    "waterFrequency": "Every 7-10 days",
+    "sunlightRequirement": "Full sun",
+    "temperature": "18°C - 29°C",
+    "humidity": "Moderate",
+    "soilType": "Rich organic, well-draining loamy potting soil.",
+    "soilPh": "6.0 - 7.0 (Slightly acidic to neutral)",
+    "fertilizer": {
+      "type": "Balanced water-soluble organic fertilizer.",
+      "schedule": "Apply once a month during spring and summer months."
+    },
+    "potSize": "6-10 inches, matching root volume.",
+    "repotting": "Repot every 2 years in spring for root health.",
+    "pruning": "Trim faded lower leaves and dry stems to maintain health.",
+    "propagationMethod": "Dividing root clumps or stem cuttings rooted in water.",
+    "companionPlants": [
+      "money-plant",
+      "snake-plant",
+      "spider-plant"
+    ]
+  },
+  "timeline": {
+    "germination": "7-14 days to sprout foliage.",
+    "growthRate": "Moderate",
+    "timeToMature": "1-2 years to reach full size.",
+    "fruitingTime": "Fruiting follows flowering and successful pollination where the climate is suitable.",
+    "averageHeight": "1-3 feet",
+    "averageWidth": "1-2 feet",
+    "growthStage": "Establish roots first, then support leaf growth, flowering, fruiting, or dormancy according to the species and season."
+  },
+  "problems": [
+    {
+      "name": "Water stress or root problems",
+      "symptoms": "Yellowing, wilting, leaf drop, mushy roots, or stalled growth.",
+      "treatment": "Check drainage and root health, remove damaged material, and adjust watering to the actual soil moisture.",
+      "prevention": "Use suitable soil, drainage holes for containers, and water according to plant need rather than habit."
+    },
+    {
+      "name": "Common pests",
+      "symptoms": "Sticky residue, distorted growth, webbing, spots, or visible insects on stems and leaf undersides.",
+      "treatment": "Isolate affected plants, rinse foliage, prune severe damage, and use an appropriate labeled treatment.",
+      "prevention": "Inspect plants regularly, avoid overcrowding, and maintain airflow."
+    }
+  ],
+  "safety": {
+    "petSafe": false,
+    "dogSafe": false,
+    "catSafe": false,
+    "humanToxicity": "Low to moderate toxicity if ingested. Oxalates or saponins cause drooling and irritation.",
+    "poisonousParts": [
+      "Leaves",
+      "Stems",
+      "Roots"
+    ],
+    "safeHandlingInstructions": "Safe to handle normally. Wash hands after clipping stems."
+  },
+  "environmentalBenefits": {
+    "airPurifying": false,
+    "pollinatorFriendly": false,
+    "beeFriendly": false,
+    "butterflyFriendly": false,
+    "birdFriendly": true,
+    "carbonAbsorption": "Trees can store meaningful carbon as they mature outdoors.",
+    "oxygenProduction": "Produces oxygen through normal photosynthesis; houseplants should not be treated as a replacement for ventilation."
+  },
+  "additionalInfo": {
+    "commonMistakes": [
+      "Following a fixed watering schedule without checking soil moisture.",
+      "Ignoring light requirements.",
+      "Using containers without drainage or unsuitable heavy soil."
+    ],
+    "interestingFacts": [
+      "Avocado belongs to the Lauraceae family.",
+      "Wild is used here as a catalog label only. The care guide below describes the real species Avocado (Persea americana) and does not claim a verified botanical variety unless one is separately documented."
+    ],
+    "benefits": [
+      "Can provide edible harvests when correctly grown and identified.",
+      "Helps gardeners learn species-specific care habits."
+    ],
+    "uses": {
+      "cooking": [
+        "Use only correctly identified edible parts."
+      ],
+      "traditional": [
+        "Ornamental or practical garden use depending on species."
+      ]
+    }
+  },
+  "faqs": [
+    {
+      "question": "What is the botanical profile of Wild Avocado?",
+      "answer": "Wild Avocado (Persea americana) belongs to the family Lauraceae and is native to Central America. Growing it successfully requires mimicking these native parameters inside your home garden."
+    },
+    {
+      "question": "Is Wild Avocado toxic to dogs or cats?",
+      "answer": "Regarding pet toxicity, Wild Avocado is toxic to dogs and cats if ingested. Keep it out of reach of curious pets if you grow the toxic variety."
+    },
+    {
+      "question": "What are the medicinal or traditional uses of Wild Avocado?",
+      "answer": "Traditional uses for Wild Avocado include: ornamental landscape display, interior air enrichment, and biophilic design benefits."
+    },
+    {
+      "question": "What is the USDA hardiness zone rating for Wild Avocado?",
+      "answer": "Wild Avocado is hardy across USDA hardiness zones: 9, 10, 11. In colder climates, it must be overwintered indoors before freezing temperatures arrive."
+    },
+    {
+      "question": "Is Wild Avocado a beginner friendly choice?",
+      "answer": "With a difficulty rating of Hard, this plant is better suited for experienced gardeners who can manage precise light and drainage requirements."
+    },
+    {
+      "question": "Does Wild Avocado help purify indoor air?",
+      "answer": "Wild Avocado provides aesthetic green benefits and produces fresh oxygen during daylight hours. However, do not treat house plants as a complete replacement for proper home air ventilation."
+    },
+    {
+      "question": "Is Wild Avocado a verified botanical variety or catalog label?",
+      "answer": "The prefix \"Wild\" is used here as a catalog label to distinguish varieties. The care guide applies directly to the parent species Avocado (Persea americana)."
+    },
+    {
+      "question": "What is the average lifespan of Wild Avocado?",
+      "answer": "The average lifespan of Wild Avocado is 80+ years. With proper root maintenance, regular soil replacement, and pruning, it can live and thrive for many years."
+    },
+    {
+      "question": "How do I prevent overwatering Wild Avocado?",
+      "answer": "Prevent overwatering by letting the soil dry out to the levels required by its Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only. water profile. Ensure your container has drainage holes and dump any standing saucer water."
+    },
+    {
+      "question": "Is it safe to place Wild Avocado in a bedroom?",
+      "answer": "Yes, keeping Wild Avocado in your bedroom is safe and adds calming green aesthetics. Ensure it receives enough indirect light matching its requirement of Full sun."
+    },
+    {
+      "question": "Is Wild Avocado suitable for growing indoors?",
+      "answer": "Yes, Wild Avocado is typically grown outdoors but can be kept indoors under high-light conditions. As an indoor plant, it benefits from protection from direct wind and extreme temperature drops. Be sure to place it near a bright window to match its sunlight needs."
+    },
+    {
+      "question": "Can I grow Wild Avocado outdoors in my garden?",
+      "answer": "Yes, you can grow Wild Avocado outdoors in suitable USDA zones: 9, 10, 11. Outdoor growth offers natural rain and better airflow, which promotes faster foliage development."
+    },
+    {
+      "question": "What plant category or collection does Wild Avocado fit into?",
+      "answer": "Wild Avocado belongs to the category of fruit-plants, trees. Knowing this helps you group it with other plants of identical water, humidity, and fertilizer requirements, making home garden maintenance much easier."
+    },
+    {
+      "question": "What is the potting soil mix for Wild Avocado?",
+      "answer": "The potting soil for Wild Avocado is a mix described as Rich organic, well-draining loamy potting soil.. It should maintain a soil pH level around 6.0 - 7.0 (Slightly acidic to neutral) to support root respiration and nutrient uptake without moisture stagnation."
+    },
+    {
+      "question": "How often should I water Wild Avocado?",
+      "answer": "The watering frequency for Wild Avocado is: Every 7-10 days. Since its water need is classified as Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only., wait until the top potting soil dries before watering again."
+    },
+    {
+      "question": "What are the sunlight requirements for Wild Avocado?",
+      "answer": "Wild Avocado requires Full sun to grow successfully. Indoors, position it close to a window facing east or south, or use grow lights to provide sufficient light spectrum without scorching the leaves."
+    },
+    {
+      "question": "What temperature range does Wild Avocado prefer?",
+      "answer": "This species thrives in a temperature comfort range of 18°C - 29°C. Keep it away from cold drafty windows or heating vents, and maintain relative humidity levels near Moderate to prevent dry leaf edges."
+    },
+    {
+      "question": "How and when should I fertilize Wild Avocado?",
+      "answer": "Feed your Wild Avocado with Balanced water-soluble organic fertilizer. according to the schedule: Apply once a month during spring and summer months.. Always dilute the fertilizer to half-strength to avoid leaf tip burn."
+    },
+    {
+      "question": "How do I propagate Wild Avocado?",
+      "answer": "You can successfully propagate Wild Avocado via the Dividing root clumps or stem cuttings rooted in water. method. Use sterilized cutting tools, fresh damp potting mix, and optionally root hormone to stimulate root development."
+    },
+    {
+      "question": "How and when should I prune Wild Avocado?",
+      "answer": "Pruning should be done according to this guideline: Trim faded lower leaves and dry stems to maintain health.. Prune during the active growth phase to shape the plant and stimulate new foliage."
+    },
+    {
+      "question": "How do I repot Wild Avocado?",
+      "answer": "Repotting advice for this species is: Repot every 2 years in spring for root health.. Choose a pot that is 6-10 inches, matching root volume. with proper bottom drainage holes, and replenish the surrounding soil mix completely."
+    },
+    {
+      "question": "What pot size and type is best for Wild Avocado?",
+      "answer": "Choose a pot size described as 6-10 inches, matching root volume.. Terracotta or porous clay pots are recommended for species requiring dry soil cycles, while plastic or glazed pots work well for moisture-loving plants."
+    },
+    {
+      "question": "How do I know what size pot to grow my plant in?",
+      "answer": "To know what size pot to grow your plant in, choose a container that is approximately 2 to 3 inches larger in diameter than the current root system. For Wild Avocado, a pot size of 6-10 inches, matching root volume. is recommended to provide sufficient room for soil volume and growth without waterlogging."
+    },
+    {
+      "question": "What are the companion plants for Wild Avocado?",
+      "answer": "Ideal companions that share identical soil, light, and water parameters include: money-plant, snake-plant, spider-plant."
+    },
+    {
+      "question": "Why are the leaves on my Wild Avocado turning yellow?",
+      "answer": "Yellow leaves on Wild Avocado are typically a sign of moisture stress (usually overwatering) or nutrient deficiencies. Ensure the pot has drainage holes, and let the soil dry to the required levels before watering again."
+    },
+    {
+      "question": "Why are the leaves on my Wild Avocado turning brown?",
+      "answer": "Brown leaves or dry, crispy leaf margins on Wild Avocado indicate low environmental humidity, underwatering, or too much direct solar radiation. Mist your plant regularly or place it near a humidifier to resolve this."
+    },
+    {
+      "question": "What are the common pests affecting Wild Avocado?",
+      "answer": "Common pests that target this species include spider mites, aphids, mealybugs, thrips, and scale. Treat infestations immediately by isolating the plant and applying neem oil or insecticidal soap."
+    },
+    {
+      "question": "What are the symptoms and treatments for water stress or root issues in Wild Avocado?",
+      "answer": "Root rot symptoms include wilting foliage, mushy dark stems, and a foul smell from the soil. Stop watering, prune away rotting roots, repot in fresh sterile soil, and adjust your watering to match its profile."
+    },
+    {
+      "question": "How do I prevent fungal diseases on Wild Avocado?",
+      "answer": "Prevent fungus, powdery mildew, or leaf spots by ensuring excellent air circulation around the stems, watering only the soil instead of wetting the leaves, and using a well-draining soil mix."
+    },
+    {
+      "question": "How long does it take for Wild Avocado to mature?",
+      "answer": "It takes approximately 1-2 years to reach full size. for Wild Avocado to reach its mature size under standard cultivation. Regular feeding and optimal light will help it reach maturity faster."
+    },
+    {
+      "question": "What is the growth rate of Wild Avocado?",
+      "answer": "The growth rate of Wild Avocado is classified as Moderate. It actively develops during its active growth stage before slowing down during winter dormancy."
+    },
+    {
+      "question": "What is the average mature size of Wild Avocado?",
+      "answer": "At maturity, Wild Avocado reaches an average height of 1-3 feet and an average spread width of 1-2 feet, depending on container size or outdoor spacing."
+    },
+    {
+      "question": "What is the flowering time for Wild Avocado?",
+      "answer": "The flowering time for Wild Avocado is typically during late spring or summer months. Adequate phosphorus and high light intensity are key triggers for bloom production."
+    },
+    {
+      "question": "Does Wild Avocado produce edible fruit?",
+      "answer": "Wild Avocado is known to produce edible harvests with a fruiting period around Fruiting follows flowering and successful pollination where the climate is suitable.."
+    },
+    {
+      "question": "When is the harvest time for Wild Avocado?",
+      "answer": "The harvest time is not applicable for this ornamental. If harvesting edible or medicinal parts, make sure to collect material during early morning hours when oils are concentrated."
+    }
+  ],
+  "image": "/images/plants/avocado.jpg",
+  "airPurifyingRating": 0,
+  "images": {
+    "cover": "/images/plants/avocado.jpg",
+    "leaf": "/images/plants/avocado.jpg"
+  },
+  "categories": [
+    "fruit-plants",
+    "trees"
+  ]
+}

@@ -1,0 +1,294 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const breadcrumbs = [{ label: "Contact Us", url: "/contact" }];
+
+const title = "Contact Us - GrowMyPlant";
+const description =
+  "Get in touch with our team for botanical database suggestions, partnerships, educational content submissions, or editorial inquiries.";
+---
+
+<Layout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <section class="py-12 md:py-20 bg-brand-mint-light">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Contact Information Cards -->
+        <div class="lg:col-span-1 space-y-6">
+          <div
+            class="bg-white border border-border-nature p-8 rounded-organic-lg shadow-xs"
+          >
+            <h2 class="font-serif font-bold text-2xl text-brand-forest mb-4">
+              Get in Touch
+            </h2>
+            <p class="text-xs text-text-muted leading-relaxed mb-6">
+              Have a botanical correction, partnership suggestion, or want us to
+              add a specific plant species to our database? Send us a message!
+            </p>
+
+            <div class="space-y-4 text-xs">
+              <div class="flex items-start gap-3">
+                <svg
+                  class="h-5 w-5 text-brand-emerald flex-shrink-0 mt-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <div>
+                  <p class="font-bold text-text-charcoal">
+                    Support & Corrections
+                  </p>
+                  <a
+                    href="mailto:technicalvideosamit@gmail.com"
+                    class="text-brand-forest hover:underline"
+                    >plantt@gmail.com</a
+                  >
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <svg
+                  class="h-5 w-5 text-brand-emerald flex-shrink-0 mt-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <div>
+                  <p class="font-bold text-text-charcoal">Mailing Address</p>
+                  <p class="text-text-light">
+                    GrowMyPlant Online, 101 Green Canopy Way, Portland, OR
+                    97201, USA
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <svg
+                  class="h-5 w-5 text-brand-emerald flex-shrink-0 mt-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                  <p class="font-bold text-text-charcoal">Response Hours</p>
+                  <p class="text-text-light">
+                    Monday – Friday: 9:00 AM – 5:00 PM PST
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ quick link card -->
+          <div
+            class="bg-brand-mint border border-border-nature p-8 rounded-organic-lg"
+          >
+            <h3 class="font-serif font-bold text-lg text-brand-forest mb-2">
+              Looking for answers?
+            </h3>
+            <p class="text-xs text-text-muted leading-relaxed mb-4">
+              Before submitting a correction request, browse our dynamic FAQ
+              directories where we answer over 30,000 common queries.
+            </p>
+            <a
+              href="/faq"
+              class="inline-flex items-center gap-1 text-xs font-bold text-brand-forest hover:text-brand-emerald"
+            >
+              Go to FAQ Hub
+              <svg
+                class="h-3 w-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="lg:col-span-2">
+          <div
+            class="bg-white border border-border-nature p-8 md:p-12 rounded-organic-lg shadow-xs"
+          >
+            <h2
+              class="font-serif font-bold text-2xl md:text-3xl text-brand-forest mb-6"
+            >
+              Send Us a Message
+            </h2>
+
+            <form id="contact-form" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-xs font-bold text-text-charcoal mb-2"
+                    >Full Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    placeholder="Jane Doe"
+                    class="w-full text-xs px-4 py-3 border border-border-nature rounded-organic bg-brand-mint-light focus:outline-none focus:ring-2 focus:ring-brand-forest text-text-charcoal"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-xs font-bold text-text-charcoal mb-2"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    placeholder="jane@example.com"
+                    class="w-full text-xs px-4 py-3 border border-border-nature rounded-organic bg-brand-mint-light focus:outline-none focus:ring-2 focus:ring-brand-forest text-text-charcoal"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="subject"
+                  class="block text-xs font-bold text-text-charcoal mb-2"
+                  >Subject</label
+                >
+                <select
+                  id="subject"
+                  required
+                  class="w-full text-xs px-4 py-3 border border-border-nature rounded-organic bg-brand-mint-light focus:outline-none focus:ring-2 focus:ring-brand-forest text-text-charcoal"
+                >
+                  <option value="">Select an option</option>
+                  <option value="correction">Plant Database Correction</option>
+                  <option value="request">New Plant Request</option>
+                  <option value="partnership">Advertising & Partnership</option>
+                  <option value="editorial">Editorial Inquiry</option>
+                  <option value="other">General Feedback</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  for="message"
+                  class="block text-xs font-bold text-text-charcoal mb-2"
+                  >Message</label
+                >
+                <textarea
+                  id="message"
+                  required
+                  rows="6"
+                  placeholder="Describe your request in detail..."
+                  class="w-full text-xs px-4 py-3 border border-border-nature rounded-organic bg-brand-mint-light focus:outline-none focus:ring-2 focus:ring-brand-forest text-text-charcoal"
+                ></textarea>
+              </div>
+
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  class="px-6 py-3 bg-brand-forest text-white font-bold rounded-organic text-xs hover:bg-brand-emerald focus-visible:ring-2 focus-visible:ring-brand-emerald cursor-pointer transition-colors"
+                >
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SMTP Relay Submission Logic -->
+  <script is:inline>
+    (function () {
+      const form = document.getElementById("contact-form");
+      if (!form) return;
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const subject = document.getElementById("subject").value;
+        const message = document.getElementById("message").value;
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+
+        console.log(`[SMTP Relay] Connecting to local relay server at http://localhost:3001...`);
+
+        fetch("http://localhost:3001/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, email, subject, message })
+        })
+          .then(res => {
+            if (!res.ok) {
+              return res.json().then(err => { throw new Error(err.message || 'Server error'); });
+            }
+            return res.json();
+          })
+          .then(res => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+
+            if (res.status === "success") {
+              window.showCustomAlert(
+                "Message Sent Successfully",
+                "Thank you! Your message was sent successfully via SMTP protocol. We will get back to you within 2 business days."
+              );
+              form.reset();
+            } else {
+              console.error("Relay SMTP error:", res.message);
+              window.showCustomAlert(
+                "SMTP Send Error",
+                "Failed to send email via SMTP: " + res.message
+              );
+            }
+          })
+          .catch(err => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            console.error("Relay network error:", err);
+            window.showCustomAlert(
+              "SMTP Relay Error",
+              "Could not communicate with the SMTP relay server. Please make sure the backend relay is running on your machine."
+            );
+          });
+      });
+    })();
+  </script>
+</Layout>

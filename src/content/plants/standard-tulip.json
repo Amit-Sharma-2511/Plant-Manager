@@ -1,0 +1,262 @@
+{
+  "id": "standard-tulip",
+  "slug": "standard-tulip",
+  "commonName": "Standard Tulip",
+  "scientificName": "Tulipa gesneriana",
+  "overview": "Tulip (Tulipa gesneriana) is a real plant in the Liliaceae family. It is commonly grown as a outdoor plant and generally needs full sun to partial shade, moderate water, and temperatures around 5°C - 18°C. Standard is used here as a catalog label only. The care guide below describes the real species Tulip (Tulipa gesneriana) and does not claim a verified botanical variety unless one is separately documented.",
+  "nicknames": [
+    "Tulip"
+  ],
+  "family": "Liliaceae",
+  "origin": "Central Asia",
+  "nativeRegion": "Central Asia",
+  "usdaZones": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+  ],
+  "indoorOutdoor": "Outdoor",
+  "difficulty": "Medium",
+  "lifespan": "Perennial (Bulbs)",
+  "care": {
+    "waterRequirement": "Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only.",
+    "waterFrequency": "Every 5-7 days",
+    "sunlightRequirement": "Full sun to partial shade",
+    "temperature": "5°C - 18°C",
+    "humidity": "Average",
+    "soilType": "Rich organic, well-draining loamy potting soil.",
+    "soilPh": "6.0 - 7.0 (Slightly acidic to neutral)",
+    "fertilizer": {
+      "type": "Balanced water-soluble organic fertilizer.",
+      "schedule": "Apply once a month during spring and summer months."
+    },
+    "potSize": "6-10 inches, matching root volume.",
+    "repotting": "Repot every 2 years in spring for root health.",
+    "pruning": "Trim faded lower leaves and dry stems to maintain health.",
+    "propagationMethod": "Dividing root clumps or stem cuttings rooted in water.",
+    "companionPlants": [
+      "money-plant",
+      "snake-plant",
+      "spider-plant"
+    ]
+  },
+  "timeline": {
+    "germination": "7-14 days to sprout foliage.",
+    "growthRate": "Moderate",
+    "timeToMature": "1-2 years to reach full size.",
+    "floweringTime": "Spring and summer months.",
+    "averageHeight": "1-3 feet",
+    "averageWidth": "1-2 feet",
+    "growthStage": "Establish roots first, then support leaf growth, flowering, fruiting, or dormancy according to the species and season."
+  },
+  "problems": [
+    {
+      "name": "Water stress or root problems",
+      "symptoms": "Yellowing, wilting, leaf drop, mushy roots, or stalled growth.",
+      "treatment": "Check drainage and root health, remove damaged material, and adjust watering to the actual soil moisture.",
+      "prevention": "Use suitable soil, drainage holes for containers, and water according to plant need rather than habit."
+    },
+    {
+      "name": "Common pests",
+      "symptoms": "Sticky residue, distorted growth, webbing, spots, or visible insects on stems and leaf undersides.",
+      "treatment": "Isolate affected plants, rinse foliage, prune severe damage, and use an appropriate labeled treatment.",
+      "prevention": "Inspect plants regularly, avoid overcrowding, and maintain airflow."
+    }
+  ],
+  "safety": {
+    "petSafe": false,
+    "dogSafe": false,
+    "catSafe": false,
+    "humanToxicity": "Low to moderate toxicity if ingested. Oxalates or saponins cause drooling and irritation.",
+    "poisonousParts": [
+      "Leaves",
+      "Stems",
+      "Roots"
+    ],
+    "safeHandlingInstructions": "Safe to handle normally. Wash hands after clipping stems."
+  },
+  "environmentalBenefits": {
+    "airPurifying": false,
+    "pollinatorFriendly": true,
+    "beeFriendly": true,
+    "butterflyFriendly": true,
+    "birdFriendly": false,
+    "carbonAbsorption": "Small plants store modest carbon in leaves, stems, and roots.",
+    "oxygenProduction": "Produces oxygen through normal photosynthesis; houseplants should not be treated as a replacement for ventilation."
+  },
+  "additionalInfo": {
+    "commonMistakes": [
+      "Following a fixed watering schedule without checking soil moisture.",
+      "Ignoring light requirements.",
+      "Using containers without drainage or unsuitable heavy soil."
+    ],
+    "interestingFacts": [
+      "Tulip belongs to the Liliaceae family.",
+      "Standard is used here as a catalog label only. The care guide below describes the real species Tulip (Tulipa gesneriana) and does not claim a verified botanical variety unless one is separately documented."
+    ],
+    "benefits": [
+      "Adds ornamental greenery and habitat value where appropriate.",
+      "Helps gardeners learn species-specific care habits."
+    ],
+    "uses": {
+      "traditional": [
+        "Ornamental or practical garden use depending on species."
+      ]
+    }
+  },
+  "faqs": [
+    {
+      "question": "What is the botanical profile of Standard Tulip?",
+      "answer": "Standard Tulip (Tulipa gesneriana) belongs to the family Liliaceae and is native to Central Asia. Growing it successfully requires mimicking these native parameters inside your home garden."
+    },
+    {
+      "question": "Is Standard Tulip toxic to dogs or cats?",
+      "answer": "Regarding pet toxicity, Standard Tulip is toxic to dogs and cats if ingested. Keep it out of reach of curious pets if you grow the toxic variety."
+    },
+    {
+      "question": "What are the medicinal or traditional uses of Standard Tulip?",
+      "answer": "Traditional uses for Standard Tulip include: ornamental landscape display, interior air enrichment, and biophilic design benefits."
+    },
+    {
+      "question": "What is the USDA hardiness zone rating for Standard Tulip?",
+      "answer": "Standard Tulip is hardy across USDA hardiness zones: 3, 4, 5, 6, 7, 8. In colder climates, it must be overwintered indoors before freezing temperatures arrive."
+    },
+    {
+      "question": "Is Standard Tulip a beginner friendly choice?",
+      "answer": "With a difficulty rating of Medium, this plant is better suited for experienced gardeners who can manage precise light and drainage requirements."
+    },
+    {
+      "question": "Does Standard Tulip help purify indoor air?",
+      "answer": "Standard Tulip provides aesthetic green benefits and produces fresh oxygen during daylight hours. However, do not treat house plants as a complete replacement for proper home air ventilation."
+    },
+    {
+      "question": "Is Standard Tulip a verified botanical variety or catalog label?",
+      "answer": "The prefix \"Standard\" is used here as a catalog label to distinguish varieties. The care guide applies directly to the parent species Tulip (Tulipa gesneriana)."
+    },
+    {
+      "question": "What is the average lifespan of Standard Tulip?",
+      "answer": "The average lifespan of Standard Tulip is Perennial (Bulbs). With proper root maintenance, regular soil replacement, and pruning, it can live and thrive for many years."
+    },
+    {
+      "question": "How do I prevent overwatering Standard Tulip?",
+      "answer": "Prevent overwatering by letting the soil dry out to the levels required by its Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only. water profile. Ensure your container has drainage holes and dump any standing saucer water."
+    },
+    {
+      "question": "Is it safe to place Standard Tulip in a bedroom?",
+      "answer": "Yes, keeping Standard Tulip in your bedroom is safe and adds calming green aesthetics. Ensure it receives enough indirect light matching its requirement of Full sun to partial shade."
+    },
+    {
+      "question": "Is Standard Tulip suitable for growing indoors?",
+      "answer": "Yes, Standard Tulip is typically grown outdoors but can be kept indoors under high-light conditions. As an indoor plant, it benefits from protection from direct wind and extreme temperature drops. Be sure to place it near a bright window to match its sunlight needs."
+    },
+    {
+      "question": "Can I grow Standard Tulip outdoors in my garden?",
+      "answer": "Yes, you can grow Standard Tulip outdoors in suitable USDA zones: 3, 4, 5, 6, 7, 8. Outdoor growth offers natural rain and better airflow, which promotes faster foliage development."
+    },
+    {
+      "question": "What plant category or collection does Standard Tulip fit into?",
+      "answer": "Standard Tulip belongs to the category of outdoor-plants, flowers. Knowing this helps you group it with other plants of identical water, humidity, and fertilizer requirements, making home garden maintenance much easier."
+    },
+    {
+      "question": "What is the potting soil mix for Standard Tulip?",
+      "answer": "The potting soil for Standard Tulip is a mix described as Rich organic, well-draining loamy potting soil.. It should maintain a soil pH level around 6.0 - 7.0 (Slightly acidic to neutral) to support root respiration and nutrient uptake without moisture stagnation."
+    },
+    {
+      "question": "How often should I water Standard Tulip?",
+      "answer": "The watering frequency for Standard Tulip is: Every 5-7 days. Since its water need is classified as Moderate. Adjust watering for season, pot size, heat, and soil drainage rather than using a fixed calendar only., wait until the top potting soil dries before watering again."
+    },
+    {
+      "question": "What are the sunlight requirements for Standard Tulip?",
+      "answer": "Standard Tulip requires Full sun to partial shade to grow successfully. Indoors, position it close to a window facing east or south, or use grow lights to provide sufficient light spectrum without scorching the leaves."
+    },
+    {
+      "question": "What temperature range does Standard Tulip prefer?",
+      "answer": "This species thrives in a temperature comfort range of 5°C - 18°C. Keep it away from cold drafty windows or heating vents, and maintain relative humidity levels near Average to prevent dry leaf edges."
+    },
+    {
+      "question": "How and when should I fertilize Standard Tulip?",
+      "answer": "Feed your Standard Tulip with Balanced water-soluble organic fertilizer. according to the schedule: Apply once a month during spring and summer months.. Always dilute the fertilizer to half-strength to avoid leaf tip burn."
+    },
+    {
+      "question": "How do I propagate Standard Tulip?",
+      "answer": "You can successfully propagate Standard Tulip via the Dividing root clumps or stem cuttings rooted in water. method. Use sterilized cutting tools, fresh damp potting mix, and optionally root hormone to stimulate root development."
+    },
+    {
+      "question": "How and when should I prune Standard Tulip?",
+      "answer": "Pruning should be done according to this guideline: Trim faded lower leaves and dry stems to maintain health.. Prune during the active growth phase to shape the plant and stimulate new foliage."
+    },
+    {
+      "question": "How do I repot Standard Tulip?",
+      "answer": "Repotting advice for this species is: Repot every 2 years in spring for root health.. Choose a pot that is 6-10 inches, matching root volume. with proper bottom drainage holes, and replenish the surrounding soil mix completely."
+    },
+    {
+      "question": "What pot size and type is best for Standard Tulip?",
+      "answer": "Choose a pot size described as 6-10 inches, matching root volume.. Terracotta or porous clay pots are recommended for species requiring dry soil cycles, while plastic or glazed pots work well for moisture-loving plants."
+    },
+    {
+      "question": "How do I know what size pot to grow my plant in?",
+      "answer": "To know what size pot to grow your plant in, choose a container that is approximately 2 to 3 inches larger in diameter than the current root system. For Standard Tulip, a pot size of 6-10 inches, matching root volume. is recommended to provide sufficient room for soil volume and growth without waterlogging."
+    },
+    {
+      "question": "What are the companion plants for Standard Tulip?",
+      "answer": "Ideal companions that share identical soil, light, and water parameters include: money-plant, snake-plant, spider-plant."
+    },
+    {
+      "question": "Why are the leaves on my Standard Tulip turning yellow?",
+      "answer": "Yellow leaves on Standard Tulip are typically a sign of moisture stress (usually overwatering) or nutrient deficiencies. Ensure the pot has drainage holes, and let the soil dry to the required levels before watering again."
+    },
+    {
+      "question": "Why are the leaves on my Standard Tulip turning brown?",
+      "answer": "Brown leaves or dry, crispy leaf margins on Standard Tulip indicate low environmental humidity, underwatering, or too much direct solar radiation. Mist your plant regularly or place it near a humidifier to resolve this."
+    },
+    {
+      "question": "What are the common pests affecting Standard Tulip?",
+      "answer": "Common pests that target this species include spider mites, aphids, mealybugs, thrips, and scale. Treat infestations immediately by isolating the plant and applying neem oil or insecticidal soap."
+    },
+    {
+      "question": "What are the symptoms and treatments for water stress or root issues in Standard Tulip?",
+      "answer": "Root rot symptoms include wilting foliage, mushy dark stems, and a foul smell from the soil. Stop watering, prune away rotting roots, repot in fresh sterile soil, and adjust your watering to match its profile."
+    },
+    {
+      "question": "How do I prevent fungal diseases on Standard Tulip?",
+      "answer": "Prevent fungus, powdery mildew, or leaf spots by ensuring excellent air circulation around the stems, watering only the soil instead of wetting the leaves, and using a well-draining soil mix."
+    },
+    {
+      "question": "How long does it take for Standard Tulip to mature?",
+      "answer": "It takes approximately 1-2 years to reach full size. for Standard Tulip to reach its mature size under standard cultivation. Regular feeding and optimal light will help it reach maturity faster."
+    },
+    {
+      "question": "What is the growth rate of Standard Tulip?",
+      "answer": "The growth rate of Standard Tulip is classified as Moderate. It actively develops during its active growth stage before slowing down during winter dormancy."
+    },
+    {
+      "question": "What is the average mature size of Standard Tulip?",
+      "answer": "At maturity, Standard Tulip reaches an average height of 1-3 feet and an average spread width of 1-2 feet, depending on container size or outdoor spacing."
+    },
+    {
+      "question": "What is the flowering time for Standard Tulip?",
+      "answer": "The flowering time for Standard Tulip is typically Spring and summer months.. Adequate phosphorus and high light intensity are key triggers for bloom production."
+    },
+    {
+      "question": "Does Standard Tulip produce edible fruit?",
+      "answer": "Standard Tulip is primarily grown for its ornamental foliage or medicinal value and does not produce typical edible fruit."
+    },
+    {
+      "question": "When is the harvest time for Standard Tulip?",
+      "answer": "The harvest time is not applicable for this ornamental. If harvesting edible or medicinal parts, make sure to collect material during early morning hours when oils are concentrated."
+    }
+  ],
+  "image": "/images/plants/tulip.jpg",
+  "airPurifyingRating": 0,
+  "images": {
+    "cover": "/images/plants/tulip.jpg",
+    "leaf": "/images/plants/tulip.jpg"
+  },
+  "categories": [
+    "outdoor-plants",
+    "flowers"
+  ]
+}

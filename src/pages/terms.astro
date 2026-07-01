@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { label: 'Terms & Conditions', url: '/terms' }
+];
+
+const title = "Terms & Conditions - GrowMyPlant";
+const description = "Review the terms, conditions, and usage guidelines for referencing GrowMyPlant botanical care databases and encyclopedia articles.";
+---
+
+<Layout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <section class="py-12 md:py-20 bg-brand-mint-light">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white border border-border-nature rounded-organic-lg p-6 md:p-12 shadow-xs">
+        <h1 class="font-serif font-bold text-3xl md:text-4xl text-brand-forest mb-6">Terms & Conditions</h1>
+        <p class="text-xs text-text-light mb-8">Last updated: July 1, 2026</p>
+        
+        <div class="prose prose-slate max-w-none text-sm text-text-muted leading-relaxed space-y-6">
+          <p>
+            Welcome to GrowMyPlant! These terms and conditions outline the rules and regulations for the use of GrowMyPlant's Website, located at <a href="https://growmyplant.online" class="text-brand-forest hover:underline">growmyplant.online</a>.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">1. Disclaimer of Horticultural & Medical Advice</h2>
+          <div class="bg-amber-soft border border-amber-dark/20 text-brand-forest p-4 rounded-organic mb-6">
+            <p class="font-semibold text-xs mb-1">⚠️ IMPORTANT SAFETY NOTICE</p>
+            <p class="text-xs leading-relaxed text-text-muted">
+              The plant database, care parameters, timelines, toxicity logs, and FAQ answers published on GrowMyPlant are for informational and educational reference purposes only. They do not constitute certified professional agricultural, horticultural, or medical advice. We do not claim perfect botanical accuracy. Always consult a veterinarian or qualified poison control center regarding toxic ingestions.
+            </p>
+          </div>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">2. License & Intellectual Property</h2>
+          <p>
+            Unless otherwise stated, GrowMyPlant and/or its licensors own the intellectual property rights for all material on GrowMyPlant. All intellectual property rights are reserved. You may access this from GrowMyPlant for your own personal use subjected to restrictions set in these terms and conditions.
+          </p>
+          <p>You must not:</p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>Republish material from GrowMyPlant without explicit attribution.</li>
+            <li>Sell, rent, or sub-license material from GrowMyPlant.</li>
+            <li>Reproduce, duplicate, or copy database collections for commercial resale.</li>
+          </ul>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">3. Hyperlinking to our Content</h2>
+          <p>
+            Organizations (such as gardening clubs, botanical directories, and educational blogs) may link to our home page, encyclopedia profiles, or blog posts without prior written approval. However, the link must not be misleading or imply sponsorship, endorsement, or approval of the linking party and its products.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">4. Liability for External Content</h2>
+          <p>
+            We shall not be held responsible for any content that appears on websites linking to us, or external websites that we link to. You agree to protect and defend us against all claims that are rising on your Website.
+          </p>
+
+          <h2 class="font-serif font-bold text-xl text-brand-forest mt-8 mb-4">5. Disclaimer of Warranties</h2>
+          <p>
+            To the maximum extent permitted by applicable law, we exclude all representations, warranties, and conditions relating to our website and the use of this website. We do not guarantee that the website will remain error-free, uninterrupted, or that the plant database remains completely up-to-date with emerging botanical taxonomies.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
