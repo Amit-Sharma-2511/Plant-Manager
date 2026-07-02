@@ -132,11 +132,14 @@ const searchIndex = allPlants.map(p => ({
   <body class="bg-brand-mint-light text-text-charcoal font-sans flex flex-col min-h-screen">
     
     <!-- Header -->
-    <header class="bg-white border-b border-border-nature sticky top-0 z-50 shadow-xs">
+    <header class="bg-white dark:bg-[#141b18] border-b border-border-nature dark:border-[#28372f] sticky top-0 z-50 shadow-xs">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         <!-- Logo -->
         <a href="/" class="flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-brand-forest">
-          <img src="/images/logo.png" alt="GrowMyPlant Logo" class="h-10 w-auto transition-transform group-hover:scale-105" />
+          <!-- Light Mode Logo -->
+          <img src="/images/logo-light.png" alt="GrowMyPlant Logo" class="h-10 w-auto transition-transform group-hover:scale-105 dark:hidden" />
+          <!-- Dark Mode Logo -->
+          <img src="/images/logo-dark.png" alt="GrowMyPlant Logo" class="h-10 w-auto transition-transform group-hover:scale-105 hidden dark:block" />
         </a>
 
         <!-- Desktop Navigation -->
@@ -156,19 +159,19 @@ const searchIndex = allPlants.map(p => ({
               id="header-search"
               placeholder="Search plants..."
               aria-label="Search plants"
-              class="w-full text-sm py-2 pl-9 pr-4 bg-brand-mint border border-border-nature rounded-organic focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-transparent text-text-charcoal"
+              class="w-full text-sm py-2 pl-9 pr-4 bg-brand-mint dark:bg-[#19221e] border border-border-nature dark:border-[#28372f] rounded-organic focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-transparent text-text-charcoal dark:text-white"
             />
-            <svg class="absolute left-3 top-2.5 h-4 w-4 text-text-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="absolute left-3 top-2.5 h-4 w-4 text-text-light dark:text-[#8a9c92]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="currentColor"/>
             </svg>
+            <!-- Auto-suggestions Dropdown -->
+            <ul
+              id="search-suggestions"
+              role="listbox"
+              class="hidden absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#141b18] border border-border-nature dark:border-[#28372f] rounded-organic shadow-lg max-h-60 overflow-y-auto z-50 text-sm focus:outline-none"
+            >
+            </ul>
           </div>
-          <!-- Auto-suggestions Dropdown -->
-          <ul
-            id="search-suggestions"
-            role="listbox"
-            class="hidden absolute left-0 right-0 mt-1 bg-white border border-border-nature-dark rounded-organic shadow-lg max-h-60 overflow-y-auto z-50 text-sm focus:outline-none"
-          >
-          </ul>
           
           <!-- Dark Mode Toggle Button -->
           <button
@@ -329,7 +332,7 @@ const searchIndex = allPlants.map(p => ({
 
           if (matches.length === 0) {
             suggestionsBox.innerHTML = `
-              <li class="px-4 py-3 text-text-light text-xs italic">
+              <li class="px-4 py-3 text-text-light dark:text-[#8a9c92] text-xs italic">
                 We couldn't find this plant yet. Request this plant and we'll add it soon.
               </li>
             `;
@@ -338,11 +341,11 @@ const searchIndex = allPlants.map(p => ({
           }
 
           suggestionsBox.innerHTML = matches.map(plant => `
-            <li role="option" class="hover:bg-brand-mint cursor-pointer">
-              <a href="/plants/${plant.slug}" class="flex items-center gap-3 px-4 py-2.5 text-text-charcoal decoration-none">
+            <li role="option" class="hover:bg-brand-mint dark:hover:bg-[#19221e] cursor-pointer">
+              <a href="/plants/${plant.slug}" class="flex items-center gap-3 px-4 py-2.5 text-text-charcoal dark:text-[#e2e8e4] decoration-none">
                 <div>
                   <div class="font-medium">${plant.name}</div>
-                  <div class="text-xs text-text-muted italic">${plant.scientific}</div>
+                  <div class="text-xs text-text-muted dark:text-[#8a9c92] italic">${plant.scientific}</div>
                 </div>
               </a>
             </li>
