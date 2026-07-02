@@ -35,117 +35,162 @@ const blogListSchema = {
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    
+
     <!-- Title Section -->
-    <div class="mb-10 text-center sm:text-left border-b border-border-nature pb-6">
-      <h1 class="font-serif font-bold text-3xl sm:text-4xl text-text-charcoal font-bold">Gardening Guides & Articles</h1>
+    <div class="mb-8 text-center sm:text-left border-b border-border-nature pb-6">
+      <h1 class="font-serif font-bold text-3xl sm:text-4xl text-text-charcoal">Gardening Guides & Articles</h1>
       <p class="text-sm text-text-muted mt-2">Expert guides on plant propagation, disease treatments, soil composition, and seasonal harvests.</p>
     </div>
 
-    <!-- Interface Structure -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      
-      <!-- Tag Filter Sidebar -->
-      <aside class="lg:col-span-1 bg-white border border-border-nature p-6 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Blog Tags">
-        <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4">Categories</h2>
-        <div class="flex flex-wrap lg:flex-col gap-2">
+    <!-- ===== MOBILE: Horizontal scrollable tag strip ===== -->
+    <div class="lg:hidden mb-6">
+      <div style="display:flex; flex-wrap:nowrap; gap:8px; overflow-x:auto; padding-bottom:8px; -webkit-overflow-scrolling:touch;">
+        <button
+          class="tag-filter-btn"
+          data-tag="all"
+          style="flex-shrink:0; white-space:nowrap; padding:6px 14px; border-radius:999px; border:1px solid #0f5132; background:#0f5132; color:#fff; font-size:12px; font-weight:600; cursor:pointer;"
+        >
+          All Articles
+        </button>
+        {Array.from(uniqueTags).map(tag => (
           <button
-            class="tag-filter-btn px-3 py-1.5 rounded-organic border text-xs font-semibold bg-brand-forest text-white border-brand-forest hover:bg-brand-emerald text-left transition-all"
-            data-tag="all"
+            class="tag-filter-btn"
+            data-tag={tag.toLowerCase()}
+            style="flex-shrink:0; white-space:nowrap; padding:6px 14px; border-radius:999px; border:1px solid #d8e6dd; background:#fff; color:#5a7a6a; font-size:12px; font-weight:600; cursor:pointer;"
           >
-            All Articles
+            {tag}
           </button>
-          {Array.from(uniqueTags).map(tag => (
-            <button
-              class="tag-filter-btn px-3 py-1.5 rounded-organic border text-xs font-semibold bg-white border-border-nature text-text-muted hover:border-brand-emerald text-left transition-all"
-              data-tag={tag.toLowerCase()}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- ===== DESKTOP: Sidebar + Grid layout ===== -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+      <!-- Tag Filter Sidebar (desktop only) -->
+      <aside class="hidden lg:flex lg:col-span-1 flex-col gap-2 bg-white border border-border-nature p-6 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Blog Categories">
+        <h2 class="font-serif font-bold text-lg text-text-charcoal mb-2">Categories</h2>
+        <button
+          class="tag-filter-btn px-3 py-2 rounded-organic border text-xs font-semibold bg-brand-forest text-white border-brand-forest hover:bg-brand-emerald text-left transition-all"
+          data-tag="all"
+        >
+          All Articles
+        </button>
+        {Array.from(uniqueTags).map(tag => (
+          <button
+            class="tag-filter-btn px-3 py-2 rounded-organic border text-xs font-semibold bg-white border-border-nature text-text-muted hover:border-brand-emerald hover:text-brand-forest text-left transition-all"
+            data-tag={tag.toLowerCase()}
+          >
+            {tag}
+          </button>
+        ))}
       </aside>
 
-      <!-- Blogs List -->
-      <div class="lg:col-span-3 space-y-6">
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="blog-grid">
+      <!-- Blog Articles Grid -->
+      <div class="lg:col-span-3">
+        <!-- Results count -->
+        <div class="mb-4 text-xs text-text-light font-mono">
+          <span id="results-count">{allBlogs.length} articles</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="blog-grid">
           {allBlogs.map(post => (
-            <article
-              class="blog-card bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col"
+            <a
+              href={`/blog/${post.id}`}
+              class="blog-card group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col"
               data-tags={JSON.stringify(post.data.tags.map(t => t.toLowerCase()))}
             >
-              <div class="aspect-video relative overflow-hidden border-b border-border-nature bg-brand-mint">
+              <div class="aspect-video overflow-hidden border-b border-border-nature bg-brand-mint">
                 <img
                   src={post.data.coverImage}
                   alt={post.data.title}
-                  class="w-full h-full object-cover"
+                  loading="lazy"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   onerror="this.onerror=null; this.src='/images/blog/money-plant.webp'"
                 />
               </div>
-              <div class="p-6 flex-1 flex flex-col justify-between">
+              <!-- Card Content -->
+              <div class="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <div class="flex gap-2 mb-3">
+                  <div class="flex flex-wrap gap-2 mb-3">
                     {post.data.tags.slice(0, 2).map(tag => (
                       <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-emerald bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <h3 class="font-serif font-bold text-lg text-text-charcoal hover:text-brand-forest leading-snug">
-                    <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                  </h3>
+                  <h2 class="font-serif font-bold text-base sm:text-lg text-text-charcoal group-hover:text-brand-forest leading-snug">
+                    {post.data.title}
+                  </h2>
                   <p class="text-xs text-text-muted mt-2 line-clamp-2 leading-relaxed">
                     {post.data.description}
                   </p>
                 </div>
-                <div class="text-[11px] text-text-light mt-4 pt-4 border-t border-border-nature flex justify-between items-center">
+                <div class="text-[11px] text-text-light mt-4 pt-3 border-t border-border-nature flex justify-between items-center">
                   <span>By {post.data.author}</span>
-                  <time datetime={post.data.publishDate}>
-                    {new Date(post.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </time>
+                  <span class="flex items-center gap-1 text-brand-forest font-semibold text-xs group-hover:gap-2 transition-all">
+                    Read more
+                    <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
                 </div>
               </div>
-            </article>
+            </a>
           ))}
         </div>
 
+        <!-- Empty state -->
+        <div id="blog-empty" class="hidden text-center py-20 text-text-muted">
+          <p class="text-5xl mb-4">🌿</p>
+          <p class="font-medium">No articles found for this category.</p>
+        </div>
       </div>
-
     </div>
   </div>
 
-  <!-- Client-side Blog filtering by tag selection -->
   <script is:inline>
     (function() {
-      const filterButtons = document.querySelectorAll('.tag-filter-btn');
+      const allFilterBtns = document.querySelectorAll('.tag-filter-btn');
       const cards = document.querySelectorAll('.blog-card');
+      const emptyState = document.getElementById('blog-empty');
+      const resultsCount = document.getElementById('results-count');
 
-      filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const selectedTag = btn.getAttribute('data-tag');
-
-          // Highlight selected button
-          filterButtons.forEach(b => {
+      function setActive(selectedTag) {
+        // Update all button styles (both mobile strip and desktop sidebar)
+        allFilterBtns.forEach(b => {
+          const isActive = b.getAttribute('data-tag') === selectedTag;
+          // Handle inline-styled mobile buttons
+          if (b.style.borderRadius === '999px') {
+            b.style.background = isActive ? '#0f5132' : '#fff';
+            b.style.color = isActive ? '#fff' : '#5a7a6a';
+            b.style.borderColor = isActive ? '#0f5132' : '#d8e6dd';
+          }
+          // Handle class-styled desktop buttons
+          if (isActive) {
+            b.classList.remove('bg-white', 'text-text-muted', 'border-border-nature');
+            b.classList.add('bg-brand-forest', 'text-white', 'border-brand-forest');
+          } else {
             b.classList.remove('bg-brand-forest', 'text-white', 'border-brand-forest');
             b.classList.add('bg-white', 'text-text-muted', 'border-border-nature');
-          });
-          btn.classList.remove('bg-white', 'text-text-muted', 'border-border-nature');
-          btn.classList.add('bg-brand-forest', 'text-white', 'border-brand-forest');
+          }
+        });
 
-          // Toggle visibility
-          cards.forEach(card => {
-            let tags = [];
-            try {
-              tags = JSON.parse(card.getAttribute('data-tags') || '[]');
-            } catch(e) {}
+        // Filter cards
+        let visible = 0;
+        cards.forEach(card => {
+          let tags = [];
+          try { tags = JSON.parse(card.getAttribute('data-tags') || '[]'); } catch(e) {}
+          const show = selectedTag === 'all' || tags.includes(selectedTag);
+          card.classList.toggle('hidden', !show);
+          if (show) visible++;
+        });
 
-            if (selectedTag === 'all' || tags.includes(selectedTag)) {
-              card.classList.remove('hidden');
-            } else {
-              card.classList.add('hidden');
-            }
-          });
+        if (emptyState) emptyState.classList.toggle('hidden', visible > 0);
+        if (resultsCount) resultsCount.textContent = visible + ' article' + (visible !== 1 ? 's' : '');
+      }
+
+      allFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setActive(btn.getAttribute('data-tag'));
         });
       });
     })();

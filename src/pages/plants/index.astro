@@ -49,10 +49,26 @@ const catalogSchema = {
     </div>
 
     <!-- Catalog Interface -->
+    <!-- Mobile Filter Toggle Button -->
+    <div class="lg:hidden mb-4">
+      <button
+        id="mobile-filter-toggle"
+        class="flex items-center gap-2 px-4 py-2 bg-white border border-border-nature rounded-organic text-sm font-semibold text-text-charcoal shadow-xs hover:border-brand-forest hover:text-brand-forest transition-all"
+        aria-expanded="false"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        Filters
+        <svg id="filter-chevron" class="h-4 w-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      
-      <!-- Filters Sidebar (Desktop) -->
-      <aside class="lg:col-span-1 space-y-7 bg-white border border-border-nature p-5 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Filters">
+      <!-- Filters Sidebar -->
+      <aside
+        id="filters-sidebar"
+        class="lg:col-span-1 space-y-7 bg-white border border-border-nature p-5 rounded-organic shadow-2xs h-fit lg:sticky lg:top-20 hidden lg:block"
+        aria-label="Filters"
+      >
         <div>
           <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4">Filters</h2>
           <button id="clear-filters-btn" class="hidden text-xs text-brand-emerald font-semibold hover:underline mb-4">Clear All Filters</button>
@@ -408,5 +424,27 @@ const catalogSchema = {
       // Initial filter cycle
       resetLimitAndUpdate();
     })();
+  </script>
+
+  <script is:inline>
+    // Mobile Filter Toggle
+    const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
+    const filtersSidebar = document.getElementById('filters-sidebar');
+    const filterChevron = document.getElementById('filter-chevron');
+
+    if (mobileFilterToggle && filtersSidebar) {
+      mobileFilterToggle.addEventListener('click', () => {
+        const isHidden = filtersSidebar.classList.contains('hidden');
+        if (isHidden) {
+          filtersSidebar.classList.remove('hidden');
+          filterChevron.style.transform = 'rotate(180deg)';
+          mobileFilterToggle.setAttribute('aria-expanded', 'true');
+        } else {
+          filtersSidebar.classList.add('hidden');
+          filterChevron.style.transform = 'rotate(0deg)';
+          mobileFilterToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
   </script>
 </Layout>
