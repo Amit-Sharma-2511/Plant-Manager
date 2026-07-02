@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --color-bg-base: #f8faf9;
   --color-bg-card: #ffffff;
@@ -118,4 +120,19 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-light);
+}
+
+/* Logo visibility swap based on html.dark */
+.logo-light {
+  display: block;
+}
+.logo-dark {
+  display: none !important;
+}
+
+html.dark .logo-light {
+  display: none !important;
+}
+html.dark .logo-dark {
+  display: block !important;
 }
