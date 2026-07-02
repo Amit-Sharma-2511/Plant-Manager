@@ -132,17 +132,15 @@ const searchIndex = allPlants.map(p => ({
     
     <!-- Header -->
     <header class="bg-white dark:bg-[#141b18] border-b border-border-nature dark:border-[#28372f] sticky top-0 z-50 shadow-xs">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-brand-forest">
-          <!-- Light Mode Logo -->
-          <img src="/images/logo-light.png" alt="GrowMyPlant Logo" class="h-10 w-auto transition-transform group-hover:scale-105 logo-light" />
-          <!-- Dark Mode Logo -->
-          <img src="/images/logo-dark.png" alt="GrowMyPlant Logo" class="h-10 w-auto transition-transform group-hover:scale-105 logo-dark" />
+        <a href="/" class="flex-shrink-0 flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-brand-forest">
+          <img src="/images/logo-light.png" alt="GrowMyPlant Logo" class="h-9 w-auto transition-transform group-hover:scale-105 logo-light" />
+          <img src="/images/logo-dark.png" alt="GrowMyPlant Logo" class="h-9 w-auto transition-transform group-hover:scale-105 logo-dark" />
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-6" aria-label="Main Navigation">
+        <nav class="hidden md:flex items-center gap-6 flex-shrink-0" aria-label="Main Navigation">
           <a href="/plants" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">Encyclopedia</a>
           <a href="/blog" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">Blog</a>
           <a href="/faq" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">FAQs</a>
@@ -150,9 +148,10 @@ const searchIndex = allPlants.map(p => ({
           <a href="/contact" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest">Contact</a>
         </nav>
 
-        <!-- Search Bar with Autocomplete Suggestions -->
-        <div class="relative flex-grow max-w-xs md:max-w-sm flex items-center gap-2" id="search-container">
-          <div class="relative flex-grow">
+        <!-- Right side: Search + Dark Mode + Hamburger -->
+        <div class="flex items-center gap-2 flex-1 md:flex-none justify-end">
+          <!-- Search Bar -->
+          <div class="relative flex-grow md:flex-none md:w-56 lg:w-72" id="search-container">
             <input
               type="search"
               id="header-search"
@@ -160,7 +159,7 @@ const searchIndex = allPlants.map(p => ({
               aria-label="Search plants"
               class="w-full text-sm py-2 pl-9 pr-4 bg-brand-mint dark:bg-[#19221e] border border-border-nature dark:border-[#28372f] rounded-organic focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-transparent text-text-charcoal"
             />
-            <svg class="absolute left-3 top-2.5 h-4 w-4 text-text-light dark:text-[#8a9c92]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="absolute left-3 top-2.5 h-4 w-4 text-text-light dark:text-[#8a9c92] pointer-events-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="currentColor"/>
             </svg>
             <!-- Auto-suggestions Dropdown -->
@@ -171,14 +170,13 @@ const searchIndex = allPlants.map(p => ({
             >
             </ul>
           </div>
-          
-          <!-- Dark Mode Toggle Button -->
+
+          <!-- Dark Mode Toggle -->
           <button
             id="dark-mode-toggle"
             aria-label="Toggle dark mode"
-            class="p-2 text-text-muted hover:text-brand-forest hover:bg-brand-mint rounded-organic transition-all focus-visible:ring-2 focus-visible:ring-brand-forest cursor-pointer"
+            class="flex-shrink-0 p-2 text-text-muted hover:text-brand-forest hover:bg-brand-mint rounded-organic transition-all focus-visible:ring-2 focus-visible:ring-brand-forest cursor-pointer"
           >
-            <!-- Sun Icon -->
             <svg id="sun-icon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5"></circle>
               <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -190,12 +188,43 @@ const searchIndex = allPlants.map(p => ({
               <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             </svg>
-            <!-- Moon Icon -->
             <svg id="moon-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </button>
+
+          <!-- Hamburger Menu Button (mobile only) -->
+          <button
+            id="mobile-menu-toggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            class="md:hidden flex-shrink-0 p-2 text-text-muted hover:text-brand-forest hover:bg-brand-mint rounded-organic transition-all focus-visible:ring-2 focus-visible:ring-brand-forest cursor-pointer"
+          >
+            <!-- Hamburger icon -->
+            <svg id="hamburger-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <!-- Close icon -->
+            <svg id="close-icon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden border-t border-border-nature dark:border-[#28372f] bg-white dark:bg-[#141b18] px-4 py-4 space-y-1"
+      >
+        <a href="/plants" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">🌿 Encyclopedia</a>
+        <a href="/blog" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">📖 Blog</a>
+        <a href="/faq" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">❓ FAQs</a>
+        <a href="/about" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">🌱 About Us</a>
+        <a href="/contact" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">✉️ Contact</a>
       </div>
     </header>
 
@@ -396,6 +425,39 @@ const searchIndex = allPlants.map(p => ({
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('growmyplant_theme', isDark ? 'dark' : 'light');
             updateToggleIcons();
+          });
+        }
+
+        // Mobile Hamburger Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if (mobileMenuToggle && mobileMenu) {
+          mobileMenuToggle.addEventListener('click', () => {
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            if (isOpen) {
+              mobileMenu.classList.add('hidden');
+              hamburgerIcon.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+              mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            } else {
+              mobileMenu.classList.remove('hidden');
+              hamburgerIcon.classList.add('hidden');
+              closeIcon.classList.remove('hidden');
+              mobileMenuToggle.setAttribute('aria-expanded', 'true');
+            }
+          });
+
+          // Close mobile menu when a link is clicked
+          mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+              mobileMenu.classList.add('hidden');
+              hamburgerIcon.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+              mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            });
           });
         }
 
