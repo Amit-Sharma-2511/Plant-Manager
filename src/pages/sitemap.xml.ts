@@ -24,7 +24,7 @@ export const GET: APIRoute = async () => {
     ...Array.from(categorySet).map(c => `${domain}/category/${c}`),
   ];
 
-  const xml = `<?xml version="1.5" encoding="UTF-8"?>
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(url => `  <url>
     <loc>${url}</loc>
