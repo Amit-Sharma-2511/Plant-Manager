@@ -1,11 +1,11 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
-  type?: 'website' | 'article';
+  type?: "website" | "article";
   jsonLd?: Record<string, any>[];
   breadcrumbs?: { label: string; url: string }[];
 }
@@ -23,7 +23,7 @@ const siteUrl = "https://growmyplant.online";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
 // Build absolute OG image URL (required for social sharing to work)
-const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
+const ogImageURL = image.startsWith("http") ? image : `${siteUrl}${image}`;
 ---
 
 <!doctype html>
@@ -35,26 +35,34 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
          ===================================================== -->
 
     <!-- Google tag (gtag.js) — async, non-blocking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RVLPG0NDG"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RVLPG0NDG"
+    ></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-9RVLPG0NDG');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-9RVLPG0NDG");
     </script>
 
     <!-- Google AdSense — async, non-blocking -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4209476756658051"
-     crossorigin="anonymous"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4209476756658051"
+      crossorigin="anonymous"></script>
 
     <meta charset="UTF-8" />
 
     <!-- Dark mode FOUC prevention — inline, must stay before <body> -->
     <script is:inline>
-      (function() {
-        const theme = localStorage.getItem('growmyplant_theme') ||
-                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.classList.toggle('dark', theme === 'dark');
+      (function () {
+        const theme =
+          localStorage.getItem("growmyplant_theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.classList.toggle("dark", theme === "dark");
       })();
     </script>
 
@@ -93,7 +101,10 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
     <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
 
     <!-- =====================================================
          OPEN GRAPH — Absolute URLs required for social sharing
@@ -126,67 +137,82 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
          ===================================================== -->
 
     <!-- Global WebSite schema with SearchAction sitelinks -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "GrowMyPlant",
-      "url": siteUrl,
-      "description": "Expert plant care encyclopedia with 1,000+ species guides covering watering, sunlight, soil, propagation, and safety.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": `${siteUrl}/plants?search={search_term_string}`
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "GrowMyPlant",
+        url: siteUrl,
+        description:
+          "Expert plant care encyclopedia with 1,000+ species guides covering watering, sunlight, soil, propagation, and safety.",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${siteUrl}/plants?search={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
         },
-        "query-input": "required name=search_term_string"
-      }
-    })} />
+      })}
+    />
 
     <!-- Organization schema — logo uses real existing file -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "GrowMyPlant",
-      "url": siteUrl,
-      "logo": {
-        "@type": "ImageObject",
-        "url": `${siteUrl}/favicon-96x96.png`,
-        "width": 96,
-        "height": 96
-      },
-      "sameAs": []
-    })} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "GrowMyPlant",
+        url: siteUrl,
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/favicon-96x96.png`,
+          width: 96,
+          height: 96,
+        },
+        sameAs: [],
+      })}
+    />
 
     <!-- Page-specific JSON-LD schemas (Article, FAQPage, ItemList, etc.) -->
-    {jsonLd.map((schema) => (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-    ))}
+    {
+      jsonLd.map((schema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      ))
+    }
 
     <!-- BreadcrumbList schema — only when breadcrumbs are provided -->
-    {breadcrumbs.length > 0 && (
-      <script type="application/ld+json" set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": siteUrl + "/"
-          },
-          ...breadcrumbs.map((crumb, idx) => ({
-            "@type": "ListItem",
-            "position": idx + 2,
-            "name": crumb.label,
-            "item": new URL(crumb.url, siteUrl).toString()
-          }))
-        ]
-      })} />
-    )}
+    {
+      breadcrumbs.length > 0 && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: siteUrl + "/",
+              },
+              ...breadcrumbs.map((crumb, idx) => ({
+                "@type": "ListItem",
+                position: idx + 2,
+                name: crumb.label,
+                item: new URL(crumb.url, siteUrl).toString(),
+              })),
+            ],
+          })}
+        />
+      )
+    }
   </head>
 
-  <body class="bg-brand-mint-light text-text-charcoal font-sans flex flex-col min-h-screen">
-
+  <body
+    class="bg-brand-mint-light text-text-charcoal font-sans flex flex-col min-h-screen"
+  >
     <!-- =====================================================
          ACCESSIBILITY: Skip to main content link
          Visible on keyboard focus; hidden visually at rest.
@@ -201,29 +227,75 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
     <!-- =====================================================
          HEADER
          ===================================================== -->
-    <header class="bg-white dark:bg-[#141b18] border-b border-border-nature dark:border-[#28372f] sticky top-0 z-50 shadow-xs" role="banner">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
-
+    <header
+      class="bg-white dark:bg-[#141b18] border-b border-border-nature dark:border-[#28372f] sticky top-0 z-50 shadow-xs"
+      role="banner"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3"
+      >
         <!-- Logo — aria-hidden on decorative duplicate, single label -->
-        <a href="/" class="flex-shrink-0 flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-brand-forest" aria-label="GrowMyPlant — Home">
-          <img src="/images/logo-light.png" alt="GrowMyPlant" class="h-9 w-auto transition-transform group-hover:scale-105 logo-light" width="144" height="36" />
-          <img src="/images/logo-dark.png" alt="" aria-hidden="true" class="h-9 w-auto transition-transform group-hover:scale-105 logo-dark" width="144" height="36" />
+        <a
+          href="/"
+          class="flex-shrink-0 flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-brand-forest"
+          aria-label="GrowMyPlant — Home"
+        >
+          <img
+            src="/images/logo-light.png"
+            alt="GrowMyPlant"
+            class="h-9 w-auto transition-transform group-hover:scale-105 logo-light"
+            width="144"
+            height="36"
+          />
+          <img
+            src="/images/logo-dark.png"
+            alt=""
+            aria-hidden="true"
+            class="h-9 w-auto transition-transform group-hover:scale-105 logo-dark"
+            width="144"
+            height="36"
+          />
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-6 flex-shrink-0" aria-label="Main Navigation">
-          <a href="/plants" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm">Encyclopedia</a>
-          <a href="/blog" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm">Blog</a>
-          <a href="/faq" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm">FAQs</a>
-          <a href="/about" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm">About Us</a>
-          <a href="/contact" class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm">Contact</a>
+        <nav
+          class="hidden md:flex items-center gap-6 flex-shrink-0"
+          aria-label="Main Navigation"
+        >
+          <a
+            href="/plants"
+            class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm"
+            >Encyclopedia</a
+          >
+          <a
+            href="/blog"
+            class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm"
+            >Blog</a
+          >
+          <a
+            href="/faq"
+            class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm"
+            >FAQs</a
+          >
+          <a
+            href="/about"
+            class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm"
+            >About Us</a
+          >
+          <a
+            href="/contact"
+            class="text-sm font-medium text-text-muted hover:text-brand-forest focus-visible:ring-2 focus-visible:ring-brand-forest rounded-sm"
+            >Contact</a
+          >
         </nav>
 
         <!-- Right side: Search + Dark Mode + Hamburger -->
         <div class="flex items-center gap-2 flex-1 md:flex-none justify-end">
-
           <!-- Search Bar — lazy-loads /search-index.json on first focus -->
-          <div class="relative flex-grow md:flex-none md:w-56 lg:w-72" id="search-container">
+          <div
+            class="relative flex-grow md:flex-none md:w-56 lg:w-72"
+            id="search-container"
+          >
             <input
               type="search"
               id="header-search"
@@ -234,8 +306,16 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
               autocomplete="off"
               class="w-full text-sm py-2 pl-9 pr-4 bg-brand-mint dark:bg-[#19221e] border border-border-nature dark:border-[#28372f] rounded-organic focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-transparent text-text-charcoal"
             />
-            <svg class="absolute left-3 top-2.5 h-4 w-4 text-text-light dark:text-[#8a9c92] pointer-events-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="currentColor"/>
+            <svg
+              class="absolute left-3 top-2.5 h-4 w-4 text-text-light dark:text-[#8a9c92] pointer-events-none"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+                fill="currentColor"></path>
             </svg>
             <!-- Autocomplete dropdown -->
             <ul
@@ -254,7 +334,17 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
             aria-pressed="false"
             class="flex-shrink-0 p-2 text-text-muted hover:text-brand-forest hover:bg-brand-mint rounded-organic transition-all focus-visible:ring-2 focus-visible:ring-brand-forest cursor-pointer"
           >
-            <svg id="sun-icon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              id="sun-icon"
+              class="hidden h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <circle cx="12" cy="12" r="5"></circle>
               <line x1="12" y1="1" x2="12" y2="3"></line>
               <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -265,7 +355,17 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
               <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             </svg>
-            <svg id="moon-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              id="moon-icon"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </button>
@@ -278,12 +378,32 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
             aria-controls="mobile-menu"
             class="md:hidden flex-shrink-0 p-2 text-text-muted hover:text-brand-forest hover:bg-brand-mint rounded-organic transition-all focus-visible:ring-2 focus-visible:ring-brand-forest cursor-pointer"
           >
-            <svg id="hamburger-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              id="hamburger-icon"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
-            <svg id="close-icon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              id="close-icon"
+              class="hidden h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
@@ -298,46 +418,105 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
         role="navigation"
         aria-label="Mobile Navigation"
       >
-        <a href="/plants" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">🌿 Encyclopedia</a>
-        <a href="/blog" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">📖 Blog</a>
-        <a href="/faq" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">❓ FAQs</a>
-        <a href="/about" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">🌱 About Us</a>
-        <a href="/contact" class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors">✉️ Contact</a>
+        <a
+          href="/plants"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors"
+          >🌿 Encyclopedia</a
+        >
+        <a
+          href="/blog"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors"
+          >📖 Blog</a
+        >
+        <a
+          href="/faq"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors"
+          >❓ FAQs</a
+        >
+        <a
+          href="/about"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors"
+          >🌱 About Us</a
+        >
+        <a
+          href="/contact"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-organic text-sm font-medium text-text-muted hover:text-brand-forest hover:bg-brand-mint dark:hover:bg-[#19221e] transition-colors"
+          >✉️ Contact</a
+        >
       </div>
     </header>
 
     <!-- Breadcrumb Navigation -->
-    {breadcrumbs.length > 0 && (
-      <nav class="bg-brand-mint border-b border-border-nature py-2" aria-label="Breadcrumb">
-        <ol class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs flex items-center gap-2 text-text-muted flex-wrap" itemscope itemtype="https://schema.org/BreadcrumbList">
-          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="/" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest" itemprop="item">
-              <span itemprop="name">Home</span>
-            </a>
-            <meta itemprop="position" content="1" />
-          </li>
-          {breadcrumbs.map((crumb, idx) => (
-            <>
-              <li aria-hidden="true">
-                <svg class="h-3 w-3 text-text-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z" fill="currentColor"/>
-                </svg>
-              </li>
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                {idx === breadcrumbs.length - 1 ? (
-                  <span class="font-medium text-brand-forest" aria-current="page" itemprop="name">{crumb.label}</span>
-                ) : (
-                  <a href={crumb.url} class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest" itemprop="item">
-                    <span itemprop="name">{crumb.label}</span>
-                  </a>
-                )}
-                <meta itemprop="position" content={String(idx + 2)} />
-              </li>
-            </>
-          ))}
-        </ol>
-      </nav>
-    )}
+    {
+      breadcrumbs.length > 0 && (
+        <nav
+          class="bg-brand-mint border-b border-border-nature py-2"
+          aria-label="Breadcrumb"
+        >
+          <ol
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs flex items-center gap-2 text-text-muted flex-wrap"
+            itemscope
+            itemtype="https://schema.org/BreadcrumbList"
+          >
+            <li
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <a
+                href="/"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                itemprop="item"
+              >
+                <span itemprop="name">Home</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+            {breadcrumbs.map((crumb, idx) => (
+              <>
+                <li aria-hidden="true">
+                  <svg
+                    class="h-3 w-3 text-text-light"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </li>
+                <li
+                  itemprop="itemListElement"
+                  itemscope
+                  itemtype="https://schema.org/ListItem"
+                >
+                  {idx === breadcrumbs.length - 1 ? (
+                    <span
+                      class="font-medium text-brand-forest"
+                      aria-current="page"
+                      itemprop="name"
+                    >
+                      {crumb.label}
+                    </span>
+                  ) : (
+                    <a
+                      href={crumb.url}
+                      class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                      itemprop="item"
+                    >
+                      <span itemprop="name">{crumb.label}</span>
+                    </a>
+                  )}
+                  <meta itemprop="position" content={String(idx + 2)} />
+                </li>
+              </>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
 
     <!-- Main Content -->
     <main class="flex-1" id="main-content" tabindex="-1">
@@ -347,42 +526,108 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
     <!-- =====================================================
          FOOTER
          ===================================================== -->
-    <footer class="bg-white border-t border-border-nature py-12 text-sm text-text-muted mt-auto" role="contentinfo">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer
+      class="bg-white border-t border-border-nature py-12 text-sm text-text-muted mt-auto"
+      role="contentinfo"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8"
+      >
         <div>
-          <span class="font-serif font-bold text-lg text-brand-forest block mb-4">GrowMyPlant.</span>
+          <span
+            class="font-serif font-bold text-lg text-brand-forest block mb-4"
+            >GrowMyPlant.</span
+          >
           <p class="text-xs text-text-light max-w-xs leading-relaxed">
-            Helping home gardeners care for their plants with factual botanical guides, safety notes, and practical growing advice since 2024.
+            Helping home gardeners care for their plants with factual botanical
+            guides, safety notes, and practical growing advice since 2024.
           </p>
         </div>
 
         <div>
           <h3 class="font-bold text-text-charcoal mb-4">Plant Directories</h3>
           <ul class="space-y-2 text-xs">
-            <li><a href="/category/indoor-plants" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Indoor Plants</a></li>
-            <li><a href="/category/outdoor-plants" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Outdoor Plants</a></li>
-            <li><a href="/category/vegetables" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Vegetables</a></li>
-            <li><a href="/category/flowers" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Flowers</a></li>
-            <li><a href="/category/succulents" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Succulents</a></li>
-            <li><a href="/category/medicinal-plants" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Medicinal Plants</a></li>
-            <li><a href="/plants" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Browse All Plants →</a></li>
+            <li>
+              <a
+                href="/category/indoor-plants"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Indoor Plants</a>
+            </li>
+            <li>
+              <a
+                href="/category/outdoor-plants"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Outdoor Plants</a>
+            </li>
+            <li>
+              <a
+                href="/category/vegetables"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Vegetables</a>
+            </li>
+            <li>
+              <a
+                href="/category/flowers"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Flowers</a>
+            </li>
+            <li>
+              <a
+                href="/category/succulents"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Succulents</a>
+            </li>
+            <li>
+              <a
+                href="/category/medicinal-plants"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Medicinal Plants</a>
+            </li>
+            <li>
+              <a
+                href="/plants"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Browse All Plants →</a>
+            </li>
           </ul>
         </div>
 
         <div>
           <h3 class="font-bold text-text-charcoal mb-4">Guides & Resources</h3>
           <ul class="space-y-2 text-xs">
-            <li><a href="/blog" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Gardening Blog</a></li>
-            <li><a href="/faq" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">FAQs</a></li>
-            <li><a href="/about" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">About Us</a></li>
-            <li><a href="/contact" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">Contact Us</a></li>
-            <li><a href="/sitemap.xml" class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest">XML Sitemap</a></li>
+            <li>
+              <a
+                href="/blog"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Gardening Blog</a>
+            </li>
+            <li>
+              <a
+                href="/faq"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >FAQs</a>
+            </li>
+            <li>
+              <a
+                href="/about"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >About Us</a>
+            </li>
+            <li>
+              <a
+                href="/contact"
+                class="hover:text-brand-forest focus-visible:ring-1 focus-visible:ring-brand-forest"
+                >Contact Us</a>
+            </li>
           </ul>
         </div>
 
         <div>
           <h3 class="font-bold text-text-charcoal mb-4">Leaflet Newsletter</h3>
-          <p class="text-xs text-text-light mb-3 leading-relaxed">Subscribe to get monthly organic care sheets and harvesting checklists.</p>
+          <p class="text-xs text-text-light mb-3 leading-relaxed">
+            Subscribe to get monthly organic care sheets and harvesting
+            checklists.
+          </p>
           <form id="newsletter-form" class="flex gap-2" novalidate>
             <input
               type="email"
@@ -403,11 +648,14 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-border-nature mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-text-light">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-border-nature mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-text-light"
+      >
         <p>© {new Date().getFullYear()} GrowMyPlant. All rights reserved.</p>
         <div class="flex gap-4 mt-4 md:mt-0">
           <a href="/privacy" class="hover:text-brand-forest">Privacy Policy</a>
-          <a href="/terms" class="hover:text-brand-forest">Terms & Conditions</a>
+          <a href="/terms" class="hover:text-brand-forest">Terms & Conditions</a
+          >
           <a href="/about" class="hover:text-brand-forest">About Us</a>
           <a href="/contact" class="hover:text-brand-forest">Contact</a>
         </div>
@@ -422,23 +670,63 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
       aria-label="Back to top"
       class="hidden fixed bottom-6 right-6 z-50 p-3 bg-brand-forest text-white rounded-full shadow-lg hover:bg-brand-emerald transition-all focus-visible:ring-2 focus-visible:ring-brand-emerald cursor-pointer"
     >
-      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M18 15L12 9L6 15"/>
+      <svg
+        class="h-4 w-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M18 15L12 9L6 15"></path>
       </svg>
     </button>
 
     <!-- =====================================================
          PREMIUM CUSTOM ALERT MODAL
          ===================================================== -->
-    <div id="custom-alert-modal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-xs transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="custom-alert-title">
-      <div class="bg-white dark:bg-[#141b18] border border-border-nature dark:border-[#28372f] rounded-organic-lg p-6 max-w-sm w-full mx-4 shadow-xl transform scale-95 transition-transform duration-300 flex flex-col items-center text-center">
-        <div id="custom-alert-icon-container" class="w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] flex items-center justify-center text-brand-emerald mb-4" aria-hidden="true">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    <div
+      id="custom-alert-modal"
+      class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-xs transition-opacity duration-300"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="custom-alert-title"
+    >
+      <div
+        class="bg-white dark:bg-[#141b18] border border-border-nature dark:border-[#28372f] rounded-organic-lg p-6 max-w-sm w-full mx-4 shadow-xl transform scale-95 transition-transform duration-300 flex flex-col items-center text-center"
+      >
+        <div
+          id="custom-alert-icon-container"
+          class="w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] flex items-center justify-center text-brand-emerald mb-4"
+          aria-hidden="true"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        <h3 id="custom-alert-title" class="font-serif font-bold text-lg text-brand-forest mb-2">Notice</h3>
-        <p id="custom-alert-message" class="text-xs text-text-muted leading-relaxed mb-6">Your message was sent successfully.</p>
+        <h3
+          id="custom-alert-title"
+          class="font-serif font-bold text-lg text-brand-forest mb-2"
+        >
+          Notice
+        </h3>
+        <p
+          id="custom-alert-message"
+          class="text-xs text-text-muted leading-relaxed mb-6"
+        >
+          Your message was sent successfully.
+        </p>
         <button
           id="custom-alert-btn"
           class="w-full py-2.5 bg-brand-forest hover:bg-brand-emerald text-white rounded-organic text-xs font-bold transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-emerald focus:outline-none"
@@ -453,90 +741,113 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
          Bundled in one IIFE for minimal overhead.
          ===================================================== -->
     <script is:inline>
-      (function() {
-
+      (function () {
         // ---- DARK MODE ----
-        const toggleBtn = document.getElementById('dark-mode-toggle');
-        const sunIcon   = document.getElementById('sun-icon');
-        const moonIcon  = document.getElementById('moon-icon');
+        const toggleBtn = document.getElementById("dark-mode-toggle");
+        const sunIcon = document.getElementById("sun-icon");
+        const moonIcon = document.getElementById("moon-icon");
 
         function updateDarkModeUI() {
-          const isDark = document.documentElement.classList.contains('dark');
-          if (sunIcon)  sunIcon.classList.toggle('hidden', !isDark);
-          if (moonIcon) moonIcon.classList.toggle('hidden', isDark);
-          if (toggleBtn) toggleBtn.setAttribute('aria-pressed', String(isDark));
+          const isDark = document.documentElement.classList.contains("dark");
+          if (sunIcon) sunIcon.classList.toggle("hidden", !isDark);
+          if (moonIcon) moonIcon.classList.toggle("hidden", isDark);
+          if (toggleBtn) toggleBtn.setAttribute("aria-pressed", String(isDark));
         }
 
         updateDarkModeUI();
 
         if (toggleBtn) {
-          toggleBtn.addEventListener('click', () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('growmyplant_theme', isDark ? 'dark' : 'light');
+          toggleBtn.addEventListener("click", () => {
+            const isDark = document.documentElement.classList.toggle("dark");
+            localStorage.setItem(
+              "growmyplant_theme",
+              isDark ? "dark" : "light",
+            );
             updateDarkModeUI();
           });
         }
 
         // ---- MOBILE MENU ----
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu       = document.getElementById('mobile-menu');
-        const hamburgerIcon    = document.getElementById('hamburger-icon');
-        const closeIcon        = document.getElementById('close-icon');
+        const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const hamburgerIcon = document.getElementById("hamburger-icon");
+        const closeIcon = document.getElementById("close-icon");
 
         if (mobileMenuToggle && mobileMenu) {
-          mobileMenuToggle.addEventListener('click', () => {
-            const isOpen = !mobileMenu.classList.contains('hidden');
-            mobileMenu.classList.toggle('hidden', isOpen);
-            hamburgerIcon && hamburgerIcon.classList.toggle('hidden', !isOpen);
-            closeIcon && closeIcon.classList.toggle('hidden', isOpen);
-            mobileMenuToggle.setAttribute('aria-expanded', String(!isOpen));
+          mobileMenuToggle.addEventListener("click", () => {
+            const isOpen = !mobileMenu.classList.contains("hidden");
+            mobileMenu.classList.toggle("hidden", isOpen);
+            hamburgerIcon && hamburgerIcon.classList.toggle("hidden", !isOpen);
+            closeIcon && closeIcon.classList.toggle("hidden", isOpen);
+            mobileMenuToggle.setAttribute("aria-expanded", String(!isOpen));
           });
-          mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-              mobileMenu.classList.add('hidden');
-              hamburgerIcon && hamburgerIcon.classList.remove('hidden');
-              closeIcon && closeIcon.classList.add('hidden');
-              mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+              mobileMenu.classList.add("hidden");
+              hamburgerIcon && hamburgerIcon.classList.remove("hidden");
+              closeIcon && closeIcon.classList.add("hidden");
+              mobileMenuToggle.setAttribute("aria-expanded", "false");
             });
           });
         }
 
         // ---- SEARCH AUTOCOMPLETE — Lazy fetch /search-index.json on first focus ----
-        const searchInput      = document.getElementById('header-search');
-        const suggestionsBox   = document.getElementById('search-suggestions');
-        const searchContainer  = document.getElementById('search-container');
+        const searchInput = document.getElementById("header-search");
+        const suggestionsBox = document.getElementById("search-suggestions");
+        const searchContainer = document.getElementById("search-container");
 
         if (searchInput && suggestionsBox && searchContainer) {
-          let plantsData  = [];
+          let plantsData = [];
           let fetchPromise = null;
 
           function ensureIndexLoaded() {
             if (plantsData.length > 0) return Promise.resolve();
             if (fetchPromise) return fetchPromise;
-            fetchPromise = fetch('/search-index.json')
-              .then(r => r.json())
-              .then(data => { plantsData = data; })
-              .catch(err => console.warn('Search index load failed:', err));
+            fetchPromise = fetch("/search-index.json")
+              .then((r) => r.json())
+              .then((data) => {
+                plantsData = data;
+              })
+              .catch((err) => console.warn("Search index load failed:", err));
             return fetchPromise;
           }
 
           function renderSuggestions(query) {
             if (!query.trim()) {
-              suggestionsBox.innerHTML = '';
-              suggestionsBox.classList.add('hidden');
+              suggestionsBox.innerHTML = "";
+              suggestionsBox.classList.add("hidden");
               return;
             }
-            const queryWords = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-            const matches = plantsData.filter(plant => {
-              const plantText = [plant.name, plant.scientific, ...(plant.nicknames||[]), ...(plant.categories||[])].join(' ').toLowerCase();
-              const plantWords = plantText.split(/[\s\-_,.]+/).filter(Boolean);
-              return queryWords.every(qWord => plantWords.some(pWord => pWord.startsWith(qWord)));
-            }).slice(0, 5);
+            const queryWords = query
+              .toLowerCase()
+              .trim()
+              .split(/\s+/)
+              .filter(Boolean);
+            const matches = plantsData
+              .filter((plant) => {
+                const plantText = [
+                  plant.name,
+                  plant.scientific,
+                  ...(plant.nicknames || []),
+                  ...(plant.categories || []),
+                ]
+                  .join(" ")
+                  .toLowerCase();
+                const plantWords = plantText
+                  .split(/[\s\-_,.]+/)
+                  .filter(Boolean);
+                return queryWords.every((qWord) =>
+                  plantWords.some((pWord) => pWord.startsWith(qWord)),
+                );
+              })
+              .slice(0, 5);
 
             if (matches.length === 0) {
               suggestionsBox.innerHTML = `<li class="px-4 py-3 text-text-light dark:text-[#8a9c92] text-xs italic">No results found. Try a different name.</li>`;
             } else {
-              suggestionsBox.innerHTML = matches.map(plant => `
+              suggestionsBox.innerHTML = matches
+                .map(
+                  (plant) => `
                 <li role="option">
                   <a href="/plants/${plant.slug}" class="flex items-center gap-3 px-4 py-2.5 text-text-charcoal dark:text-[#e2e8e4] hover:bg-brand-mint dark:hover:bg-[#19221e] no-underline block">
                     <div>
@@ -544,66 +855,76 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
                       <div class="text-xs text-text-muted dark:text-[#8a9c92] italic">${plant.scientific}</div>
                     </div>
                   </a>
-                </li>`).join('');
+                </li>`,
+                )
+                .join("");
             }
-            suggestionsBox.classList.remove('hidden');
+            suggestionsBox.classList.remove("hidden");
           }
 
           // Fetch index only when user first interacts with search
-          searchInput.addEventListener('focus', ensureIndexLoaded, { once: true });
+          searchInput.addEventListener("focus", ensureIndexLoaded, {
+            once: true,
+          });
 
-          searchInput.addEventListener('input', async (e) => {
+          searchInput.addEventListener("input", async (e) => {
             await ensureIndexLoaded();
             renderSuggestions(e.target.value);
           });
 
-          searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+          searchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
               e.preventDefault();
               const val = searchInput.value.trim();
-              if (val) window.location.href = `/plants?search=${encodeURIComponent(val)}`;
+              if (val)
+                window.location.href = `/plants?search=${encodeURIComponent(val)}`;
             }
-            if (e.key === 'Escape') {
-              suggestionsBox.classList.add('hidden');
+            if (e.key === "Escape") {
+              suggestionsBox.classList.add("hidden");
             }
           });
 
-          document.addEventListener('click', (e) => {
+          document.addEventListener("click", (e) => {
             if (!searchContainer.contains(e.target)) {
-              suggestionsBox.classList.add('hidden');
+              suggestionsBox.classList.add("hidden");
             }
           });
         }
 
         // ---- BACK TO TOP ----
-        const backToTopBtn = document.getElementById('back-to-top');
+        const backToTopBtn = document.getElementById("back-to-top");
         if (backToTopBtn) {
           const toggleBackToTop = () => {
-            backToTopBtn.classList.toggle('hidden', window.scrollY < 400);
+            backToTopBtn.classList.toggle("hidden", window.scrollY < 400);
           };
-          window.addEventListener('scroll', toggleBackToTop, { passive: true });
-          backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.addEventListener("scroll", toggleBackToTop, { passive: true });
+          backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
           });
         }
 
         // ---- NEWSLETTER FORM ----
-        const newsletterForm = document.getElementById('newsletter-form');
+        const newsletterForm = document.getElementById("newsletter-form");
         if (newsletterForm) {
-          newsletterForm.addEventListener('submit', (e) => {
+          newsletterForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            window.showCustomAlert('Subscribed! 🌱', 'Thank you for subscribing to our Leaflet newsletter. You\'ll receive our next monthly care guide soon.');
+            window.showCustomAlert(
+              "Subscribed! 🌱",
+              "Thank you for subscribing to our Leaflet newsletter. You'll receive our next monthly care guide soon.",
+            );
             newsletterForm.reset();
           });
         }
 
         // ---- CUSTOM ALERT MODAL ----
-        window.showCustomAlert = function(title, message, onConfirm) {
-          const modal    = document.getElementById('custom-alert-modal');
-          const titleEl  = document.getElementById('custom-alert-title');
-          const msgEl    = document.getElementById('custom-alert-message');
-          const btn      = document.getElementById('custom-alert-btn');
-          const iconCon  = document.getElementById('custom-alert-icon-container');
+        window.showCustomAlert = function (title, message, onConfirm) {
+          const modal = document.getElementById("custom-alert-modal");
+          const titleEl = document.getElementById("custom-alert-title");
+          const msgEl = document.getElementById("custom-alert-message");
+          const btn = document.getElementById("custom-alert-btn");
+          const iconCon = document.getElementById(
+            "custom-alert-icon-container",
+          );
 
           if (!modal || !titleEl || !msgEl || !btn) {
             if (onConfirm) onConfirm();
@@ -611,42 +932,50 @@ const ogImageURL = image.startsWith('http') ? image : `${siteUrl}${image}`;
           }
 
           titleEl.textContent = title;
-          msgEl.textContent   = message;
+          msgEl.textContent = message;
 
-          const msgLower = (message || '').toLowerCase();
-          if (msgLower.includes('fail') || msgLower.includes('error') || msgLower.includes('sorry')) {
-            iconCon.className = "w-12 h-12 rounded-full bg-red-50 text-red-dark mb-4 flex items-center justify-center";
+          const msgLower = (message || "").toLowerCase();
+          if (
+            msgLower.includes("fail") ||
+            msgLower.includes("error") ||
+            msgLower.includes("sorry")
+          ) {
+            iconCon.className =
+              "w-12 h-12 rounded-full bg-red-50 text-red-dark mb-4 flex items-center justify-center";
             iconCon.innerHTML = `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
           } else {
-            iconCon.className = "w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] text-brand-emerald mb-4 flex items-center justify-center";
+            iconCon.className =
+              "w-12 h-12 rounded-full bg-brand-mint dark:bg-[#19221e] text-brand-emerald mb-4 flex items-center justify-center";
             iconCon.innerHTML = `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
           }
 
-          modal.classList.remove('hidden');
-          modal.classList.add('flex');
+          modal.classList.remove("hidden");
+          modal.classList.add("flex");
           btn.focus();
 
           const close = () => {
-            modal.classList.remove('flex');
-            modal.classList.add('hidden');
-            btn.removeEventListener('click', close);
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+            btn.removeEventListener("click", close);
             if (onConfirm) onConfirm();
           };
-          btn.addEventListener('click', close);
+          btn.addEventListener("click", close);
 
           // Close on backdrop click
-          modal.addEventListener('click', (e) => {
-            if (e.target === modal) close();
-          }, { once: true });
+          modal.addEventListener(
+            "click",
+            (e) => {
+              if (e.target === modal) close();
+            },
+            { once: true },
+          );
         };
 
         // Override native alert globally
-        window.alert = function(message) {
-          window.showCustomAlert('Notice', message);
+        window.alert = function (message) {
+          window.showCustomAlert("Notice", message);
         };
-
       })();
     </script>
-
   </body>
 </html>
