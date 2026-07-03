@@ -100,10 +100,10 @@ const websiteSchema = {
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       {categories.map(cat => (
-        <a href={`/category/${cat.slug}`} class={`group p-6 rounded-organic border border-border-nature text-center transition-all hover:shadow-md hover:-translate-y-1 ${cat.color}`}>
-          <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">{cat.icon}</div>
-          <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{cat.name}</h3>
-          <p class="text-xs text-text-muted mt-1 font-mono">{cat.count} {cat.count === 1 ? 'Plant' : 'Plants'}</p>
+        <a href={`/category/${cat.slug}`} class={`group p-6 rounded-organic border text-center transition-all hover:shadow-md hover:-translate-y-1 ${cat.color}`}>
+          <div class="text-3xl mb-3 group-hover:scale-110 transition-transform" aria-hidden="true">{cat.icon}</div>
+          <h3 class="font-bold text-sm text-gray-800 group-hover:text-brand-forest">{cat.name}</h3>
+          <p class="text-xs text-gray-600 mt-1 font-mono">{cat.count} {cat.count === 1 ? 'Plant' : 'Plants'}</p>
         </a>
       ))}
     </div>
@@ -113,14 +113,16 @@ const websiteSchema = {
   <section class="py-16 bg-brand-mint border-y border-border-nature">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         <!-- Plant of the Week (Featured Highlight Card) -->
-        <div class="lg:col-span-1 bg-white border border-border-nature rounded-organic p-6 flex flex-col justify-between shadow-xs">
+        <div class="lg:col-span-1 bg-white dark:bg-[#141b18] border border-border-nature rounded-organic p-6 flex flex-col justify-between shadow-xs">
           <div>
             <img
               src={plantOfTheWeek.data.image}
               alt={`${plantOfTheWeek.data.commonName} plant`}
               loading="lazy"
+              width="400"
+              height="300"
               class="mb-5 aspect-[4/3] w-full rounded-organic object-cover border border-border-nature"
             />
             <div class="flex items-center justify-between mb-4">
@@ -138,7 +140,7 @@ const websiteSchema = {
             <span class="text-xs font-semibold text-brand-forest">Verified care profile</span>
             <a href={`/plants/${plantOfTheWeek.data.slug}`} class="text-xs font-bold text-brand-forest hover:text-brand-emerald flex items-center gap-1">
               Read Guide
-              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </div>
         </div>
@@ -155,11 +157,13 @@ const websiteSchema = {
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {trendingPlants.map(plant => (
-              <a href={`/plants/${plant.data.slug}`} class="group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col">
+              <a href={`/plants/${plant.data.slug}`} class="group bg-white dark:bg-[#141b18] border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col">
                 <img
                   src={plant.data.image}
                   alt={`${plant.data.commonName} plant`}
                   loading="lazy"
+                  width="400"
+                  height="300"
                   class="aspect-[4/3] w-full object-cover"
                 />
                 <div class="p-4 flex flex-1 flex-col">
@@ -189,7 +193,7 @@ const websiteSchema = {
   <!-- Beginner Friendly & Recently Added Dual Column Grid -->
   <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-      
+
       <!-- Beginner Friendly -->
       <div>
         <div class="mb-6 border-b border-border-nature pb-3">
@@ -198,11 +202,11 @@ const websiteSchema = {
         </div>
         <div class="space-y-4">
           {beginnerFriendly.map(plant => (
-            <a href={`/plants/${plant.data.slug}`} class="group bg-white border border-border-nature rounded-organic p-4 flex gap-4 hover:shadow-sm hover:border-brand-emerald transition-all">
+            <a href={`/plants/${plant.data.slug}`} class="group bg-white dark:bg-[#141b18] border border-border-nature rounded-organic p-4 flex gap-4 hover:shadow-sm hover:border-brand-emerald transition-all">
               <div class="flex-1 flex flex-col justify-center">
                 <div class="flex items-center justify-between">
                   <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{plant.data.commonName}</h3>
-                  <span class="text-[10px] font-mono text-brand-emerald bg-emerald-50 px-1.5 py-0.5 rounded-sm border border-emerald-100">Zone {plant.data.usdaZones[0]}</span>
+                  <span class="text-[10px] font-mono text-green-800 bg-emerald-50 px-1.5 py-0.5 rounded-sm border border-emerald-100">Zone {plant.data.usdaZones[0]}</span>
                 </div>
                 <p class="text-xs text-text-muted mt-1 line-clamp-1">{plant.data.overview}</p>
               </div>
@@ -219,7 +223,7 @@ const websiteSchema = {
         </div>
         <div class="space-y-4">
           {recentlyAdded.map(plant => (
-            <a href={`/plants/${plant.data.slug}`} class="group bg-white border border-border-nature rounded-organic p-4 flex gap-4 hover:shadow-sm hover:border-brand-emerald transition-all">
+            <a href={`/plants/${plant.data.slug}`} class="group bg-white dark:bg-[#141b18] border border-border-nature rounded-organic p-4 flex gap-4 hover:shadow-sm hover:border-brand-emerald transition-all">
               <div class="flex-1 flex flex-col justify-center">
                 <div class="flex items-center justify-between">
                   <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{plant.data.commonName}</h3>
@@ -248,7 +252,7 @@ const websiteSchema = {
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {allBlogs.slice(0, 3).map(post => (
-          <article class="bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col p-6">
+          <article class="bg-white dark:bg-[#141b18] border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col p-6">
             <div class="flex-1 flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-emerald bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">{post.data.tags[0]}</span>
@@ -281,22 +285,22 @@ const websiteSchema = {
       </p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="p-6 rounded-organic border border-border-nature bg-white shadow-2xs">
-        <div class="text-3xl text-brand-forest mb-4">📖</div>
+      <div class="p-6 rounded-organic border border-border-nature bg-white dark:bg-[#141b18] shadow-2xs">
+        <div class="text-3xl text-brand-forest mb-4" aria-hidden="true">📖</div>
         <h3 class="font-bold text-lg text-text-charcoal">Factual Profiles</h3>
         <p class="text-xs text-text-muted mt-2 leading-relaxed">
           Each listed plant is a real species or common garden group with plain-language care, safety, and growth information.
         </p>
       </div>
-      <div class="p-6 rounded-organic border border-border-nature bg-white shadow-2xs">
-        <div class="text-3xl text-brand-forest mb-4">🖼️</div>
+      <div class="p-6 rounded-organic border border-border-nature bg-white dark:bg-[#141b18] shadow-2xs">
+        <div class="text-3xl text-brand-forest mb-4" aria-hidden="true">🖼️</div>
         <h3 class="font-bold text-lg text-text-charcoal">Real Plant Images</h3>
         <p class="text-xs text-text-muted mt-2 leading-relaxed">
           Profiles use direct image links from Wikimedia Commons file pages so users can inspect the actual plant.
         </p>
       </div>
-      <div class="p-6 rounded-organic border border-border-nature bg-white shadow-2xs">
-        <div class="text-3xl text-brand-forest mb-4">🔍</div>
+      <div class="p-6 rounded-organic border border-border-nature bg-white dark:bg-[#141b18] shadow-2xs">
+        <div class="text-3xl text-brand-forest mb-4" aria-hidden="true">🔍</div>
         <h3 class="font-bold text-lg text-text-charcoal">Fuzzy Quick Search</h3>
         <p class="text-xs text-text-muted mt-2 leading-relaxed">
           Immediate, instant typing suggestions matching nicknames, botanical categories, and scientific classifications without wait times.

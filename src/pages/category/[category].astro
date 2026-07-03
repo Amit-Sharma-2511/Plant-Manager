@@ -108,8 +108,8 @@ const categoryLd = {
 ---
 
 <Layout
-  title={`${details.name} Encyclopedia & Care Tips - GrowMyPlant`}
-  description={details.description}
+  title={`${details.name} Care Guides — ${plants.length} Species | GrowMyPlant`}
+  description={`Browse ${plants.length} ${details.name.toLowerCase()} care guides with watering schedules, sunlight requirements, soil tips, and propagation methods. ${details.description}`}
   jsonLd={[categoryLd]}
   breadcrumbs={breadcrumbs}
 >
@@ -177,18 +177,21 @@ const categoryLd = {
           {plants.map(plant => (
             <a 
               href={`/plants/${plant.data.slug}`} 
-              class="plant-card group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col"
+              class="plant-card group bg-white dark:bg-[#141b18] border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col"
               data-common={plant.data.commonName.toLowerCase()}
               data-scientific={plant.data.scientificName.toLowerCase()}
               data-nicknames={JSON.stringify(plant.data.nicknames.map(n => n.toLowerCase()))}
               data-categories={JSON.stringify(plant.data.categories.map(c => c.toLowerCase()))}
             >
-              <!-- Plant Image -->
+              <!-- Plant Image: explicit width/height prevents CLS -->
               <div class="aspect-[4/3] overflow-hidden bg-brand-mint border-b border-border-nature">
                 <img
                   src={plant.data.image}
-                  alt={`${plant.data.commonName} plant`}
+                  alt={`${plant.data.commonName} (${plant.data.scientificName}) plant`}
                   loading="lazy"
+                  width="400"
+                  height="300"
+                  decoding="async"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>

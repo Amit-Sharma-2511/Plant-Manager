@@ -18,6 +18,12 @@ const data = plant.data;
 const allPlants = await getCollection('plants');
 const companions = allPlants.filter(p => data.care.companionPlants.includes(p.id));
 
+// Related plants: same first category, excluding self, max 3
+const primaryCategory = data.categories[0];
+const relatedPlants = allPlants
+  .filter(p => p.id !== plant.id && p.data.categories.includes(primaryCategory))
+  .slice(0, 3);
+
 // Fetch optional regional caution records for this plant
 const allLegality = await getCollection('legality');
 const legalityEntry = allLegality.find(entry => entry.id === plant.id);
@@ -29,28 +35,56 @@ const breadcrumbs = [
   { label: data.commonName, url: `/plants/${data.slug}` }
 ];
 
-// JSON-LD Plant Botanical Schema
-const plantLd = {
+const siteUrl = 'https://growmyplant.online';
+const pageUrl = `${siteUrl}/plants/${data.slug}`;
+
+// Improved title pattern: keyword-first, concise, unique per plant
+const pageTitle = `How to Grow ${data.commonName} | Care Guide | GrowMyPlant`;
+
+// Improved meta description: includes actionable info + secondary keywords
+const pageDescription = `Complete ${data.commonName} (${data.scientificName}) care guide. Learn watering frequency, sunlight needs, soil type, propagation method, and common problems. ${data.difficulty} care • ${data.indoorOutdoor} plant.`;
+
+// JSON-LD: Article schema for plant pages (better fit than Thing/HowTo for
+// an encyclopedia-style care guide; supports author EEAT signals)
+const plantArticleLd = {
   "@context": "https://schema.org",
-  "@type": "Thing",
-  "name": data.commonName,
+  "@type": "Article",
+  "headline": pageTitle,
   "description": data.overview,
-  "image": data.image,
+  "image": data.image.startsWith('http') ? data.image : `${siteUrl}${data.image}`,
+  "url": pageUrl,
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": `https://growmyplant.online/plants/${data.slug}`
+    "@id": pageUrl
   },
-  "additionalType": "BotanicalEntity",
-  "scientificName": data.scientificName,
-  "family": data.family,
-  "taxon": {
-    "@type": "Taxon",
-    "name": data.scientificName,
-    "familyName": data.family
-  }
+  "author": {
+    "@type": "Organization",
+    "name": "GrowMyPlant",
+    "url": siteUrl
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GrowMyPlant",
+    "url": siteUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/favicon-96x96.png`,
+      "width": 96,
+      "height": 96
+    }
+  },
+  "datePublished": "2024-01-01",
+  "dateModified": new Date().toISOString().split('T')[0],
+  "about": {
+    "@type": "Thing",
+    "name": data.commonName,
+    "description": data.overview,
+    "alternateName": data.scientificName
+  },
+  "keywords": [data.commonName, data.scientificName, ...(data.nicknames || []), ...data.categories].join(', ')
 };
 
-// JSON-LD FAQ Schema
+// JSON-LD: FAQPage schema for rich snippet eligibility
 const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -66,17 +100,18 @@ const faqLd = {
 ---
 
 <Layout
-  title={`${data.commonName} Care Guide & Growing Timeline - GrowMyPlant`}
-  description={`Learn how to grow and care for your ${data.commonName} (${data.scientificName}). Irrigation frequency: ${data.care.waterFrequency.slice(0, 80)}...`}
+  title={pageTitle}
+  description={pageDescription}
   image={data.image}
-  jsonLd={[plantLd, faqLd]}
+  type="article"
+  jsonLd={[plantArticleLd, faqLd]}
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    
+
     <!-- Plant Header Row -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-      
+
       <!-- Plant Photo & Left details -->
       <div class="lg:col-span-2 space-y-6">
         <div class="flex gap-2 flex-wrap mb-6">
@@ -89,22 +124,30 @@ const faqLd = {
         </div>
 
         <div>
+          <!-- LCP Image: explicit dimensions prevent CLS; fetchpriority=high for LCP -->
           <figure class="mb-6 overflow-hidden rounded-organic-lg border border-border-nature bg-white shadow-2xs">
             <img
               src={data.image}
-              alt={`${data.commonName} plant`}
+              alt={`${data.commonName} (${data.scientificName}) plant`}
               class="aspect-[16/10] w-full object-cover"
+              width="800"
+              height="500"
+              fetchpriority="high"
+              loading="eager"
+              decoding="async"
             />
             {data.imageSource && (
               <figcaption class="border-t border-border-nature px-4 py-2 text-[10px] text-text-light">
-                Image source: <a href={data.imageSource} class="text-brand-forest hover:underline">Wikimedia Commons</a>
+                Image: <a href={data.imageSource} class="text-brand-forest hover:underline" rel="noopener noreferrer" target="_blank">Wikimedia Commons</a>
               </figcaption>
             )}
           </figure>
 
           <h1 class="font-serif font-bold text-3xl sm:text-4xl text-text-charcoal leading-tight">{data.commonName}</h1>
-          <p class="text-sm text-text-muted italic mt-1">{data.scientificName} • Family: {data.family}</p>
-          
+          <p class="text-sm text-text-muted italic mt-1">
+            <em>{data.scientificName}</em> • Family: <em>{data.family}</em>
+          </p>
+
           {data.nicknames && data.nicknames.length > 0 && (
             <p class="text-xs text-text-light mt-2">
               Also known as: <span class="font-medium text-text-muted">{data.nicknames.join(', ')}</span>
@@ -122,9 +165,9 @@ const faqLd = {
             🌍 Regional Caution Check
           </h2>
           <p class="text-xs text-text-muted leading-relaxed">
-            Some plants can be invasive or regulated outside their ideal context. Select a country for any notes currently included in this guide:
+            Some plants can be invasive or regulated outside their ideal context. Select a country for any notes included in this guide:
           </p>
-          
+
           <div class="max-w-xs">
             <label for="country-selector" class="sr-only">Choose Country</label>
             <select id="country-selector" class="w-full text-xs px-3 py-2 border border-border-nature rounded-organic bg-brand-mint-light focus:outline-none focus:ring-2 focus:ring-brand-forest">
@@ -140,13 +183,12 @@ const faqLd = {
           </div>
 
           <!-- Alert Display Panel -->
-          <div id="legality-warning-box" class="hidden p-4 rounded-organic border text-xs leading-relaxed space-y-2">
+          <div id="legality-warning-box" class="hidden p-4 rounded-organic border text-xs leading-relaxed space-y-2" aria-live="polite">
             <!-- Rendered by client script -->
           </div>
 
-          <!-- Legal Disclaimer -->
           <p class="text-[10px] text-text-light leading-relaxed italic border-t border-brand-mint pt-3">
-            This guide is informational only. Invasive-plant rules and import restrictions can vary by state, county, or municipality, so verify locally before planting, importing, or selling regulated species.
+            This guide is informational only. Invasive-plant rules and import restrictions can vary by state, county, or municipality. Verify locally before planting, importing, or selling regulated species.
           </p>
         </div>
       </div>
@@ -155,7 +197,7 @@ const faqLd = {
       <div class="lg:col-span-1 space-y-6">
         <div class="bg-white border border-border-nature rounded-organic-lg p-6 shadow-xs">
           <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4 border-b border-border-nature pb-3">Quick Facts</h2>
-          
+
           <dl class="space-y-4 text-xs font-mono">
             <div class="flex justify-between items-center border-b border-brand-mint pb-2">
               <dt class="text-text-light">Origin</dt>
@@ -185,15 +227,30 @@ const faqLd = {
             </div>
           </dl>
         </div>
+
+        <!-- Category Links (Internal Linking) -->
+        <div class="bg-white border border-border-nature rounded-organic p-4 shadow-2xs">
+          <h2 class="font-bold text-sm text-text-charcoal mb-3">Browse by Category</h2>
+          <div class="flex flex-wrap gap-2">
+            {data.categories.map(cat => (
+              <a
+                href={`/category/${cat}`}
+                class="text-[10px] font-mono font-bold uppercase tracking-wide bg-brand-mint text-brand-forest px-2.5 py-1 rounded-sm border border-border-nature hover:bg-brand-forest hover:text-white transition-colors"
+              >
+                {cat.replace(/-/g, ' ')}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
     </div>
 
     <!-- Complete Care Guide -->
-    <section class="mt-16">
-      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-8 border-b border-border-nature pb-3">Complete Care Guide</h2>
+    <section class="mt-16" id="care-guide" aria-labelledby="care-guide-title">
+      <h2 id="care-guide-title" class="font-serif font-bold text-2xl text-text-charcoal mb-8 border-b border-border-nature pb-3">Complete Care Guide</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
+
         {[
           { title: 'Water Requirement', text: data.care.waterRequirement, icon: '💧' },
           { title: 'Watering Frequency', text: data.care.waterFrequency, icon: '📅' },
@@ -207,10 +264,10 @@ const faqLd = {
           { title: 'Potting Size', text: data.care.potSize, icon: '🪴' },
           { title: 'Repotting Method', text: data.care.repotting, icon: '🔄' },
           { title: 'Pruning & Shaping', text: data.care.pruning, icon: '✂️' },
-          { title: 'Propagation Method', text: data.care.propagationMethod, icon: '✂️' },
+          { title: 'Propagation Method', text: data.care.propagationMethod, icon: '🌿' },
         ].map(item => (
           <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs hover:shadow-xs transition-shadow">
-            <div class="text-2xl mb-3">{item.icon}</div>
+            <div class="text-2xl mb-3" aria-hidden="true">{item.icon}</div>
             <h3 class="font-bold text-sm text-text-charcoal mb-2">{item.title}</h3>
             <p class="text-xs text-text-muted leading-relaxed">{item.text}</p>
           </div>
@@ -220,9 +277,9 @@ const faqLd = {
     </section>
 
     <!-- Growth Timeline -->
-    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs">
-      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6">Growth Timeline & Sizing</h2>
-      
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs" id="growth-timeline" aria-labelledby="growth-timeline-title">
+      <h2 id="growth-timeline-title" class="font-serif font-bold text-2xl text-text-charcoal mb-6">Growth Timeline & Sizing</h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-6 border-b border-brand-mint text-xs font-mono">
         <div class="flex justify-between items-center border-b border-brand-mint pb-2">
           <span class="text-text-light">Growth Rate</span>
@@ -245,33 +302,33 @@ const faqLd = {
       <div class="relative pl-6 border-l-2 border-brand-mint-dark space-y-6">
         {data.timeline.germination && (
           <div class="relative">
-            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white" aria-hidden="true"></div>
             <h3 class="text-sm font-bold text-text-charcoal">Germination Stage</h3>
             <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.germination}</p>
           </div>
         )}
         <div class="relative">
-          <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+          <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white" aria-hidden="true"></div>
           <h3 class="text-sm font-bold text-text-charcoal">Vegetative Growth Stage</h3>
           <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.growthStage}</p>
         </div>
         {data.timeline.floweringTime && (
           <div class="relative">
-            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white" aria-hidden="true"></div>
             <h3 class="text-sm font-bold text-text-charcoal">Flowering Stage</h3>
             <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.floweringTime}</p>
           </div>
         )}
         {data.timeline.fruitingTime && (
           <div class="relative">
-            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white" aria-hidden="true"></div>
             <h3 class="text-sm font-bold text-text-charcoal">Fruiting Stage</h3>
             <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.fruitingTime}</p>
           </div>
         )}
         {data.timeline.harvestTime && (
           <div class="relative">
-            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white"></div>
+            <div class="absolute -left-[31px] top-0 h-4 w-4 bg-brand-forest rounded-full border-2 border-white" aria-hidden="true"></div>
             <h3 class="text-sm font-bold text-text-charcoal">Harvest Stage</h3>
             <p class="text-xs text-text-muted mt-1 leading-relaxed">{data.timeline.harvestTime}</p>
           </div>
@@ -279,10 +336,10 @@ const faqLd = {
       </div>
     </section>
 
-    <!-- Safety & Toxicity details -->
-    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs space-y-6">
-      <h2 class="font-serif font-bold text-2xl text-text-charcoal border-b border-border-nature pb-3">Safety & Toxicity Index</h2>
-      
+    <!-- Safety & Toxicity -->
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs space-y-6" id="safety" aria-labelledby="safety-title">
+      <h2 id="safety-title" class="font-serif font-bold text-2xl text-text-charcoal border-b border-border-nature pb-3">Safety & Toxicity Index</h2>
+
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs leading-relaxed">
         <div class="p-4 rounded-organic border border-border-nature">
           <h3 class="font-bold text-sm text-text-charcoal mb-2">🐾 Pet Safety</h3>
@@ -300,15 +357,15 @@ const faqLd = {
       </div>
 
       {data.safety.poisonousParts.length > 0 && (
-        <div class="text-xs text-text-muted bg-red-50 p-4 border border-red-100 rounded-organic">
+        <div class="text-xs text-text-muted bg-red-50 p-4 border border-red-100 rounded-organic" role="alert">
           ⚠️ <strong>Poisonous Parts:</strong> {data.safety.poisonousParts.join(', ')}
         </div>
       )}
     </section>
 
     <!-- Environmental Benefits -->
-    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs space-y-6">
-      <h2 class="font-serif font-bold text-2xl text-text-charcoal border-b border-border-nature pb-3">Environmental Benefits</h2>
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs space-y-6" id="environmental-benefits" aria-labelledby="env-title">
+      <h2 id="env-title" class="font-serif font-bold text-2xl text-text-charcoal border-b border-border-nature pb-3">Environmental Benefits</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs leading-relaxed">
         <div>
           <h3 class="font-bold text-sm text-text-charcoal mb-3">🌿 Ecological Roles</h3>
@@ -333,8 +390,8 @@ const faqLd = {
       </div>
     </section>
 
-    <!-- Additional Info (Mistakes, Facts, Benefits) -->
-    <section class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Common Mistakes + Facts + Uses -->
+    <section class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8" id="additional-info" aria-labelledby="additional-info-title">
       <!-- Mistakes -->
       <div class="bg-white border border-border-nature p-6 rounded-organic shadow-2xs">
         <h2 class="font-serif font-bold text-lg text-text-charcoal mb-4 border-b border-border-nature pb-2">Common Mistakes</h2>
@@ -380,13 +437,13 @@ const faqLd = {
     </section>
 
     <!-- Common Problems & Solutions -->
-    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs">
-      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6 border-b border-border-nature pb-3">Common Health Problems</h2>
+    <section class="mt-16 bg-white border border-border-nature p-8 rounded-organic-lg shadow-2xs" id="common-problems" aria-labelledby="problems-title">
+      <h2 id="problems-title" class="font-serif font-bold text-2xl text-text-charcoal mb-6 border-b border-border-nature pb-3">Common Health Problems</h2>
       <div class="space-y-6">
         {data.problems.map(prob => (
           <div class="space-y-2 text-xs">
             <h3 class="text-sm font-bold text-red-dark flex items-center gap-1.5">
-              <span class="inline-block h-2 w-2 rounded-full bg-red-dark"></span>
+              <span class="inline-block h-2 w-2 rounded-full bg-red-dark" aria-hidden="true"></span>
               {prob.name}
             </h3>
             <p class="text-text-muted"><strong class="text-text-charcoal font-semibold">Symptoms:</strong> {prob.symptoms}</p>
@@ -397,15 +454,17 @@ const faqLd = {
       </div>
     </section>
 
-    <!-- FAQ Accordion -->
-    <section class="mt-16 max-w-4xl mx-auto">
-      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6 text-center">Frequently Asked Questions</h2>
+    <!-- FAQ Accordion — FAQPage schema is in JSON-LD above -->
+    <section class="mt-16 max-w-4xl mx-auto" id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="font-serif font-bold text-2xl text-text-charcoal mb-6 text-center">
+        Frequently Asked Questions about {data.commonName}
+      </h2>
       <div class="space-y-4">
-        {data.faqs.map(faq => (
+        {data.faqs.map((faq, idx) => (
           <details class="group bg-white border border-border-nature rounded-organic p-4 cursor-pointer focus-within:ring-2 focus-within:ring-brand-forest">
-            <summary class="font-bold text-sm text-text-charcoal list-none flex justify-between items-center">
+            <summary class="font-bold text-sm text-text-charcoal list-none flex justify-between items-center gap-3">
               <span>{faq.question}</span>
-              <svg class="h-4 w-4 text-text-light transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="h-4 w-4 text-text-light transition-transform group-open:rotate-180 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </summary>
@@ -417,10 +476,42 @@ const faqLd = {
       </div>
     </section>
 
-    <!-- Related / Companion Plants -->
+    <!-- Related Plants (same category — internal linking) -->
+    {relatedPlants.length > 0 && (
+      <section class="mt-20 border-t border-border-nature pt-12" id="related-plants" aria-labelledby="related-title">
+        <h2 id="related-title" class="font-serif font-bold text-2xl text-text-charcoal mb-8">
+          More {primaryCategory.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} Plants
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {relatedPlants.map(rel => (
+            <a href={`/plants/${rel.data.slug}`} class="group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col">
+              <div class="aspect-[4/3] overflow-hidden bg-brand-mint">
+                <img
+                  src={rel.data.image}
+                  alt={`${rel.data.commonName} plant`}
+                  loading="lazy"
+                  width="400"
+                  height="300"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-bold text-sm text-text-charcoal group-hover:text-brand-forest">{rel.data.commonName}</h3>
+                  <p class="text-[11px] text-text-muted italic">{rel.data.scientificName}</p>
+                </div>
+                <span class="text-xs font-semibold text-brand-forest mt-3 block text-right">View Guide →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Companion Plants -->
     {companions.length > 0 && (
-      <section class="mt-20 border-t border-border-nature pt-12">
-        <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-8">Companion Plants</h2>
+      <section class="mt-16 border-t border-border-nature pt-12" id="companion-plants" aria-labelledby="companion-title">
+        <h2 id="companion-title" class="font-serif font-bold text-2xl text-text-charcoal mb-8">Companion Plants</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {companions.map(comp => (
             <a href={`/plants/${comp.data.slug}`} class="group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col">
@@ -442,12 +533,12 @@ const faqLd = {
   <!-- Legality JSON Payload -->
   <script is:inline id="legality-payload" type="application/json" set:html={JSON.stringify(legalityData)} />
 
-  <!-- Client-side Logic for regional warning checks -->
+  <!-- Regional caution check logic -->
   <script is:inline>
     (function() {
       const select = document.getElementById('country-selector');
       const warningBox = document.getElementById('legality-warning-box');
-      
+
       let legality = null;
       try {
         legality = JSON.parse(document.getElementById('legality-payload').textContent || 'null');
@@ -456,7 +547,7 @@ const faqLd = {
       if (select && warningBox) {
         select.addEventListener('change', (e) => {
           const country = e.target.value;
-          
+
           if (!country) {
             warningBox.classList.add('hidden');
             return;
@@ -464,41 +555,26 @@ const faqLd = {
 
           if (!legality || !legality.countries) {
             warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-brand-mint-light text-text-muted border-border-nature";
-            warningBox.innerHTML = `
-              <strong>Country note unavailable</strong><br/>
-              No region-specific caution note has been added for ${country}. Check local extension or agriculture guidance before planting outdoors.
-            `;
+            warningBox.innerHTML = `<strong>Country note unavailable</strong><br/>No region-specific caution note has been added for ${country}. Check local extension or agriculture guidance before planting outdoors.`;
             warningBox.classList.remove('hidden');
             return;
           }
 
           const record = legality.countries.find(c => c.country.toLowerCase() === country.toLowerCase());
-          
+
           if (record) {
             if (record.status === 'Allowed') {
               warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-green-50 text-green-800 border-green-100";
-              warningBox.innerHTML = `
-                <strong>Country Status: Allowed in this guide</strong><br/>
-                ${record.reason}
-              `;
+              warningBox.innerHTML = `<strong>Status: Allowed in this guide</strong><br/>${record.reason}`;
             } else {
-              // Invasive, Restricted, Requires Permit, etc.
               warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-red-50 text-red-800 border-red-100";
-              warningBox.innerHTML = `
-                <strong class="text-sm font-bold text-red-900">⚠️ Warning: Status is ${record.status}</strong><br/>
-                ${record.reason}
-              `;
+              warningBox.innerHTML = `<strong class="text-sm font-bold text-red-900">⚠️ Warning: Status is ${record.status}</strong><br/>${record.reason}`;
             }
-            warningBox.classList.remove('hidden');
           } else {
-            // Default allowed fallback
             warningBox.className = "p-4 rounded-organic border text-xs leading-relaxed space-y-2 bg-green-50 text-green-800 border-green-100";
-            warningBox.innerHTML = `
-              <strong>No caution note cataloged</strong><br/>
-              This guide does not include a region-specific warning for ${country}. Please verify with local agricultural or environmental guidance before outdoor planting.
-            `;
-            warningBox.classList.remove('hidden');
+            warningBox.innerHTML = `<strong>No caution note cataloged</strong><br/>This guide does not include a region-specific warning for ${country}. Please verify with local agricultural or environmental guidance before outdoor planting.`;
           }
+          warningBox.classList.remove('hidden');
         });
       }
     })();

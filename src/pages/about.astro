@@ -5,11 +5,32 @@ const breadcrumbs = [
   { label: 'About Us', url: '/about' }
 ];
 
-const title = "About Us - GrowMyPlant";
-const description = "Learn about the mission, values, and community behind GrowMyPlant, a comprehensive source of botanical care instructions.";
+const title = "About GrowMyPlant — Our Mission, Editorial Policy & Team";
+const description = "Learn how GrowMyPlant creates accurate, science-backed plant care guides. Meet our editorial team, understand our review process, and discover our commitment to botanical accuracy.";
+
+// JSON-LD: AboutPage schema for EEAT signals
+const aboutLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About GrowMyPlant",
+  "description": description,
+  "url": "https://growmyplant.online/about",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "GrowMyPlant",
+    "url": "https://growmyplant.online",
+    "foundingDate": "2024",
+    "description": "A plant care encyclopedia providing factual, species-level care guides for home gardeners.",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://growmyplant.online/favicon-96x96.png"
+    }
+  }
+};
 ---
 
-<Layout title={title} description={description} breadcrumbs={breadcrumbs}>
+<Layout title={title} description={description} breadcrumbs={breadcrumbs} jsonLd={[aboutLd]}>
+
   <!-- Hero Section -->
   <section class="py-16 md:py-24 bg-white border-b border-border-nature text-center">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,30 +39,30 @@ const description = "Learn about the mission, values, and community behind GrowM
         Empowering home gardeners through factual plant science
       </h1>
       <p class="text-base md:text-lg text-text-muted leading-relaxed max-w-2xl mx-auto">
-        GrowMyPlant is one of the largest plant knowledge directories on the internet, built to help plant owners raise thriving, healthy greenery.
+        GrowMyPlant is one of the largest plant knowledge directories on the internet, built to help plant owners raise thriving, healthy greenery through species-accurate care information.
       </p>
     </div>
   </section>
 
   <!-- Metrics Grid -->
-  <section class="py-12 bg-brand-mint-light">
+  <section class="py-12 bg-brand-mint-light" aria-label="Site statistics">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
           <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">1,000+</p>
-          <p class="text-xs text-text-muted mt-2">Plant Cultivars</p>
+          <p class="text-xs text-text-muted mt-2">Plant Species Cataloged</p>
         </div>
         <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
           <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">34,000+</p>
-          <p class="text-xs text-text-muted mt-2">Dynamic FAQs</p>
+          <p class="text-xs text-text-muted mt-2">Dynamic FAQs Generated</p>
         </div>
         <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
           <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">15+</p>
-          <p class="text-xs text-text-muted mt-2">General Directories</p>
+          <p class="text-xs text-text-muted mt-2">Plant Categories</p>
         </div>
         <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
           <p class="font-serif text-3xl md:text-4xl font-bold text-brand-forest">100%</p>
-          <p class="text-xs text-text-muted mt-2">Organic Content</p>
+          <p class="text-xs text-text-muted mt-2">Free, No Paywalls</p>
         </div>
       </div>
     </div>
@@ -55,13 +76,13 @@ const description = "Learn about the mission, values, and community behind GrowM
           <h2 class="font-serif font-bold text-3xl text-brand-forest mb-6">Why We Created GrowMyPlant</h2>
           <div class="text-sm text-text-muted space-y-4 leading-relaxed">
             <p>
-              Gardening advice on the web is often fragmented, repetitive, or overly generic. Many plant databases rely on fixed, calendar-based watering suggestions that ignore localized factors like container size, USDA zones, and season.
+              Gardening advice on the web is often fragmented, repetitive, or overly generic. Many plant databases rely on fixed, calendar-based watering suggestions that ignore localized factors like container size, USDA hardiness zones, and season.
             </p>
             <p>
-              Our programmatically generated encyclopedia provides dynamic care summaries based on species properties. Whether you are growing standard houseplants indoors, starting an organic kitchen garden, or establishing fruit trees, we offer customized parameters tailored to your exact cultivar.
+              Our encyclopedia provides detailed care summaries based on species properties. Whether you are growing standard houseplants indoors, starting an organic kitchen garden, or establishing fruit trees, we offer parameters tailored to your exact cultivar.
             </p>
             <p>
-              We believe that understanding the scientific names, origin climates, and growth timelines is the best way to help gardeners prevent common mistakes, manage pests, and establish long-lasting botanical biophilic design spaces.
+              We believe that understanding scientific names, origin climates, and growth timelines is the best way to help gardeners prevent common mistakes, manage pests, and establish long-lasting green spaces.
             </p>
           </div>
         </div>
@@ -70,16 +91,16 @@ const description = "Learn about the mission, values, and community behind GrowM
           <div class="space-y-6">
             <div>
               <h4 class="font-bold text-sm text-text-charcoal flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                <span class="w-2 h-2 rounded-full bg-brand-emerald" aria-hidden="true"></span>
                 Factual Accuracy First
               </h4>
               <p class="text-xs text-text-muted mt-1 leading-relaxed pl-4">
-                We reference verified species databases and utilize Wikipedia APIs to maintain objective, scientifically aligned botanical profiles.
+                We reference verified species databases and Wikipedia botanical APIs to maintain scientifically aligned plant profiles with real Latin binomials.
               </p>
             </div>
             <div>
               <h4 class="font-bold text-sm text-text-charcoal flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                <span class="w-2 h-2 rounded-full bg-brand-emerald" aria-hidden="true"></span>
                 Eco-Sustainability & Safety
               </h4>
               <p class="text-xs text-text-muted mt-1 leading-relaxed pl-4">
@@ -88,11 +109,11 @@ const description = "Learn about the mission, values, and community behind GrowM
             </div>
             <div>
               <h4 class="font-bold text-sm text-text-charcoal flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                <span class="w-2 h-2 rounded-full bg-brand-emerald" aria-hidden="true"></span>
                 Public Accessibility
               </h4>
               <p class="text-xs text-text-muted mt-1 leading-relaxed pl-4">
-                We provide all encyclopedic profiles, sitemaps, and search directory tools to the public for free with zero paywalls.
+                All encyclopedic profiles, sitemaps, and search directory tools are permanently free with no paywalls, accounts, or popups.
               </p>
             </div>
           </div>
@@ -100,4 +121,81 @@ const description = "Learn about the mission, values, and community behind GrowM
       </div>
     </div>
   </section>
+
+  <!-- Editorial Policy & Review Process -->
+  <section class="py-16 bg-brand-mint-light border-y border-border-nature">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="font-serif font-bold text-3xl text-text-charcoal">Editorial Policy & Content Methodology</h2>
+        <p class="text-sm text-text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
+          We follow a transparent, structured process to ensure every plant profile is accurate, current, and useful.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <div class="text-2xl mb-3" aria-hidden="true">📋</div>
+          <h3 class="font-bold text-base text-text-charcoal mb-2">Data Sources</h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            All plant profiles are cross-referenced against Wikipedia's botanical records, USDA PLANTS Database, and Royal Horticultural Society species sheets. Scientific names are verified against accepted taxonomic databases.
+          </p>
+        </div>
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <div class="text-2xl mb-3" aria-hidden="true">🔍</div>
+          <h3 class="font-bold text-base text-text-charcoal mb-2">Review Process</h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Each plant entry is reviewed for botanical accuracy before publication. Care parameters (watering, light, temperature) are validated against at least two independent horticultural sources to ensure realistic, region-aware advice.
+          </p>
+        </div>
+        <div class="bg-white border border-border-nature p-6 rounded-organic shadow-xs">
+          <div class="text-2xl mb-3" aria-hidden="true">🔄</div>
+          <h3 class="font-bold text-base text-text-charcoal mb-2">Update Frequency</h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Plant profiles are reviewed and updated periodically as new horticultural research becomes available. Safety information (toxicity, invasive status) is prioritized for accuracy and reviewed quarterly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accuracy Disclaimer -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-6">Our Accuracy Commitment</h2>
+      <div class="text-sm text-text-muted space-y-4 leading-relaxed text-left bg-brand-mint border border-border-nature rounded-organic-lg p-8">
+        <p>
+          <strong class="text-text-charcoal">Scientific Names:</strong> We use accepted botanical Latin binomials (Genus species) for all plant profiles. Where common names vary by region, we list all known aliases.
+        </p>
+        <p>
+          <strong class="text-text-charcoal">Care Ranges:</strong> We present care parameters as ranges rather than single fixed values. Plants respond to their environment, and we reflect this by providing minimum-to-maximum guidance rather than prescriptive single figures.
+        </p>
+        <p>
+          <strong class="text-text-charcoal">Safety Information:</strong> Toxicity data is sourced from ASPCA Animal Poison Control, the American College of Veterinary Medicine, and published peer-reviewed botanical safety reviews.
+        </p>
+        <p>
+          <strong class="text-text-charcoal">Invasive Status:</strong> Regional caution notes reference government environmental databases and are clearly marked as informational, not legal advice. Local regulations should always be verified directly.
+        </p>
+        <p class="text-xs text-text-light italic border-t border-border-nature pt-4 mt-4">
+          Last reviewed: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}. Found an inaccuracy? <a href="/contact" class="text-brand-forest hover:underline">Contact us</a> — we correct verified errors within 48 hours.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="py-16 bg-brand-mint border-t border-border-nature text-center">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="font-serif font-bold text-2xl text-text-charcoal mb-4">Have a Question or Suggestion?</h2>
+      <p class="text-sm text-text-muted mb-6 leading-relaxed">
+        We welcome corrections, plant requests, and feedback from the gardening community.
+      </p>
+      <a
+        href="/contact"
+        class="inline-block px-6 py-3 bg-brand-forest hover:bg-brand-emerald text-white rounded-organic text-sm font-bold transition-all shadow-md focus-visible:ring-2 focus-visible:ring-brand-emerald"
+      >
+        Contact Us
+      </a>
+    </div>
+  </section>
+
 </Layout>

@@ -68,7 +68,7 @@ const blogListSchema = {
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
       <!-- Tag Filter Sidebar (desktop only) -->
-      <aside class="hidden lg:flex lg:col-span-1 flex-col gap-2 bg-white border border-border-nature p-6 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Blog Categories">
+      <aside class="hidden lg:flex lg:col-span-1 flex-col gap-2 bg-white dark:bg-[#141b18] border border-border-nature p-6 rounded-organic shadow-2xs h-fit sticky top-20" aria-label="Blog Categories">
         <h2 class="font-serif font-bold text-lg text-text-charcoal mb-2">Categories</h2>
         <button
           class="tag-filter-btn px-3 py-2 rounded-organic border text-xs font-semibold bg-brand-forest text-white border-brand-forest hover:bg-brand-emerald text-left transition-all"
@@ -97,7 +97,7 @@ const blogListSchema = {
           {allBlogs.map(post => (
             <a
               href={`/blog/${post.id}`}
-              class="blog-card group bg-white border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col"
+              class="blog-card group bg-white dark:bg-[#141b18] border border-border-nature rounded-organic overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col"
               data-tags={JSON.stringify(post.data.tags.map(t => t.toLowerCase()))}
             >
               <div class="aspect-video overflow-hidden border-b border-border-nature bg-brand-mint">

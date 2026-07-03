@@ -15,46 +15,72 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const data = post.data;
 
-// Breadcrumbs data
+// Fetch related blog posts by shared tags (up to 3)
+const allBlogs = await getCollection('blog');
+const relatedPosts = allBlogs
+  .filter(p => p.id !== post.id && p.data.tags.some(t => data.tags.includes(t)))
+  .slice(0, 3);
+
+// Breadcrumbs
 const breadcrumbs = [
   { label: 'Blog', url: '/blog' },
   { label: data.title, url: `/blog/${post.id}` }
 ];
 
-// JSON-LD Article Schema
+const siteUrl = 'https://growmyplant.online';
+const pageUrl = `${siteUrl}/blog/${post.id}`;
+const ogImage = data.coverImage.startsWith('http') ? data.coverImage : `${siteUrl}${data.coverImage}`;
+
+// JSON-LD: Article schema — properly populated for EEAT and rich snippets
 const articleLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": data.title,
   "description": data.description,
-  "image": data.coverImage,
+  "url": pageUrl,
+  "image": {
+    "@type": "ImageObject",
+    "url": ogImage,
+    "width": 1200,
+    "height": 630
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": pageUrl
+  },
   "author": {
-    "@type": "Organization",
-    "name": "GrowMyPlant",
-    "url": "https://growmyplant.online"
+    "@type": "Person",
+    "name": data.author,
+    "url": `${siteUrl}/about`
   },
   "publisher": {
     "@type": "Organization",
     "name": "GrowMyPlant",
+    "url": siteUrl,
     "logo": {
       "@type": "ImageObject",
-      "url": "https://growmyplant.online/favicon.svg"
+      "url": `${siteUrl}/favicon-96x96.png`,
+      "width": 96,
+      "height": 96
     }
   },
-  "datePublished": data.publishDate
+  "datePublished": data.publishDate,
+  "dateModified": data.publishDate,
+  "keywords": data.tags.join(', '),
+  "articleSection": data.tags[0] || "Gardening"
 };
 ---
 
 <Layout
-  title={`${data.title} - GrowMyPlant Blog`}
+  title={`${data.title} | GrowMyPlant Blog`}
   description={data.description}
   image={data.coverImage}
   type="article"
   jsonLd={[articleLd]}
   breadcrumbs={breadcrumbs}
 >
-  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12" itemscope itemtype="https://schema.org/Article">
+
     <!-- Blog Article Header -->
     <header class="text-center mb-10">
       <div class="flex flex-wrap justify-center gap-2 mb-4">
@@ -64,70 +90,130 @@ const articleLd = {
           </span>
         ))}
       </div>
-      <h1 class="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-text-charcoal leading-tight max-w-3xl mx-auto">
+      <h1 class="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-text-charcoal leading-tight max-w-3xl mx-auto" itemprop="headline">
         {data.title}
       </h1>
-      <p class="text-sm sm:text-base text-text-muted mt-4 max-w-2xl mx-auto">
+      <p class="text-sm sm:text-base text-text-muted mt-4 max-w-2xl mx-auto" itemprop="description">
         {data.description}
       </p>
 
-      <!-- Author and Date meta -->
+      <!-- Author and Date -->
       <div class="mt-6 flex items-center justify-center gap-3 text-xs text-text-light font-mono">
-        <span>By {data.author}</span>
-        <span class="text-border-nature-dark">•</span>
-        <time datetime={data.publishDate}>
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+          By <span itemprop="name">{data.author}</span>
+        </span>
+        <span class="text-border-nature-dark" aria-hidden="true">•</span>
+        <time datetime={data.publishDate} itemprop="datePublished">
           {new Date(data.publishDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
         </time>
       </div>
     </header>
 
-    <!-- Cover Image -->
+    <!-- Cover Image — fetchpriority=high as this is the LCP element -->
     <div class="aspect-video rounded-organic-lg overflow-hidden border border-border-nature shadow-sm mb-12 bg-brand-mint">
       <img
         src={data.coverImage}
-        alt={`Cover illustration for: ${data.title}`}
+        alt={`Cover image for: ${data.title}`}
         class="w-full h-full object-cover"
+        width="896"
+        height="504"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
         onerror="this.onerror=null; this.src='/images/blog/money-plant.webp'"
+        itemprop="image"
       />
     </div>
 
     <!-- Article Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      
-      <!-- Back Link & Contents Sidebar (Desktop) -->
-      <aside class="hidden lg:block lg:col-span-1 space-y-6 text-xs" aria-label="Article Actions">
+
+      <!-- Sidebar: Back link, ToC, Share -->
+      <aside class="hidden lg:block lg:col-span-1 space-y-6 text-xs" aria-label="Article Navigation">
         <a href="/blog" class="inline-flex items-center gap-1.5 font-bold text-brand-forest hover:text-brand-emerald transition-colors">
-          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          Back to Blog List
+          Back to Blog
         </a>
+
+        <!-- Table of Contents — populated by client script -->
+        <div id="toc-container" class="bg-white border border-border-nature p-4 rounded-organic shadow-2xs hidden">
+          <h3 class="font-bold text-text-charcoal uppercase tracking-wider mb-3 text-xs">Contents</h3>
+          <nav id="toc-nav" aria-label="Table of contents"></nav>
+        </div>
+
+        <!-- Share -->
         <div class="bg-white border border-border-nature p-4 rounded-organic shadow-2xs">
-          <h3 class="font-bold text-text-charcoal uppercase tracking-wider mb-2">Share Article</h3>
+          <h3 class="font-bold text-text-charcoal uppercase tracking-wider mb-2">Share</h3>
           <ul class="space-y-2 text-text-muted font-medium">
-            <li><a href="#" onclick="event.preventDefault(); alert('Link copied to clipboard!');" class="hover:text-brand-forest">Copy Link 🔗</a></li>
-            <li><a href="#" onclick="event.preventDefault(); window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + '&url=' + encodeURIComponent(window.location.href));" class="hover:text-brand-forest">Share on X (Twitter)</a></li>
+            <li>
+              <button
+                id="copy-link-btn"
+                class="hover:text-brand-forest transition-colors text-left w-full"
+                aria-label="Copy article link to clipboard"
+              >
+                Copy Link 🔗
+              </button>
+            </li>
+            <li>
+              <a
+                href="#"
+                id="share-twitter"
+                class="hover:text-brand-forest transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Share this article on X (Twitter)"
+              >
+                Share on X (Twitter)
+              </a>
+            </li>
           </ul>
         </div>
       </aside>
 
-      <!-- Markdown Article Text -->
+      <!-- Article Body -->
       <div class="lg:col-span-3 bg-white border border-border-nature p-6 sm:p-10 rounded-organic-lg shadow-2xs">
-        <div class="rich-text leading-relaxed">
+        <div class="rich-text leading-relaxed" id="article-body" itemprop="articleBody">
           <Content />
         </div>
 
-        <!-- Social Footer for Mobile -->
+        <!-- Related blog links (internal linking) -->
+        {relatedPosts.length > 0 && (
+          <div class="mt-10 pt-8 border-t border-border-nature">
+            <h3 class="font-serif font-bold text-lg text-text-charcoal mb-4">Related Articles</h3>
+            <ul class="space-y-3">
+              {relatedPosts.map(related => (
+                <li>
+                  <a href={`/blog/${related.id}`} class="flex items-start gap-2 text-sm text-brand-forest hover:text-brand-emerald font-medium transition-colors group">
+                    <svg class="h-4 w-4 mt-0.5 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {related.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Mobile social footer -->
         <div class="lg:hidden mt-8 pt-6 border-t border-border-nature flex items-center justify-between text-xs">
           <a href="/blog" class="font-bold text-brand-forest hover:underline">← Back to Blog</a>
-          <button onclick="alert('Link copied to clipboard!')" class="text-text-muted hover:text-brand-forest font-semibold">Share Link 🔗</button>
+          <button
+            id="copy-link-btn-mobile"
+            class="text-text-muted hover:text-brand-forest font-semibold"
+            aria-label="Copy article link to clipboard"
+          >
+            Share Link 🔗
+          </button>
         </div>
       </div>
 
     </div>
   </article>
 
-  <!-- Scoped Styles for Markdown Content rendering -->
+  <!-- Scoped Styles for Markdown Content -->
   <style is:global>
     .rich-text h2 {
       font-family: var(--font-serif);
@@ -147,31 +233,35 @@ const articleLd = {
       margin-bottom: 0.75rem;
     }
     .rich-text p {
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       color: var(--color-text-muted);
       margin-top: 0;
       margin-bottom: 1.25rem;
-      line-height: 1.75;
+      line-height: 1.8;
     }
     .rich-text ul, .rich-text ol {
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       color: var(--color-text-muted);
       margin-bottom: 1.25rem;
       padding-left: 1.5rem;
     }
-    .rich-text ul {
-      list-style-type: disc;
-    }
-    .rich-text ol {
-      list-style-type: decimal;
-    }
+    .rich-text ul { list-style-type: disc; }
+    .rich-text ol { list-style-type: decimal; }
     .rich-text li {
       margin-bottom: 0.5rem;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .rich-text strong {
       font-weight: 600;
       color: var(--color-text-charcoal);
+    }
+    .rich-text a {
+      color: var(--color-brand-forest);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .rich-text a:hover {
+      color: var(--color-brand-emerald);
     }
     .rich-text blockquote {
       border-left: 4px solid var(--color-brand-emerald);
@@ -186,5 +276,87 @@ const articleLd = {
       border-top: 1px solid var(--color-border-nature);
       margin: 2rem 0;
     }
+    /* TOC links */
+    #toc-nav a {
+      display: block;
+      padding: 3px 0;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-left: 2px solid var(--color-border-nature);
+      padding-left: 8px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    #toc-nav a:hover,
+    #toc-nav a.active {
+      color: var(--color-brand-forest);
+      border-color: var(--color-brand-forest);
+    }
+    #toc-nav a[data-level="3"] {
+      padding-left: 16px;
+      font-size: 0.7rem;
+    }
   </style>
+
+  <!-- Client-side: TOC generation + copy link + Twitter share -->
+  <script is:inline>
+    (function() {
+      // ---- TABLE OF CONTENTS ----
+      const articleBody = document.getElementById('article-body');
+      const tocContainer = document.getElementById('toc-container');
+      const tocNav = document.getElementById('toc-nav');
+
+      if (articleBody && tocContainer && tocNav) {
+        const headings = articleBody.querySelectorAll('h2, h3');
+        if (headings.length >= 2) {
+          tocContainer.classList.remove('hidden');
+          headings.forEach((heading, idx) => {
+            if (!heading.id) {
+              heading.id = 'section-' + idx + '-' + heading.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+            }
+            const link = document.createElement('a');
+            link.href = '#' + heading.id;
+            link.textContent = heading.textContent;
+            link.dataset.level = heading.tagName === 'H3' ? '3' : '2';
+            tocNav.appendChild(link);
+          });
+
+          // Highlight active section on scroll
+          const tocLinks = tocNav.querySelectorAll('a');
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              const id = entry.target.id;
+              const link = tocNav.querySelector(`a[href="#${id}"]`);
+              if (link) link.classList.toggle('active', entry.isIntersecting);
+            });
+          }, { rootMargin: '-20% 0px -70% 0px' });
+
+          headings.forEach(h => observer.observe(h));
+        }
+      }
+
+      // ---- COPY LINK — uses Clipboard API (no alert()) ----
+      function copyPageLink(btn) {
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = 'Copied! ✓';
+            btn.disabled = true;
+            setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2000);
+          }).catch(() => {
+            window.showCustomAlert && window.showCustomAlert('Copy Link', window.location.href);
+          });
+        });
+      }
+      copyPageLink(document.getElementById('copy-link-btn'));
+      copyPageLink(document.getElementById('copy-link-btn-mobile'));
+
+      // ---- TWITTER SHARE ----
+      const twitterBtn = document.getElementById('share-twitter');
+      if (twitterBtn) {
+        twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + '&url=' + encodeURIComponent(window.location.href);
+      }
+    })();
+  </script>
 </Layout>
